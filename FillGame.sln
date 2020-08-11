@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "FillGame", "FillGame\FillGa
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "TinyEngine", "TinyEngine\TinyEngine.vcxproj", "{C8747421-1632-495D-AEF7-DF5647636DE5}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Project1", "Project1\Project1.vcxproj", "{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{C8747421-1632-495D-AEF7-DF5647636DE5}.Release|x64.Build.0 = Release|x64
 		{C8747421-1632-495D-AEF7-DF5647636DE5}.Release|x86.ActiveCfg = Release|Win32
 		{C8747421-1632-495D-AEF7-DF5647636DE5}.Release|x86.Build.0 = Release|Win32
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Debug|x64.ActiveCfg = Debug|x64
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Debug|x64.Build.0 = Debug|x64
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Debug|x86.ActiveCfg = Debug|Win32
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Debug|x86.Build.0 = Debug|Win32
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Release|x64.ActiveCfg = Release|x64
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Release|x64.Build.0 = Release|x64
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Release|x86.ActiveCfg = Release|Win32
+		{363F3C78-FBC8-4FF1-937D-B96A9A9393C3}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
