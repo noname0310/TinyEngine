@@ -1,6 +1,7 @@
 #pragma once
 
 #include <stddef.h>
+#define PUB __declspec(dllexport)
 
 typedef struct {
 	__int32 _4b1;

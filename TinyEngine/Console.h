@@ -7,9 +7,10 @@
 #include <Windows.h>
 #include <assert.h>
 #include "Option.h"
+#include "Encapsulation.h"
 
 struct _Console;
-extern struct _Console Console;
+PUB extern const struct _Console Console;
 
 enum ConsoleColor;
 typedef enum ConsoleColor ConsoleColor;

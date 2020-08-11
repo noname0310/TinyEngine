@@ -21,4 +21,4 @@ struct Vector2 {
 	impl_Vector2* f;
 };
 
-Vector2 Vector2_new(int x, int y);
+PUB Vector2 Vector2_new(int x, int y);

@@ -14,31 +14,40 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Header Files\Helper">
-      <UniqueIdentifier>{1bee4c8c-52f0-4b76-84c2-7123bfb9d4f9}</UniqueIdentifier>
+      <UniqueIdentifier>{03f9f9be-d9a1-4b2f-a2f5-fad66f6f4f48}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Manager">
-      <UniqueIdentifier>{b76fc88d-22fa-4438-afe2-9774b448ce0b}</UniqueIdentifier>
+      <UniqueIdentifier>{1f7c713d-19a8-48c8-8edd-12f1a0e98d20}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Object">
-      <UniqueIdentifier>{6cb6fa08-c6f4-40f0-84cc-3661f878b230}</UniqueIdentifier>
+      <UniqueIdentifier>{33760f58-413a-40df-90de-09a96c62d242}</UniqueIdentifier>
     </Filter>
     <Filter Include="Header Files\Render">
-      <UniqueIdentifier>{22656b1b-6947-405b-9caa-8129ba2cbc9b}</UniqueIdentifier>
+      <UniqueIdentifier>{4c6b7a19-e001-4a07-854f-f3a96a3d0d38}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Helper">
-      <UniqueIdentifier>{c324a0cd-2541-4f20-b240-10fe084f726a}</UniqueIdentifier>
+      <UniqueIdentifier>{2e4b416e-fcae-485f-b257-8f1d20f82f51}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Manager">
-      <UniqueIdentifier>{3a93c708-193c-4daa-9642-741e1fec8ddd}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Rander">
-      <UniqueIdentifier>{2a561f96-319b-42b4-93d2-0fbd4dd3f0a2}</UniqueIdentifier>
+      <UniqueIdentifier>{6540978a-d614-444d-9ccd-1d2f5528813b}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Object">
-      <UniqueIdentifier>{e0cfe9c8-35ee-4f54-9652-c1b0f6aae76b}</UniqueIdentifier>
+      <UniqueIdentifier>{6a863704-351e-422e-be7a-94cc82469c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Render">
+      <UniqueIdentifier>{c3bcf4f9-c309-432d-8606-ea947322f9aa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="framework.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="pch.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
     <ClInclude Include="DrawObject.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
@@ -48,28 +57,25 @@
     <ClInclude Include="Vector2.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Transform.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
-    <ClInclude Include="Console.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="Encapsulation.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
-    <ClInclude Include="GameManager.h">
-      <Filter>Header Files\Manager</Filter>
-    </ClInclude>
-    <ClInclude Include="Interface.h">
-      <Filter>Header Files\Manager</Filter>
+    <ClInclude Include="Transform.h">
+      <Filter>Header Files\Object</Filter>
     </ClInclude>
     <ClInclude Include="Loop.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
     <ClInclude Include="Option.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Interface.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="GameManager.h">
+      <Filter>Header Files\Manager</Filter>
+    </ClInclude>
+    <ClInclude Include="Encapsulation.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>
@@ -80,20 +86,26 @@
     <ClCompile Include="GameManager.c">
       <Filter>Source Files\Manager</Filter>
     </ClCompile>
-    <ClCompile Include="Interface.c">
-      <Filter>Source Files\Manager</Filter>
-    </ClCompile>
-    <ClCompile Include="Renderer.c">
-      <Filter>Source Files\Rander</Filter>
-    </ClCompile>
     <ClCompile Include="DrawObject.c">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="GameObject.c">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="Renderer.c">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
     <ClCompile Include="Vector2.c">
       <Filter>Source Files\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Interface.c">
+      <Filter>Source Files\Manager</Filter>
+    </ClCompile>
+    <ClCompile Include="pch.c">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="dllmain.c">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

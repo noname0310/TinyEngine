@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "Vector2.h"
 
 struct private_Vector2;

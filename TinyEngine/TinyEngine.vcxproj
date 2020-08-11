@@ -18,32 +18,10 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="Console.h" />
-    <ClInclude Include="DrawObject.h" />
-    <ClInclude Include="Encapsulation.h" />
-    <ClInclude Include="GameManager.h" />
-    <ClInclude Include="GameObject.h" />
-    <ClInclude Include="Interface.h" />
-    <ClInclude Include="Loop.h" />
-    <ClInclude Include="Option.h" />
-    <ClInclude Include="Renderer.h" />
-    <ClInclude Include="Transform.h" />
-    <ClInclude Include="Vector2.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="Console.c" />
-    <ClCompile Include="DrawObject.c" />
-    <ClCompile Include="GameManager.c" />
-    <ClCompile Include="GameObject.c" />
-    <ClCompile Include="Interface.c" />
-    <ClCompile Include="Renderer.c" />
-    <ClCompile Include="Vector2.c" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
-    <ProjectGuid>{4f02522f-f62a-4647-ab24-68c3499d04a8}</ProjectGuid>
+    <ProjectGuid>{c8747421-1632-495d-aef7-df5647636de5}</ProjectGuid>
     <RootNamespace>TinyEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
@@ -172,6 +150,37 @@
       <EnableUAC>false</EnableUAC>
     </Link>
   </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClInclude Include="Console.h" />
+    <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="Encapsulation.h" />
+    <ClInclude Include="framework.h" />
+    <ClInclude Include="GameManager.h" />
+    <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Interface.h" />
+    <ClInclude Include="Loop.h" />
+    <ClInclude Include="Option.h" />
+    <ClInclude Include="pch.h" />
+    <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Transform.h" />
+    <ClInclude Include="Vector2.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Console.c" />
+    <ClCompile Include="dllmain.c" />
+    <ClCompile Include="DrawObject.c" />
+    <ClCompile Include="GameManager.c" />
+    <ClCompile Include="GameObject.c" />
+    <ClCompile Include="Interface.c" />
+    <ClCompile Include="pch.c">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Renderer.c" />
+    <ClCompile Include="Vector2.c" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
