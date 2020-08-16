@@ -6,11 +6,12 @@
 #include <stdbool.h>
 #include <Windows.h>
 #include <assert.h>
+#include <stdarg.h>
 #include "Option.h"
 #include "Encapsulation.h"
+#include "TinyEngine.h"
 
 struct _Console;
-PUB extern const struct _Console Console;
 
 enum ConsoleColor;
 typedef enum ConsoleColor ConsoleColor;
@@ -41,7 +42,7 @@ struct _Console {
 	bool (*has_input)();
 
 	//Option_Keys read_key()
-	Option_Keys (*read_key)();
+	Option_Keys(*read_key)();
 
 	//void set_cursor_vis()
 	void (*set_cursor_vis)(CursorStat);
@@ -61,6 +62,8 @@ struct _Console {
 	//void clear()
 	void (*clear)();
 };
+
+extern TINYENGINE_API struct _Console Console;
 
 //Enum ConsoleColor
 enum ConsoleColor {

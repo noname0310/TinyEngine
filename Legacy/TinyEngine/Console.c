@@ -1,4 +1,4 @@
-#include "pch.h"
+﻿#include "pch.h"
 #include "Console.h"
 def_Option(Keys);
 
@@ -17,7 +17,7 @@ static void set_size(int x, int y);
 static void set_title(const char* title);
 static void clear(void);
 
-PUB const struct _Console Console = {
+PUB struct _Console Console = {
 	.write_line = write_line,
 	.write = write,
 	.write_line_c = write_line_c,
