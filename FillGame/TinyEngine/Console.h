@@ -8,7 +8,6 @@
 #include <assert.h>
 #include <stdarg.h>
 #include "Option.h"
-#include "Encapsulation.h"
 #include "TinyEngine.h"
 
 struct _Console;

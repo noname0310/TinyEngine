@@ -155,14 +155,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Box.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DrawObject.h" />
-    <ClInclude Include="Encapsulation.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="Loop.h" />
+    <ClInclude Include="Object.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform.h" />

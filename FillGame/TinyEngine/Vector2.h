@@ -1,17 +1,12 @@
 #pragma once
 
 #include "TinyEngine.h"
-#include "Encapsulation.h"
-
-//i32 * 2 + p
-#ifdef _WIN64
-	#define VECTOR2_SIZE 16 
-#else
-	#define VECTOR2_SIZE 12
-#endif
 
 struct _impl_Vector2;
 typedef struct _impl_Vector2 impl_Vector2;
+
+struct private_Vector2;
+typedef struct private_Vector2 private_Vector2;
 
 struct Vector2;
 typedef struct Vector2 Vector2;
@@ -24,8 +19,13 @@ struct _impl_Vector2 {
 	int (*get_y)(Vector2*);
 };
 
+struct private_Vector2 {
+	int x;
+	int y;
+};
+
 struct Vector2 {
-	private_(8) p8;
+	private_Vector2 p;
 	impl_Vector2* f;
 };
 

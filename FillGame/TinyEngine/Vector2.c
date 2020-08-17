@@ -1,14 +1,6 @@
 #include "pch.h"
 #include "Vector2.h"
 
-struct private_Vector2;
-typedef struct private_Vector2 private_Vector2;
-
-struct private_Vector2 {
-	int x;
-	int y;
-};
-
 static int Vector2_get_x(Vector2* self);
 static int Vector2_get_y(Vector2* self);
 
@@ -25,7 +17,7 @@ Vector2 Vector2_new(int x, int y) {
 	};
 
 	Vector2 instance = {
-		.p8 = *(private_8byte*)&p_instance,
+		.p = p_instance,
 		.f = &impl_Vector2_table
 	};
 
@@ -33,9 +25,9 @@ Vector2 Vector2_new(int x, int y) {
 }
 
 static int Vector2_get_x(Vector2* self) {
-	return (*(private_Vector2*)&(self->p8)).x;
+	return self->p.x;
 }
 
 static int Vector2_get_y(Vector2* self) {
-	return (*(private_Vector2*)&(self->p8)).y;
+	return self->p.y;
 }

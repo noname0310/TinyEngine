@@ -136,6 +136,7 @@ static void set_title(const char* title) {
 	sprintf_s(str, length, "title %s", title);
 
 	system(str);
+	free(str);
 }
 
 static void clear() {
