@@ -25,17 +25,17 @@ decl_Option(Keys)
 
 //Struct _Console
 struct _Console {
-	//void write_line(const char* str)
-	void (*write_line)(const char*);
+	//void write_line(const char* str, ...)
+	void (*write_line)(const char*, ...);
 
-	//void write(const char* str)
-	void (*write)(const char*);
+	//void write(const char* str, ...)
+	void (*write)(const char*, ...);
 
-	//void write_line(const char* str, ConsoleColor color)
-	void (*write_line_c)(const char*, ConsoleColor);
+	//void write_line(const char* str, ConsoleColor color, ...)
+	void (*write_line_c)(const char*, ConsoleColor, ...);
 
-	//void write_c(const char* str, ConsoleColor color)
-	void (*write_c)(const char*, ConsoleColor);
+	//void write_c(const char* str, ConsoleColor color, ...)
+	void (*write_c)(const char*, ConsoleColor, ...);
 
 	//bool has_input()
 	bool (*has_input)();

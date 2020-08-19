@@ -1,6 +1,5 @@
 #pragma once
 
-#include "Encapsulation.h"
 #include "Vector2.h"
 
 struct DrawObject;
@@ -10,13 +9,13 @@ typedef struct DrawObject DrawObject;
 struct DrawObject {
 
 	//InstanceID Encapsulation
-	private_4byte p4;
+	//private_4byte p4;
 
 	//Name Encapsulation
-	private_p1 pp1_2;
+	//private_p1 pp1_2;
 
 	//sprite data (allocated in stack)
-	char** sprite;
+	char32_t** sprite;
 
 	//sprite height
 	int height;

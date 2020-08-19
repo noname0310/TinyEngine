@@ -17,7 +17,7 @@ Option_##T Option_##T##_new(Option opt, T val) \
         .option = opt, \
         .value = val \
     }; \
-    return temp;\
+    return temp; \
 }
 
 enum _Option;
