@@ -122,5 +122,8 @@
     <ClCompile Include="Object.c">
       <Filter>Source Files\Object</Filter>
     </ClCompile>
+    <ClCompile Include="ObjectListSample.c">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

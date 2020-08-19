@@ -6,32 +6,32 @@
 #include "Box.h"
 #include "Interface.h"
 
-struct _impl_Object;
-typedef struct _impl_Object impl_Object;
-
 struct private_Object;
 typedef struct private_Object private_Object;
+
+struct impl_Object;
+typedef struct impl_Object impl_Object;
 
 struct Object;
 typedef struct Object Object;
 
-struct _impl_Object {
-	//const char* get_name(Object* self)
-	const char* (*get_name)(Object*);
-
-	//int get_instance_id(Object* self)
-	int (*get_instance_id)(Object*);
-
-	//void instantlate(Object* self)
-	void (*instantlate)(Object*);
-
-	//void destroy(Object* self)
-	void (*destroy)(Object*);
-};
-
 struct private_Object {
 	char* name;
 	int instance_id;
+};
+
+struct impl_Object {
+	//const char* get_name(const Object* self)
+	const char* (*get_name)(const Object*);
+
+	//int get_instance_id(const Object* self)
+	const int (*get_instance_id)(const Object*);
+
+	//void instantlate(const Object* self)
+	void (*instantlate)(const Object*);
+
+	//void destroy(const Object* self)
+	void (*destroy)(const Object*);
 };
 
 struct Object {

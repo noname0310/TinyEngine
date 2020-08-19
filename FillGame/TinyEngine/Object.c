@@ -3,10 +3,10 @@
 
 static int get_type();
 
-static const char* get_name(Object* self);
-static int get_instance_id(Object* self);
-static void instantlate(Object* self);
-static void destroy(Object* self);
+static const char* get_name(const Object* self);
+static const int get_instance_id(const Object* self);
+static void instantlate(const Object* self);
+static void destroy(const Object* self);
 
 impl_Object impl_Object_table = {
 	.get_name = get_name,
@@ -44,18 +44,18 @@ static int get_type() {
 	return type;
 }
 
-static const char* get_name(Object* self) {
+static const char* get_name(const Object* self) {
 	return self->p.name;
 }
 
-static int get_instance_id(Object* self) {
+static const int get_instance_id(const Object* self) {
 	return self->p.instance_id;
 }
 
-static void instantlate(Object* self) {
+static void instantlate(const Object* self) {
 
 }
 
-static void destroy(Object* self) {
+static void destroy(const Object* self) {
 	free(self->p.name);
 }
