@@ -1,5 +1,6 @@
 #pragma once
 
+#include <assert.h>
 #include "TinyEngine.h"
 
 struct private_Vector2;

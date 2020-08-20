@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Console.h"
-def_Option(Keys);
+def_Option(Keys, Keys);
 
 static void write_line(const char* str, ...);
 static void write(const char* str, ...);
@@ -35,6 +35,7 @@ struct _Console Console = {
 };
 
 static void write_line(const char* str, ...) {
+	assert(str != NULL);
 	va_list args;
 	va_start(args, str);
 	vprintf(str, args);
@@ -43,6 +44,7 @@ static void write_line(const char* str, ...) {
 }
 
 static void write(const char* str, ...) {
+	assert(str != NULL);
 	va_list args;
 	va_start(args, str);
 	vprintf(str, args);
@@ -50,6 +52,7 @@ static void write(const char* str, ...) {
 }
 
 static void write_line_c(const char* str, ConsoleColor color, ...) {
+	assert(str != NULL);
 	set_color(color);
 	va_list args;
 	va_start(args, str);
@@ -60,6 +63,7 @@ static void write_line_c(const char* str, ConsoleColor color, ...) {
 }
 
 static void write_c(const char* str, ConsoleColor color, ...) {
+	assert(str != NULL);
 	set_color(color);
 	va_list args;
 	va_start(args, str);
@@ -129,6 +133,7 @@ static void set_size(int x, int y) {
 }
 
 static void set_title(const char* title) {
+	assert(title != NULL);
 	size_t length = strlen(title);
 	length += 6 + 1;
 	char* str = malloc(length);

@@ -1,19 +1,19 @@
 #pragma once
 
-#define decl_Option(T) \
+#define decl_Option(T, declname) \
 \
 typedef struct { \
     Option option; \
     T value; \
-} Option_##T; \
+} Option_##declname; \
 \
-Option_##T Option_##T##_new(Option opt, T val);
+Option_##declname Option_##declname##_new(Option opt, T val);
 
-#define def_Option(T) \
+#define def_Option(T, declname) \
 \
-Option_##T Option_##T##_new(Option opt, T val) \
+Option_##declname Option_##declname##_new(Option opt, T val) \
 { \
-    Option_##T temp = { \
+    Option_##declname temp = { \
         .option = opt, \
         .value = val \
     }; \
@@ -24,6 +24,6 @@ enum _Option;
 typedef enum _Option Option;
 
 enum _Option {
-    Some,
-    None
+    None = 0,
+    Some = 1
 };

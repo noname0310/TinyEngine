@@ -14,7 +14,7 @@ int main() {
 	Console.write_line("%d", vector2_boxed->f->get_x(vector2_boxed));
 	Console.write_line("%d", vector2_boxed->f->get_y(vector2_boxed));
 
-	Object obj = Object_new("sans sprite", 1000000000);
+	Object obj = Object_new(NULL, "sans sprite", 1000000000);
 	Console.write_line("%s", obj.p.name);
 	box(Object, obj)
 	Console.write_line("%s", obj_boxed->f->get_name(obj_boxed));

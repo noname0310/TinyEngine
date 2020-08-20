@@ -25,9 +25,11 @@ Vector2 Vector2_new(int x, int y) {
 }
 
 static int get_x(const Vector2* self) {
+	assert(self != NULL);
 	return self->p.x;
 }
 
 static int get_y(const Vector2* self) {
+	assert(self != NULL);
 	return self->p.y;
 }

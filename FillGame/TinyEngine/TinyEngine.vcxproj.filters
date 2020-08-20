@@ -93,6 +93,9 @@
     <ClInclude Include="ObjectListSample.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="OptionInt.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.c">
@@ -123,6 +126,9 @@
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectListSample.c">
+      <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="OptionInt.c">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
   </ItemGroup>

@@ -3,6 +3,7 @@
 
 static int get_type();
 
+static const void* get_iter(const Object* self);
 static const char* get_name(const Object* self);
 static const int get_instance_id(const Object* self);
 static void instantlate(const Object* self);
@@ -15,7 +16,8 @@ impl_Object impl_Object_table = {
 	.destroy = destroy
 };
 
-Object Object_new(const char* name, int instance_id) {
+Object Object_new(const void* iter, const char* name, int instance_id) {
+	assert(name != NULL);
 	size_t length = strlen(name);
 	box_byref(char*, name, length + 1)
 
@@ -27,6 +29,7 @@ Object Object_new(const char* name, int instance_id) {
 	Object instance = {
 		.get_type = get_type,
 		.p = p_instance,
+		.iter = iter,
 		.f = &impl_Object_table
 	};
 
@@ -45,17 +48,21 @@ static int get_type() {
 }
 
 static const char* get_name(const Object* self) {
+	assert(self != NULL);
 	return self->p.name;
 }
 
 static const int get_instance_id(const Object* self) {
+	assert(self != NULL);
 	return self->p.instance_id;
 }
 
 static void instantlate(const Object* self) {
+	assert(self != NULL);
 
 }
 
 static void destroy(const Object* self) {
+	assert(self != NULL);
 	free(self->p.name);
 }

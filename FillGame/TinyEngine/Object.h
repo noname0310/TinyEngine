@@ -2,6 +2,7 @@
 
 #include <string.h>
 #include <vcruntime.h>
+#include <assert.h>
 #include "TinyEngine.h"
 #include "Box.h"
 #include "Interface.h"
@@ -39,7 +40,8 @@ struct Object {
 	int (*get_type)();
 
 	private_Object p;
+	void* iter;
 	impl_Object* f;
 };
 
-TINYENGINE_API Object Object_new(const char* name, int instance_id);
+TINYENGINE_API Object Object_new(const void* iter, const char* name, int instance_id);
