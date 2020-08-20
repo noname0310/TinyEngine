@@ -37,6 +37,12 @@
     <Filter Include="Header Files\Render">
       <UniqueIdentifier>{a85a459b-5544-44ae-b7f9-7b93bbbdf906}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Helper\TemplateModel">
+      <UniqueIdentifier>{3d6677f1-7a6d-427a-8375-6a6478fca64a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper\TemplateModel">
+      <UniqueIdentifier>{cd9010d6-4982-48cf-9576-8c29c2952252}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -84,17 +90,14 @@
     <ClInclude Include="Box.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="ListLegacy.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="VectorLegacy.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectListSample.h">
+    <ClInclude Include="List.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
-    <ClInclude Include="OptionInt.h">
-      <Filter>Header Files\Helper</Filter>
+    <ClInclude Include="ObjectListSample.h">
+      <Filter>Header Files\Helper\TemplateModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -126,10 +129,7 @@
       <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="ObjectListSample.c">
-      <Filter>Source Files\Helper</Filter>
-    </ClCompile>
-    <ClCompile Include="OptionInt.c">
-      <Filter>Source Files\Helper</Filter>
+      <Filter>Source Files\Helper\TemplateModel</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

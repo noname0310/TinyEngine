@@ -8,15 +8,18 @@ static int List_Object_get_length(const List_Object* self);
 static bool List_Object_is_empty(const List_Object* self);
 
 static Object* List_Object_get_front(const List_Object* self);
-static void List_Object_push_front(List_Object* self, const Object* value);
+static Node_Object* List_Object_push_front(List_Object* self, const Object* value);
 static void List_Object_pop_front(List_Object* self, void (*disposefn)(const Object*));
 static Object* List_Object_get_back(const List_Object* self);
-static void List_Object_push_back(List_Object* self, const Object* value);
+static Node_Object* List_Object_push_back(List_Object* self, const Object* value);
 static void List_Object_pop_back(List_Object* self, void (*disposefn)(const Object*));
 
 static Node_Object* List_Object_insert(List_Object* self, const Node_Object* pos, const Object* value);
 static void List_Object_remove(List_Object* self, const Node_Object* pos, void (*disposefn)(const Object*));
+static Object* List_Object_find(const List_Object* self, const Object* value);
+static Object* List_Object_find_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
 static bool List_Object_contains(const List_Object* self, const Object* value);
+static bool List_Object_contains_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
 static void List_Object_for_each(const List_Object* self, void (*fn)(const Object*));
 
 
@@ -39,7 +42,10 @@ impl_List_Object impl_List_Object_table = {
 
 		.insert = List_Object_insert,
 		.remove = List_Object_remove,
+		.find = List_Object_find,
+		.find_by = List_Object_find_by,
 		.contains = List_Object_contains,
+		.contains_by = List_Object_find_by,
 		.for_each = List_Object_for_each
 };
 
@@ -54,6 +60,8 @@ List_Object List_Object_new(void) {
 		.p = p_instance,
 		.f = &impl_List_Object_table
 	};
+
+	return instance;
 }
 
 impl_Node_Object impl_Node_Object_table = {
@@ -72,6 +80,8 @@ Node_Object Node_Object_new(const Node_Object* prev, const Object* value, const 
 		.p = p_instance,
 		.f = &impl_Node_Object_table
 	};
+
+	return instance;
 }
 
 /*list def*/
@@ -100,7 +110,7 @@ static Object* List_Object_get_front(const List_Object* self) {
 	return self->p.first->p.value;
 }
 
-static void List_Object_push_front(List_Object* self, const Object* value) {
+static Node_Object* List_Object_push_front(List_Object* self, const Object* value) {
 	assert(self != NULL);
 	Node_Object instance = Node_Object_new(NULL, value, self->p.first);
 	box(Node_Object, instance)
@@ -108,8 +118,9 @@ static void List_Object_push_front(List_Object* self, const Object* value) {
 	self->p.length += 1;
 	if (self->p.first->p.next != NULL)
 		self->p.first->p.next->p.prev = instance_boxed;
-	if (self->p.last != NULL)
+	if (self->p.last == NULL)
 		self->p.last = self->p.first;
+	return instance_boxed;
 }
 
 static void List_Object_pop_front(List_Object* self, void (*disposefn)(const Object*)) {
@@ -135,7 +146,7 @@ static Object* List_Object_get_back(const List_Object* self) {
 	return self->p.last->p.value;
 }
 
-static void List_Object_push_back(List_Object* self, const Object* value) {
+static Node_Object* List_Object_push_back(List_Object* self, const Object* value) {
 	assert(self != NULL);
 	Node_Object instance = Node_Object_new(self->p.last, value, NULL);
 	box(Node_Object, instance)
@@ -143,8 +154,9 @@ static void List_Object_push_back(List_Object* self, const Object* value) {
 	self->p.length += 1;
 	if (self->p.last->p.prev != NULL)
 		self->p.last->p.prev->p.next = instance_boxed;
-	if (self->p.first != NULL)
+	if (self->p.first == NULL)
 		self->p.first = self->p.last;
+	return instance_boxed;
 }
 
 static void List_Object_pop_back(List_Object* self, void (*disposefn)(const Object*)) {
@@ -180,7 +192,6 @@ static Node_Object* List_Object_insert(List_Object* self, const Node_Object* pos
 static void List_Object_remove(List_Object* self, const Node_Object* pos, void (*disposefn)(const Object*)) {
 	assert(self != NULL);
 	assert(pos != NULL);
-
 	Node_Object* prev = pos->p.prev;
 	Node_Object* curr = pos;
 	Node_Object* next = pos->p.next;
@@ -189,7 +200,6 @@ static void List_Object_remove(List_Object* self, const Node_Object* pos, void (
 		prev->p.next = next;
 	else
 		self->p.first = next;
-
 	if (next != NULL)
 		next->p.prev = prev;
 	else
@@ -201,14 +211,67 @@ static void List_Object_remove(List_Object* self, const Node_Object* pos, void (
 	self->p.length -= 1;
 }
 
+static Object* List_Object_find(const List_Object* self, const Object* value) {
+	assert(self != NULL);
+	assert(value != NULL);
+	const Node_Object* index = self->p.first;
+	while (index != NULL)
+	{
+		if (index->p.value == value)
+			return index->p.value;
+		index = index->p.next;
+	}
+	return NULL;
+}
+
+static Object* List_Object_find_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*)) {
+	assert(self != NULL);
+	assert(value != NULL);
+	const Node_Object* index = self->p.first;
+	while (index != NULL)
+	{
+		if (comparer(index->p.value, value))
+			return index->p.value;
+		index = index->p.next;
+	}
+	return NULL;
+}
+
 static bool List_Object_contains(const List_Object* self, const Object* value) {
 	assert(self != NULL);
 	assert(value != NULL);
+	const Node_Object* index = self->p.first;
+	while (index != NULL)
+	{
+		if (index->p.value == value)
+			return true;
+		index = index->p.next;
+	}
+	return false;
+}
+
+static bool List_Object_contains_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*)) {
+	assert(self != NULL);
+	assert(value != NULL);
+	const Node_Object* index = self->p.first;
+	while (index != NULL)
+	{
+		if (comparer(index->p.value, value))
+			return true;
+		index = index->p.next;
+	}
+	return false;
 }
 
 static void List_Object_for_each(const List_Object* self, void (*fn)(const Object*)) {
 	assert(self != NULL);
 	assert(fn != NULL);
+	Node_Object* index = self->p.first;
+	while (index != NULL)
+	{
+		fn(index->p.value);
+		index = index->p.next;
+	}
 }
 
 /*node def*/

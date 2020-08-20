@@ -162,12 +162,11 @@
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
     <ClInclude Include="Interface.h" />
-    <ClInclude Include="ListLegacy.h" />
+    <ClInclude Include="List.h" />
     <ClInclude Include="Loop.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectListSample.h" />
     <ClInclude Include="Option.h" />
-    <ClInclude Include="OptionInt.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="VectorLegacy.h" />
@@ -183,7 +182,6 @@
     <ClCompile Include="Interface.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="ObjectListSample.c" />
-    <ClCompile Include="OptionInt.c" />
     <ClCompile Include="pch.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

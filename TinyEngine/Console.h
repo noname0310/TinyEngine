@@ -21,7 +21,7 @@ typedef enum CursorStat CursorStat;
 enum Keys;
 typedef enum Keys Keys;
 
-decl_Option(Keys, Keys)
+declexp_Option(Keys, Keys)
 
 //Struct _Console
 struct _Console {

@@ -41,14 +41,14 @@ struct impl_List_Object {
 
     /* Object get_front(const List_Object* self) */
     Object* (*get_front)(const List_Object*);
-    /* void push_front(List_Object* self, const Object* value) */
-    void (*push_front)(List_Object*, const Object*);
+    /* Node_Object* push_front(List_Object* self, const Object* value) */
+    Node_Object* (*push_front)(List_Object*, const Object*);
     /* void pop_front(List_Object* self, void (*disposefn)(const Object*)) */
     void (*pop_front)(List_Object*, void (*)(const Object*));
     /* Object get_back(const List_Object* self) */
     Object* (*get_back)(const List_Object*);
-    /* void push_back(List_Object* self, const Object* value) */
-    void (*push_back)(List_Object*, const Object*);
+    /* Node_Object* push_back(List_Object* self, const Object* value) */
+    Node_Object* (*push_back)(List_Object*, const Object*);
     /* void pop_back(List_Object* self, void (*disposefn)(const Object*)) */
     void (*pop_back)(List_Object*, void (*)(const Object*));
 
@@ -56,8 +56,14 @@ struct impl_List_Object {
     Node_Object* (*insert)(List_Object*, const Node_Object*, const Object*);
     /* void remove(List_Object* self, const Node_Object* pos, void (*disposefn)(const Object*)) */
     void (*remove)(List_Object*, const Node_Object*, void (*)(const Object*));
+    /* Object* find(const List_Object* self, const Object* value) */
+    Object* (*find)(const List_Object*, const Object*);
+    /* Object* find_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*)) */
+    Object* (*find_by)(const List_Object*, const Object*);
     /* bool contains(const List_Object* self, const Object* value) */
     bool (*contains)(const List_Object*, const Object*);
+    /* bool contains_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*)) */
+    bool (*contains_by)(const List_Object*, const Object*, bool (*)(const Object*, const Object*));
     /* void for_each(const List_Object* self, void (*fn)(const Object*)) lambda*/
     void (*for_each)(const List_Object*, void (*)(const Object*));
 };
