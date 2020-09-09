@@ -1,4 +1,4 @@
-#pragma comment(lib, "TinyEngine.lib")
+﻿#pragma comment(lib, "TinyEngine.lib")
 #include "../TinyEngine/Vector2.h"
 #include "../TinyEngine/Console.h"
 #include "../TinyEngine/Box.h"
@@ -45,6 +45,17 @@ void listtest() {
 	test.f->pop_front(&test, NULL);
 	test.f->pop_back(&test, NULL);
 	test.f->for_each(&test, printval);
+
+	free(O1_boxed);
+	free(O2_boxed);
+	free(O3_boxed);
+	free(O4_boxed);
+	free(O5_boxed);
+	free(O6_boxed);
+	free(O7_boxed);
+	free(O8_boxed);
+	free(O9_boxed);
+	free(O10_boxed);
 }
 
 void vector2boxingtest() {
@@ -67,6 +78,14 @@ void objecttest() {
 }
 
 int main() {
+	Console.write_line_c("한글출력", ConsoleColor_white);
+	Console.write_line("=============================");
+	listtest();
+	Console.write_line("=============================");
+	vector2boxingtest();
+	Console.write_line("=============================");
 	objecttest();
+	Console.write_line("=============================");
+	Console.pause();
 	return 0;
 }

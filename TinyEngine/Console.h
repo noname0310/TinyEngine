@@ -60,6 +60,9 @@ struct _Console {
 
 	//void clear()
 	void (*clear)();
+
+	//void pause()
+	void (*pause)();
 };
 
 extern TINYENGINE_API struct _Console Console;

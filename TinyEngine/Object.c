@@ -3,7 +3,6 @@
 
 static int get_type();
 
-static const void* get_iter(const Object* self);
 static const char* get_name(const Object* self);
 static const int get_instance_id(const Object* self);
 static void instantlate(const Object* self);

@@ -1,6 +1,6 @@
 #include "pch.h"
 #include "Console.h"
-def_Option(Keys, Keys);
+def_Option(Keys, Keys)
 
 static void write_line(const char* str, ...);
 static void write(const char* str, ...);
@@ -16,6 +16,7 @@ static void set_color(ConsoleColor color);
 static void set_size(int x, int y);
 static void set_title(const char* title);
 static void clear(void);
+static void pause(void);
 
 struct _Console Console = {
 	.write_line = write_line,
@@ -31,7 +32,8 @@ struct _Console Console = {
 	.set_color = set_color,
 	.set_size = set_size,
 	.set_title = set_title,
-	.clear = clear
+	.clear = clear,
+	.pause = pause
 };
 
 static void write_line(const char* str, ...) {
@@ -146,4 +148,8 @@ static void set_title(const char* title) {
 
 static void clear() {
 	system("cls");
+}
+
+static void pause() {
+	system("pause");
 }

@@ -173,6 +173,7 @@
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="TinyEngine.h" />
+    <ClInclude Include="ObjectVectorSample.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Console.c" />
@@ -182,6 +183,7 @@
     <ClCompile Include="Interface.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="ObjectListSample.c" />
+    <ClCompile Include="ObjectVectorSample.c" />
     <ClCompile Include="pch.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
