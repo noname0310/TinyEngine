@@ -25,47 +25,23 @@ declexp_Option(Keys, Keys)
 
 //Struct _Console
 struct _Console {
-	//void write_line(const char* str, ...)
-	void (*write_line)(const char*, ...);
-
-	//void write(const char* str, ...)
-	void (*write)(const char*, ...);
-
-	//void write_line(const char* str, ConsoleColor color, ...)
-	void (*write_line_c)(const char*, ConsoleColor, ...);
-
-	//void write_c(const char* str, ConsoleColor color, ...)
-	void (*write_c)(const char*, ConsoleColor, ...);
-
-	//bool has_input()
+	void (*write_line)(const char* str, ...);
+	void (*write)(const char* str, ...);
+	void (*write_line_c)(const char* str, ConsoleColor color, ...);
+	void (*write_c)(const char* str, ConsoleColor color, ...);
 	bool (*has_input)();
-
-	//Option_Keys read_key()
-	Option_Keys(*read_key)();
-
-	//void set_cursor_vis()
-	void (*set_cursor_vis)(CursorStat);
-
-	//void set_pos(int x, int y)
-	void (*set_pos)(int, int);
-
-	//void set_color(ConsoleColor color)
-	void (*set_color)(ConsoleColor);
-
-	//void set_size(int x, int y)
-	void (*set_size)(int, int);
-
-	//void set_title(const char* title)
-	void (*set_title)(const char*);
-
-	//void clear()
+	Option_Keys (*read_key)();
+	const char* (*read_line)();
+	void (*set_cursor_vis)(CursorStat stat);
+	void (*set_pos)(short x, short y);
+	void (*set_color)(ConsoleColor color);
+	void (*set_size)(int x, int y);
+	void (*set_title)(const wchar_t* title);
 	void (*clear)();
-
-	//void pause()
 	void (*pause)();
 };
 
-extern TINYENGINE_API struct _Console Console;
+extern TINYENGINE_API const struct _Console Console;
 
 //Enum ConsoleColor
 enum ConsoleColor {

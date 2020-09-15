@@ -3,19 +3,19 @@
 
 /*list decl*/
 
-static void List_Object_clear(const List_Object* self);
+static void List_Object_clear(List_Object* self, void (*disposefn)(const Object*));
 static int List_Object_get_length(const List_Object* self);
 static bool List_Object_is_empty(const List_Object* self);
 
 static Object* List_Object_get_front(const List_Object* self);
-static Node_Object* List_Object_push_front(List_Object* self, const Object* value);
+static Node_Object* List_Object_push_front(List_Object* self, Object* value);
 static void List_Object_pop_front(List_Object* self, void (*disposefn)(const Object*));
 static Object* List_Object_get_back(const List_Object* self);
-static Node_Object* List_Object_push_back(List_Object* self, const Object* value);
+static Node_Object* List_Object_push_back(List_Object* self, Object* value);
 static void List_Object_pop_back(List_Object* self, void (*disposefn)(const Object*));
 
-static Node_Object* List_Object_insert(List_Object* self, const Node_Object* pos, const Object* value);
-static void List_Object_remove(List_Object* self, const Node_Object* pos, void (*disposefn)(const Object*));
+static Node_Object* List_Object_insert(List_Object* self, Node_Object* pos, Object* value);
+static void List_Object_remove(List_Object* self, Node_Object* pos, void (*disposefn)(const Object*));
 static Object* List_Object_find(const List_Object* self, const Object* value);
 static Object* List_Object_find_by(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
 static bool List_Object_contains(const List_Object* self, const Object* value);
@@ -28,7 +28,7 @@ static void List_Object_for_each(const List_Object* self, void (*fn)(const Objec
 static Node_Object* Node_Object_get_prev(const Node_Object* self);
 static Node_Object* Node_Object_get_next(const Node_Object* self);
 
-impl_List_Object impl_List_Object_table = {
+const impl_List_Object impl_List_Object_table = {
 		.clear = List_Object_clear,
 		.get_length = List_Object_get_length,
 		.is_empty = List_Object_is_empty,
@@ -45,7 +45,7 @@ impl_List_Object impl_List_Object_table = {
 		.find = List_Object_find,
 		.find_by = List_Object_find_by,
 		.contains = List_Object_contains,
-		.contains_by = List_Object_find_by,
+		.contains_by = List_Object_contains_by,
 		.for_each = List_Object_for_each
 };
 
@@ -69,7 +69,7 @@ impl_Node_Object impl_Node_Object_table = {
 		.get_next = Node_Object_get_next
 };
 
-Node_Object Node_Object_new(const Node_Object* prev, const Object* value, const Node_Object* next) {
+Node_Object Node_Object_new(Node_Object* prev, Object* value, Node_Object* next) {
 	private_Node_Object p_instance = {
 		.prev = prev,
 		.value = value,
@@ -86,7 +86,7 @@ Node_Object Node_Object_new(const Node_Object* prev, const Object* value, const 
 
 /*list def*/
 
-static void List_Object_clear(const List_Object* self, void (*disposefn)(const Object*)) {
+static void List_Object_clear(List_Object* self, void (*disposefn)(const Object*)) {
 	assert(self != NULL);
 	while (self->p.first != NULL)
 		List_Object_pop_front(self, disposefn);
@@ -110,7 +110,7 @@ static Object* List_Object_get_front(const List_Object* self) {
 	return self->p.first->p.value;
 }
 
-static Node_Object* List_Object_push_front(List_Object* self, const Object* value) {
+static Node_Object* List_Object_push_front(List_Object* self, Object* value) {
 	assert(self != NULL);
 	Node_Object instance = Node_Object_new(NULL, value, self->p.first);
 	box(Node_Object, instance)
@@ -146,7 +146,7 @@ static Object* List_Object_get_back(const List_Object* self) {
 	return self->p.last->p.value;
 }
 
-static Node_Object* List_Object_push_back(List_Object* self, const Object* value) {
+static Node_Object* List_Object_push_back(List_Object* self, Object* value) {
 	assert(self != NULL);
 	Node_Object instance = Node_Object_new(self->p.last, value, NULL);
 	box(Node_Object, instance)
@@ -176,7 +176,7 @@ static void List_Object_pop_back(List_Object* self, void (*disposefn)(const Obje
 }
 
 
-static Node_Object* List_Object_insert(List_Object* self, const Node_Object* pos, const Object* value) {
+static Node_Object* List_Object_insert(List_Object* self, Node_Object* pos, Object* value) {
 	assert(self != NULL);
 	assert(pos != NULL);
 	Node_Object instance = Node_Object_new(pos->p.prev, value, pos);
@@ -189,7 +189,7 @@ static Node_Object* List_Object_insert(List_Object* self, const Node_Object* pos
 	return instance_boxed;
 }
 
-static void List_Object_remove(List_Object* self, const Node_Object* pos, void (*disposefn)(const Object*)) {
+static void List_Object_remove(List_Object* self, Node_Object* pos, void (*disposefn)(const Object*)) {
 	assert(self != NULL);
 	assert(pos != NULL);
 	Node_Object* prev = pos->p.prev;

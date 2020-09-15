@@ -4,7 +4,7 @@
 static int get_x(const Vector2* self);
 static int get_y(const Vector2* self);
 
-impl_Vector2 impl_Vector2_table = {
+const impl_Vector2 impl_Vector2_table = {
 	.get_x = get_x,
 	.get_y = get_y
 };

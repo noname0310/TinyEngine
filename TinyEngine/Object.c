@@ -1,21 +1,24 @@
 #include "pch.h"
 #include "Object.h"
 
-static int get_type();
+def_get_type_method(Object)
 
 static const char* get_name(const Object* self);
 static const int get_instance_id(const Object* self);
 static void instantlate(const Object* self);
 static void destroy(const Object* self);
 
-impl_Object impl_Object_table = {
+const impl_Object* get_impl_Object_table() {
+	static impl_Object impl_Object_table = {
 	.get_name = get_name,
 	.get_instance_id = get_instance_id,
 	.instantlate = instantlate,
 	.destroy = destroy
-};
+	};
+	return &impl_Object_table;
+}
 
-Object Object_new(const void* iter, const char* name, int instance_id) {
+Object Object_new(void* iter, const char* name, int instance_id) {
 	assert(name != NULL);
 	size_t length = strlen(name);
 	box_byref(char*, name, length + 1)
@@ -26,24 +29,13 @@ Object Object_new(const void* iter, const char* name, int instance_id) {
 	};
 
 	Object instance = {
-		.get_type = get_type,
-		.p = p_instance,
+		.f = get_impl_Object_table(),
+		.get_type = get_type_Object,
 		.iter = iter,
-		.f = &impl_Object_table
+		.p = p_instance
 	};
 
 	return instance;
-}
-
-static int get_type() {
-	static int type = -1;
-
-	if (type == -1) {
-		type = type_indicator;
-		type_indicator += 1;
-	}
-
-	return type;
 }
 
 static const char* get_name(const Object* self) {

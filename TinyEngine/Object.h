@@ -1,11 +1,10 @@
 #pragma once
 
 #include <string.h>
-#include <vcruntime.h>
 #include <assert.h>
 #include "TinyEngine.h"
 #include "Box.h"
-#include "Interface.h"
+#include "Type.h"
 
 struct private_Object;
 typedef struct private_Object private_Object;
@@ -22,26 +21,27 @@ struct private_Object {
 };
 
 struct impl_Object {
-	//const char* get_name(const Object* self)
-	const char* (*get_name)(const Object*);
+#define impl_Object_Members \
+	const char* (*get_name)(const Object* self); \
+	const int (*get_instance_id)(const Object* self); \
+	void (*instantlate)(const Object* self); \
+	void (*destroy)(const Object* self);
 
-	//int get_instance_id(const Object* self)
-	const int (*get_instance_id)(const Object*);
-
-	//void instantlate(const Object* self)
-	void (*instantlate)(const Object*);
-
-	//void destroy(const Object* self)
-	void (*destroy)(const Object*);
+	impl_Object_Members
 };
 
 struct Object {
-	//int get_type() - overloaded
-	int (*get_type)();
+	const impl_Object* const f;
 
+#define Object_Members \
+	/*Type get_type() - overloaded*/ \
+	Type (*get_type)(); \
+	void* iter; \
 	private_Object p;
-	void* iter;
-	impl_Object* f;
+
+	Object_Members
 };
 
-TINYENGINE_API Object Object_new(const void* iter, const char* name, int instance_id);
+TINYENGINE_API Object Object_new(void* iter, const char* name, int instance_id);
+TINYENGINE_API const impl_Object* get_impl_Object_table();
+declexp_get_type_method(Object);

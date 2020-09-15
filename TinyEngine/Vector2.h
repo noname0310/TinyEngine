@@ -18,16 +18,13 @@ struct private_Vector2 {
 };
 
 struct impl_Vector2 {
-	//int get_x(const Vector2* self)
-	int (*get_x)(const Vector2*);
-
-	//int get_y(const Vector2* self)
-	int (*get_y)(const Vector2*);
+	int (*get_x)(const Vector2* self);
+	int (*get_y)(const Vector2* self);
 };
 
 struct Vector2 {
 	private_Vector2 p;
-	impl_Vector2* f;
+	const impl_Vector2* const f;
 };
 
 TINYENGINE_API Vector2 Vector2_new(int x, int y);

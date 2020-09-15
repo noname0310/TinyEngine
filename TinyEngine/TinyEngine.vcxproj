@@ -169,6 +169,7 @@
     <ClInclude Include="Option.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform.h" />
+    <ClInclude Include="Type.h" />
     <ClInclude Include="VectorLegacy.h" />
     <ClInclude Include="Vector2.h" />
     <ClInclude Include="pch.h" />

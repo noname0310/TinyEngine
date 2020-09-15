@@ -34,14 +34,14 @@
     <Filter Include="Header Files\Manager">
       <UniqueIdentifier>{88d5e941-920a-486d-ab4a-5eba8f38b534}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Render">
-      <UniqueIdentifier>{a85a459b-5544-44ae-b7f9-7b93bbbdf906}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Helper\TemplateModel">
       <UniqueIdentifier>{3d6677f1-7a6d-427a-8375-6a6478fca64a}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Helper\TemplateModel">
       <UniqueIdentifier>{cd9010d6-4982-48cf-9576-8c29c2952252}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Render">
+      <UniqueIdentifier>{a85a459b-5544-44ae-b7f9-7b93bbbdf906}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -100,6 +100,9 @@
       <Filter>Header Files\Helper\TemplateModel</Filter>
     </ClInclude>
     <ClInclude Include="ObjectVectorSample.h">
+      <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="Type.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
   </ItemGroup>

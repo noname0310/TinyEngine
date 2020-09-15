@@ -1,5 +1,8 @@
 #include "pch.h"
 #include "Console.h"
+
+#define MAX_INPUT_LEN 255
+
 def_Option(Keys, Keys)
 
 static void write_line(const char* str, ...);
@@ -9,16 +12,17 @@ static void write_c(const char* str, ConsoleColor color, ...);
 
 static bool has_input(void);
 static Option_Keys read_key(void);
+static const char* read_line();
 
 static void set_cursor_vis(CursorStat stat);
-static void set_pos(int x, int y);
+static void set_pos(short x, short y);
 static void set_color(ConsoleColor color);
 static void set_size(int x, int y);
-static void set_title(const char* title);
+static void set_title(const wchar_t* title);
 static void clear(void);
 static void pause(void);
 
-struct _Console Console = {
+const struct _Console Console = {
 	.write_line = write_line,
 	.write = write,
 	.write_line_c = write_line_c,
@@ -26,6 +30,7 @@ struct _Console Console = {
 
 	.has_input = has_input,
 	.read_key = read_key,
+	.read_line = read_line,
 
 	.set_cursor_vis = set_cursor_vis,
 	.set_pos = set_pos,
@@ -102,6 +107,20 @@ static Option_Keys read_key() {
 		return Option_Keys_new(None, None);
 }
 
+static const char* read_line() {
+	wchar_t wstr[MAX_INPUT_LEN];
+	char mb_str[MAX_INPUT_LEN * 3 + 1];
+
+	unsigned long read;
+	HANDLE conin = GetStdHandle(STD_INPUT_HANDLE);
+	bool a = FlushConsoleInputBuffer(conin);
+	ReadConsoleW(conin, wstr, MAX_INPUT_LEN, &read, NULL);
+	int size = WideCharToMultiByte(CP_UTF8, 0, wstr, read, mb_str, sizeof(mb_str), NULL, NULL);
+	mb_str[size] = 0;
+	char* result = malloc(sizeof(mb_str));
+	memcpy_s(result, sizeof(mb_str), mb_str, sizeof(mb_str));
+	return result;
+}
 
 static void set_cursor_vis(CursorStat stat) {
 	HANDLE hConsole;
@@ -115,10 +134,10 @@ static void set_cursor_vis(CursorStat stat) {
 	SetConsoleCursorInfo(hConsole, &ConsoleCursor);
 }
 
-static void set_pos(int x, int y) {
+static void set_pos(short x, short y) {
 	COORD pos = {
-		.X = (short)x,
-		.Y = (short)y
+		.X = x,
+		.Y = y
 	};
 	SetConsoleCursorPosition(GetStdHandle(STD_OUTPUT_HANDLE), pos);
 }
@@ -134,16 +153,8 @@ static void set_size(int x, int y) {
 	system(str);
 }
 
-static void set_title(const char* title) {
-	assert(title != NULL);
-	size_t length = strlen(title);
-	length += 6 + 1;
-	char* str = malloc(length);
-	assert(str != NULL);
-	sprintf_s(str, length, "title %s", title);
-
-	system(str);
-	free(str);
+static void set_title(const wchar_t* title) {
+	SetConsoleTitle(title);
 }
 
 static void clear() {

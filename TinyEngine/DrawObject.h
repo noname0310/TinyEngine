@@ -23,15 +23,8 @@ struct DrawObject {
 	//sprite width
 	int width;
 
-	//Vector2 get_position(DrawObject* self)
-	Vector2 (*get_position)(DrawObject*);
-
-	//void set_position(DrawObject* self, Vector2 vector2)
-	void (*set_position)(DrawObject*, Vector2);
-
-	//int get_instanceid(DrawObject* self)
-	int (*get_instanceid)(DrawObject*);
-
-	//char* get_name(DrawObject* self)
-	char* (*get_name)(DrawObject*);
+	Vector2 (*get_position)(const DrawObject* self);
+	void (*set_position)(DrawObject* self, Vector2 vector2);
+	int (*get_instanceid)(const DrawObject* self);
+	char* (*get_name)(const DrawObject* self);
 };
