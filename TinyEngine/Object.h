@@ -42,6 +42,6 @@ struct Object {
 	Object_Members
 };
 
-TINYENGINE_API Object Object_new(void* iter, const char* name, int instance_id);
+TINYENGINE_API Object Object_new(void* iter, const char name[], int instance_id);
 TINYENGINE_API const impl_Object* get_impl_Object_table();
 declexp_get_type_method(Object);

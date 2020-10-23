@@ -92,7 +92,7 @@ void IOtest() {
 	const char* a = Console.read_line();
 	Console.write_line(a);
 	free((char*)a);
-	a = Console.read_line(10);
+	a = Console.read_line();
 	Console.write_line(a);
 	free((char*)a);
 
@@ -102,14 +102,20 @@ void IOtest() {
 void gotest() {
 	GameObject go = GameObject_new(NULL, "샌즈", 3);
 	go.f->get_component(&go, get_type_Object());
-	Console.write_line(go.f->get_name(&go));
-	go.f->destroy(&go);
+	Console.write_line(go.f->get_name((Object*)&go));
+	go.f->destroy((Object*)&go);
+}
+
+void ConsoleSetupTest() {
+	Console.set_codepage(CodePage_Utf8);
+	Console.set_size(160, 45);
 }
 
 int wmain(int argc, wchar_t* argv[]) {
-	SetConsoleOutputCP(CP_UTF8);
-	SetConsoleCP(CP_UTF8);
+	Console.write_line("=============================ConsoleSetupTest");
+	ConsoleSetupTest();
 
+	Console.write_line("=============================FontTest");
 	CONSOLE_FONT_INFOEX fontInfo;
 	fontInfo.cbSize = sizeof(fontInfo);
 	fontInfo.nFont = 0;
@@ -121,17 +127,17 @@ int wmain(int argc, wchar_t* argv[]) {
 	memcpy(fontInfo.FaceName, myFont, sizeof(myFont));
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, &fontInfo);
 
-	Console.set_size(160, 45);
-
-	Console.write_line("=============================");
+	Console.write_line("=============================IOtest");
+	IOtest();
+	Console.write_line("=============================gotest");
 	gotest();
-	Console.write_line("=============================");
+	Console.write_line("=============================listtest");
 	listtest();
-	Console.write_line("=============================");
+	Console.write_line("=============================vector2boxingtest");
 	vector2boxingtest();
-	Console.write_line("=============================");
+	Console.write_line("=============================objecttest");
 	objecttest();
-	Console.write_line("=============================");
+	Console.write_line("=============================pause");
 	Console.pause();
 	return 0;
 }

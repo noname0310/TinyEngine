@@ -18,7 +18,7 @@ const impl_Object* get_impl_Object_table() {
 	return &impl_Object_table;
 }
 
-Object Object_new(void* iter, const char* name, int instance_id) {
+Object Object_new(void* iter, const char name[], int instance_id) {
 	assert(name != NULL);
 	size_t length = strlen(name);
 	box_byref(char*, name, length + 1)

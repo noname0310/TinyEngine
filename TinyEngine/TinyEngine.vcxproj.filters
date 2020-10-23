@@ -99,11 +99,11 @@
     <ClInclude Include="ObjectListSample.h">
       <Filter>Header Files\Helper\TemplateModel</Filter>
     </ClInclude>
-    <ClInclude Include="ObjectVectorSample.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="Type.h">
       <Filter>Header Files\Helper</Filter>
+    </ClInclude>
+    <ClInclude Include="ObjectVectorSample.h">
+      <Filter>Header Files\Helper\TemplateModel</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -138,6 +138,9 @@
       <Filter>Source Files\Helper\TemplateModel</Filter>
     </ClCompile>
     <ClCompile Include="ObjectVectorSample.c">
+      <Filter>Source Files\Helper\TemplateModel</Filter>
+    </ClCompile>
+    <ClCompile Include="Option.c">
       <Filter>Source Files\Helper</Filter>
     </ClCompile>
   </ItemGroup>
