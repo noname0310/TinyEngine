@@ -95,7 +95,10 @@ void listtest2() {
 
 void vector2test() {
 	Vector2 vec2 = Vector2_new(1, 10);
-	Console.write_line(L"%f", get_static_Vector2_table()->left.f->get_x(&(get_static_Vector2_table()->left)));
+	Console.write_line(L"%f", 
+		get_static_Vector2_table()->left.f->get_x(
+			&(get_static_Vector2_table()->left)
+		));
 }
 
 void vector2boxingtest() {
