@@ -32,24 +32,25 @@ struct private_List_Object {
 };
 
 struct impl_List_Object {
-    void (*clear)(List_Object* self, void (*disposefn)(const Object*));
-    int (*get_length)(const List_Object* self);
-    bool (*is_empty)(const List_Object* self);
+    void (*const dispose)(List_Object* self, void (*disposefn)(const Object*));
+    void (*const clear)(List_Object* self, void (*disposefn)(const Object*));
+    int (*const get_length)(const List_Object* self);
+    bool (*const is_empty)(const List_Object* self);
 
-    Object* (*get_front)(const List_Object* self);
-    Node_Object* (*push_front)(List_Object* self, Object* value);
-    void (*pop_front)(List_Object* self, void (*disposefn)(const Object*));
-    Object* (*get_back)(const List_Object* self);
-    Node_Object* (*push_back)(List_Object* self, Object* value);
-    void (*pop_back)(List_Object* self, void (*disposefn)(const Object*));
+    Object* (*const get_front)(const List_Object* self);
+    Node_Object* (*const push_front)(List_Object* self, Object* value);
+    void (*const pop_front)(List_Object* self, void (*disposefn)(const Object*));
+    Object* (*const get_back)(const List_Object* self);
+    Node_Object* (*const push_back)(List_Object* self, Object* value);
+    void (*const pop_back)(List_Object* self, void (*disposefn)(const Object*));
 
-    Node_Object* (*insert)(List_Object* self, Node_Object* pos, Object* value);
-    void (*remove)(List_Object* self, Node_Object* pos, void (*disposefn)(const Object*));
-    Object* (*find)(const List_Object* self, const Object* value);
-    Object* (*find_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
-    bool (*contains)(const List_Object* self, const Object* value);
-    bool (*contains_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*)); 
-    void (*for_each)(const List_Object* self, void (*fn)(const Object*));
+    Node_Object* (*const insert)(List_Object* self, Node_Object* pos, Object* value);
+    void (*const remove)(List_Object* self, Node_Object* pos, void (*disposefn)(const Object*));
+    Object* (*const find)(const List_Object* self, const Object* value);
+    Object* (*const find_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
+    bool (*const contains)(const List_Object* self, const Object* value);
+    bool (*const contains_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
+    void (*const for_each)(const List_Object* self, void (*fn)(const Object*));
 };
 
 struct List_Object {
@@ -64,8 +65,8 @@ struct private_Node_Object {
 };
 
 struct impl_Node_Object {
-    Node_Object* (*get_prev)(const Node_Object* self);
-    Node_Object* (*get_next)(const Node_Object* self);
+    Node_Object* (*const get_prev)(const Node_Object* self);
+    Node_Object* (*const get_next)(const Node_Object* self);
 };
 
 struct Node_Object {

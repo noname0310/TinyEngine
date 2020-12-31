@@ -62,9 +62,10 @@ enum _Option {
 };
 
 declexp_Option(char, char)
+declexp_Option(wchar_t, wchar_t)
 declexp_Option(short, short)
 declexp_Option(int, int)
 declexp_Option(long long int, int64)
 declexp_Option(float, float)
 declexp_Option(double, double)
-declexp_Option(const char*, c_str)
+declexp_Option(const wchar_t*, c_str)

@@ -94,6 +94,8 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
+      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard_C>stdc17</LanguageStandard_C>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -164,8 +166,10 @@
     <ClInclude Include="Interface.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loop.h" />
+    <ClInclude Include="Mathf.h" />
     <ClInclude Include="Object.h" />
     <ClInclude Include="ObjectListSample.h" />
+    <ClInclude Include="OOPTool.h" />
     <ClInclude Include="Option.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform.h" />
@@ -182,9 +186,11 @@
     <ClCompile Include="GameManager.c" />
     <ClCompile Include="GameObject.c" />
     <ClCompile Include="Interface.c" />
+    <ClCompile Include="Mathf.c" />
     <ClCompile Include="Object.c" />
     <ClCompile Include="ObjectListSample.c" />
     <ClCompile Include="ObjectVectorSample.c" />
+    <ClCompile Include="OOPTool.c" />
     <ClCompile Include="Option.c" />
     <ClCompile Include="pch.c">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

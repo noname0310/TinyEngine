@@ -3,6 +3,7 @@
 
 /*list decl*/
 
+static void List_Object_dispose(List_Object* self, void (*disposefn)(const Object*));
 static void List_Object_clear(List_Object* self, void (*disposefn)(const Object*));
 static int List_Object_get_length(const List_Object* self);
 static bool List_Object_is_empty(const List_Object* self);
@@ -29,24 +30,25 @@ static Node_Object* Node_Object_get_prev(const Node_Object* self);
 static Node_Object* Node_Object_get_next(const Node_Object* self);
 
 const impl_List_Object impl_List_Object_table = {
-		.clear = List_Object_clear,
-		.get_length = List_Object_get_length,
-		.is_empty = List_Object_is_empty,
+	.dispose = List_Object_dispose,
+	.clear = List_Object_clear,
+	.get_length = List_Object_get_length,
+	.is_empty = List_Object_is_empty,
 
-		.get_front = List_Object_get_front,
-		.push_front = List_Object_push_front,
-		.pop_front = List_Object_pop_front,
-		.get_back = List_Object_get_back,
-		.push_back = List_Object_push_back,
-		.pop_back = List_Object_pop_back,
+	.get_front = List_Object_get_front,
+	.push_front = List_Object_push_front,
+	.pop_front = List_Object_pop_front,
+	.get_back = List_Object_get_back,
+	.push_back = List_Object_push_back,
+	.pop_back = List_Object_pop_back,
 
-		.insert = List_Object_insert,
-		.remove = List_Object_remove,
-		.find = List_Object_find,
-		.find_by = List_Object_find_by,
-		.contains = List_Object_contains,
-		.contains_by = List_Object_contains_by,
-		.for_each = List_Object_for_each
+	.insert = List_Object_insert,
+	.remove = List_Object_remove,
+	.find = List_Object_find,
+	.find_by = List_Object_find_by,
+	.contains = List_Object_contains,
+	.contains_by = List_Object_contains_by,
+	.for_each = List_Object_for_each
 };
 
 List_Object List_Object_new(void) {
@@ -85,6 +87,10 @@ Node_Object Node_Object_new(Node_Object* prev, Object* value, Node_Object* next)
 }
 
 /*list def*/
+
+static void List_Object_dispose(List_Object* self, void (*disposefn)(const Object*)) {
+	List_Object_clear(self, disposefn);
+}
 
 static void List_Object_clear(List_Object* self, void (*disposefn)(const Object*)) {
 	assert(self != NULL);

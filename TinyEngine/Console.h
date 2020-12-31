@@ -7,10 +7,12 @@
 #include <Windows.h>
 #include <assert.h>
 #include <stdarg.h>
+#include <locale.h>
 #include "Option.h"
 #include "TinyEngine.h"
 
-struct _Console;
+struct _Console; 
+typedef struct _Console _Console;
 
 enum ConsoleColor;
 typedef enum ConsoleColor ConsoleColor;
@@ -28,24 +30,27 @@ typedef enum CodePage CodePage;
 
 //Struct _Console
 struct _Console {
-	void (*write_line)(const char str[], ...);
-	void (*write)(const char str[], ...);
-	void (*write_line_c)(const char str[], ConsoleColor color, ...);
-	void (*write_c)(const char str[], ConsoleColor color, ...);
-	bool (*has_input)();
-	Option_Keys (*read_key)();
-	const char* (*read_line)();
-	void (*set_cursor_vis)(CursorStat stat);
-	void (*set_pos)(short x, short y);
-	void (*set_color)(ConsoleColor color);
-	void (*set_size)(int x, int y);
-	void (*set_title)(const wchar_t title[]);
-	void (*set_codepage)(CodePage codepage);
-	void (*clear)();
-	void (*pause)();
+	void (*const write_line)(const wchar_t str[], ...);
+	void (*const write)(const wchar_t str[], ...);
+	void (*const write_line_c)(const wchar_t str[], ConsoleColor color, ...);
+	void (*const write_c)(const wchar_t str[], ConsoleColor color, ...);
+	bool (*const has_input)();
+	Option_Keys (*const read_key)();
+	const wchar_t* (*const read_line)();
+	void (*const set_cursor_vis)(CursorStat stat);
+	void (*const set_pos)(short x, short y);
+	void (*const set_color)(ConsoleColor color);
+	void (*const set_size)(int x, int y);
+	void (*const set_title)(const wchar_t title[]);
+	void (*const set_codepage)(CodePage codepage);
+	void (*const set_locale2utf8)();
+	void (*const default_init)();
+	void (*const font_normalize)();
+	void (*const clear)();
+	void (*const pause)();
 };
 
-extern TINYENGINE_API const struct _Console Console;
+extern TINYENGINE_API const _Console Console;
 
 //Enum ConsoleColor
 enum ConsoleColor {

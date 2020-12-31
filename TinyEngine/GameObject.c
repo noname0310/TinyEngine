@@ -17,12 +17,14 @@ const impl_GameObject* get_impl_GameObject_table() {
 			get_impl_Object_table(),
 			sizeof(impl_Object)
 		);
+
+		OOPTool.set_const(&impl_GameObject_table.get_type, get_type_GameObject);
 	}
 
 	return &impl_GameObject_table;
 }
 
-GameObject GameObject_new(void* iter, const char* name, int instance_id) {
+GameObject GameObject_new(void* iter, const wchar_t name[], int instance_id) {
 	Object parent_instance = Object_new(iter, name, instance_id);
 
 	//private_GameObject p_instance = { 
@@ -40,8 +42,6 @@ GameObject GameObject_new(void* iter, const char* name, int instance_id) {
 		(size_t*)(&parent_instance) + 1,
 		sizeof(Object) - sizeof(size_t)
 	);
-
-	instance.get_type = get_type_GameObject;
 
 	return instance;
 }

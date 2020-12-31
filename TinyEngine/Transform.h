@@ -1,7 +1,6 @@
 #pragma once
 
 #include "TinyEngine.h"
-#include "Encapsulation.h"
 
 struct _impl_Transform;
 typedef struct _impl_Transform _impl_Transform;

@@ -6,6 +6,7 @@
 #include "Box.h"
 #include "Type.h"
 #include "Object.h"
+#include "OOPTool.h"
 
 struct private_GameObject;
 typedef struct private_GameObject private_GameObject;
@@ -24,7 +25,7 @@ struct impl_GameObject {
 	impl_Object_Members
 
 #define impl_GameObject_Members \
-	void* (*get_component)(const GameObject* self, Type type);
+	void* (*const get_component)(const GameObject* self, Type type);
 
 	impl_GameObject_Members
 };
@@ -34,11 +35,11 @@ struct GameObject {
 	Object_Members
 
 #define GameObject_Members \
-	//private_GameObject p1;
+	//private_GameObject private_GameObject;
 
 	GameObject_Members
 };
 
-TINYENGINE_API GameObject GameObject_new(void* iter, const char* name, int instance_id);
+TINYENGINE_API GameObject GameObject_new(void* iter, const wchar_t name[], int instance_id);
 TINYENGINE_API const impl_GameObject* get_impl_GameObject_table();
 declexp_get_type_method(GameObject);
