@@ -7,6 +7,8 @@
 #include "../TinyEngine/ObjectListSample.h"
 #include "../TinyEngine/List.h"
 #include "../TinyEngine/GameObject.h"
+#include "../TinyEngine/Mathf.h"
+#include <math.h>
 
 void printval(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -94,7 +96,7 @@ void listtest2() {
 }
 
 void vector2test() {
-	Vector2 vec2 = Vector2_new(1, 10);
+	//Vector2 vec2 = Vector2_new(1, 10);
 	Console.write_line(L"%f", 
 		get_static_Vector2_table()->left.f->get_x(
 			&(get_static_Vector2_table()->left)
@@ -121,7 +123,7 @@ void objecttest() {
 	Console.write_line(L"%d", obj_boxed->f->get_type());
 }
 
-void IOtest() {
+void iotest() {
 	const wchar_t* a = Console.read_line();
 	Console.write_line(a);
 	free((wchar_t*)a);
@@ -134,29 +136,118 @@ void IOtest() {
 
 void gotest() {
 	GameObject go = GameObject_new(NULL, L"샌즈", 3);
-	Object o = *(Object*)&go;
+	//Object o = *(Object*)&go;
 
 	go.f->get_component(&go, get_type_Object());
 	Console.write_line(go.f->get_name((Object*)&go));
 	go.f->destroy((Object*)&go);
 }
 
-void ConsoleSetupTest() {
+void consolesetuptest() {
 	Console.default_init();
 	Console.set_size(160, 45);
 }
 
-int wmain(int argc, wchar_t* argv[]) {
-	Console.write_line(L"=============================ConsoleSetupTest");
-	ConsoleSetupTest();
-
-	Console.write_line(L"=============================FontTest");
+void fonttest() {
 	Console.write_line(L"a");
 	Console.font_normalize();
 	Console.write_line(L"a");
+}
 
-	Console.write_line(L"=============================IOtest");
-	IOtest();
+void mathftest() {
+	/*Console.write_line(L"Mathf.PI: %f", Mathf.PI);
+	Console.write_line(L"Mathf.Infinity: %f", Mathf.Infinity);
+	Console.write_line(L"Mathf.NegativeInfinity: %f", Mathf.NegativeInfinity);
+	Console.write_line(L"Mathf.Deg2Rad: %f", Mathf.Deg2Rad);
+	Console.write_line(L"Mathf.Rad2Deg: %f", Mathf.Rad2Deg);*/
+	/*for (int i = -10; i < 10; i++)
+	{
+		if (Mathf.sin(i) != sinf(i)) {
+			Console.write_line(L"Mathf.sin(%d): %f", i, Mathf.sin(i));
+			Console.write_line(L"sinf(%d):      %f", i, sinf(i));
+		}
+	}
+	for (int i = -10; i < 10; i++)
+	{
+		if (Mathf.cos(i) != cosf(i)) {
+			Console.write_line(L"Mathf.cos(%d): %f", i, Mathf.cos(i));
+			Console.write_line(L"cosf(%d):      %f", i, cosf(i));
+		}
+	}
+	for (int i = -10; i < 10; i++)
+	{
+		if (Mathf.tan(i) != tanf(i)) {
+			Console.write_line(L"Mathf.tan(%d): %f", i, Mathf.tan(i));
+			Console.write_line(L"tanf(%d):      %f", i, tanf(i));
+		}
+	}*/
+	/*for (float i = -1; i < 1; i+= 0.1)
+	{
+		if (Mathf.asin(i) != asinf(i)) {
+			Console.write_line(L"Mathf.asin(%f): %f", i, Mathf.asin(i));
+			Console.write_line(L"asinf(%f):      %f", i, asinf(i));
+		}
+	}
+	for (float i = -1; i < 1; i += 0.1)
+	{
+		if (Mathf.acos(i) != acosf(i)) {
+			Console.write_line(L"Mathf.acos(%f): %f", i, Mathf.acos(i));
+			Console.write_line(L"acosf(%f):      %f", i, acosf(i));
+		}
+	}*/
+	/*for (float i = -2; i < 2; i += 0.1f)
+	{
+		if (Mathf.atan(i) != atanf(i)) {
+			Console.write_line(L"Mathf.atan(%f): %f", i, Mathf.atan(i));
+			Console.write_line(L"atanf(%f):      %f", i, atanf(i));
+		}
+	}*/
+	for (float i = -1; i < 1; i += 0.1f)
+	{
+		if (Mathf.atan2(i, 1) != atan2f(i, 1)) {
+			Console.write_line(L"Mathf.atan2(%f): %f", i, Mathf.atan2(i, 1));
+			Console.write_line(L"atan2f(%f):      %f", i, atan2f(i, 1));
+		}
+	}
+	for (float i = -1; i < 1; i += 0.1f)
+	{
+		if (Mathf.atan2(i, 0) != atan2f(i, 0)) {
+			Console.write_line(L"Mathf.atan2(%f): %f", i, Mathf.atan2(i, 0));
+			Console.write_line(L"atan2f(%f):      %f", i, atan2f(i, 0));
+		}
+	}
+	/*for (int i = -10; i < 10; i++)
+	{
+		if (Mathf.sqrt(i) != sqrtf(i)) {
+			Console.write_line(L"Mathf.sqrt(%d): %f", i, Mathf.sqrt(i));
+			Console.write_line(L"sqrtf(%d):      %f", i, sqrtf(i));
+		}
+	}*/
+	/*for (int i = -10; i < 10; i++)
+	{
+		if (Mathf.ldexpf(i, 10) != ldexpf(i, 10)) {
+			Console.write_line(L"Mathf.ldexpf(%d): %f", i, Mathf.ldexpf(i, 10));
+			Console.write_line(L"ldexpf(%d):       %f", i, ldexpf(i, 10));
+		}
+	}*/
+	Console.write_line(L"Mathf.abs_i32(-190): %d", Mathf.abs_i32(-190));
+	Console.write_line(L"Mathf.abs_i32(190): %d", Mathf.abs_i32(190));
+	Vector2 a = Vector2_new(1.123f, 2);
+	Vector2 b = Vector2_new(3, 4.234f);
+	Vector2 c = Vector2_new(5, 6);
+	Vector2 d = Vector2_new(7.123123f, 8);
+	Vector2 result = Vector2_new(2, 2);
+	Mathf.line_intersection(&a, &b, &c, &d, &result);
+	Console.write_line(L"%f %f", result.f->get_x(&result), result.f->get_y(&result));
+}
+
+int wmain(int argc, wchar_t* argv[]) {
+	//Console.write_line(L"=============================ConsoleSetupTest");
+	//consolesetuptest();
+	Console.write_line(L"=============================FontTest");
+	fonttest();
+	//Console.write_line(L"=============================IOtest");
+	//iotest();
 	Console.write_line(L"=============================gotest");
 	gotest();
 	Console.write_line(L"=============================listtest");
@@ -169,6 +260,8 @@ int wmain(int argc, wchar_t* argv[]) {
 	vector2boxingtest();
 	Console.write_line(L"=============================objecttest");
 	objecttest();
+	Console.write_line(L"=============================mathftest");
+	mathftest();
 	Console.write_line(L"=============================pause");
 	Console.pause();
 	return 0;

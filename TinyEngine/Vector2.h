@@ -2,9 +2,9 @@
 
 #include <assert.h>
 #include <stdbool.h>
-#include <math.h>
 #include "TinyEngine.h"
 #include "OOPTool.h"
+#include "Mathf.h"
 
 struct private_Vector2;
 typedef struct private_Vector2 private_Vector2;

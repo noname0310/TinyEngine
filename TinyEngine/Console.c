@@ -129,9 +129,9 @@ static const wchar_t* read_line() {
 	
 	if (wstr[read - 2] == L'\r') {
 		wstr[read - 2] = L'\0';
-		wchar_t* result = malloc(readbyte - 1);
+		wchar_t* result = malloc((size_t)readbyte - 1);
 		assert(result != NULL || !"malloc failed");
-		memcpy_s(result, readbyte - 1, wstr, readbyte - 1);
+		memcpy_s(result, (size_t)readbyte - 1, wstr, (size_t)readbyte - 1);
 		return result;
 	}
 	else if (wstr[read - 1] == '\n') {

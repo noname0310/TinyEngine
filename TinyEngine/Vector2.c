@@ -82,8 +82,8 @@ const static_Vector2* get_static_Vector2_table() {
 		Vector2 down = Vector2_new(0, -1);
 		Vector2 left = Vector2_new(-1, 0);
 		Vector2 right = Vector2_new(1, 0);
-		Vector2 positiveInfinity = Vector2_new(INFINITY, INFINITY);
-		Vector2 negativeInfinity = Vector2_new(-INFINITY, -INFINITY);
+		Vector2 positiveInfinity = Vector2_new(Mathf.Infinity, Mathf.Infinity);
+		Vector2 negativeInfinity = Vector2_new(Mathf.NegativeInfinity, Mathf.NegativeInfinity);
 
 		OOPTool.set_const_value(&static_Vector2_table.zero, &zero, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.one, &one, sizeof(Vector2));
