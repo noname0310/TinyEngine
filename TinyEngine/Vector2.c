@@ -29,6 +29,8 @@ static Vector2 clamp_magnitude(const Vector2* vector, float max_length);
 static Vector2 min_value(const Vector2* lhs, const Vector2* rhs);
 static Vector2 max_value(const Vector2* lhs, const Vector2* rhs);
 static Vector2 smooth_damp(const Vector2* current, const Vector2* target, Vector2* currentVelocity, float smooth_time, float max_speed, float delta_time);
+static bool line_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
+static bool line_segment_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 
 const impl_Vector2* get_impl_Vector2_table() {
 	static impl_Vector2 impl_Vector2_table = {
@@ -72,7 +74,9 @@ const static_Vector2* get_static_Vector2_table() {
 		.sqr_magnitude = sqr_magnitude,
 		.min = min_value,
 		.max = max_value,
-		.smooth_damp = smooth_damp
+		.smooth_damp = smooth_damp,
+		.line_intersection = line_intersection,
+		.line_segment_intersection = line_segment_intersection
 	};
 
 	if (((char**)&static_Vector2_table)[2] == NULL) {
@@ -82,8 +86,8 @@ const static_Vector2* get_static_Vector2_table() {
 		Vector2 down = Vector2_new(0, -1);
 		Vector2 left = Vector2_new(-1, 0);
 		Vector2 right = Vector2_new(1, 0);
-		Vector2 positiveInfinity = Vector2_new(Mathf.Infinity, Mathf.Infinity);
-		Vector2 negativeInfinity = Vector2_new(Mathf.NegativeInfinity, Mathf.NegativeInfinity);
+		Vector2 positiveInfinity;// = Vector2_new(Mathf.Infinity, Mathf.Infinity);
+		Vector2 negativeInfinity;// = Vector2_new(Mathf.NegativeInfinity, Mathf.NegativeInfinity);
 
 		OOPTool.set_const_value(&static_Vector2_table.zero, &zero, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.one, &one, sizeof(Vector2));
@@ -236,4 +240,41 @@ static Vector2 smooth_damp(const Vector2* current, const Vector2* target, Vector
 	assert(current != NULL);
 	assert(target != NULL);
 	assert(currentVelocity != NULL);
+}
+
+static bool line_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
+	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
+	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
+	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);
+	float num4 = p4->f->get_y(p4) - p3->f->get_y(p3);
+	float num5 = (float)((double)num1 * (double)num4 - (double)num2 * (double)num3);
+	if ((double)num5 == 0.0)
+		return false;
+	float num6 = p3->f->get_x(p3) - p1->f->get_x(p1);
+	float num7 = p3->f->get_y(p3) - p1->f->get_y(p1);
+	float num8 = (float)((double)num6 * (double)num4 - (double)num7 * (double)num3) / num5;
+	Vector2 resultvalue = Vector2_new(p1->f->get_x(p1) + num8 * num1, p1->f->get_y(p1) + num8 * num2);
+	OOPTool.set_const_value(result, &resultvalue, sizeof(Vector2));
+	return true;
+}
+
+static bool line_segment_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
+	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
+	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
+	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);
+	float num4 = p4->f->get_y(p4) - p3->f->get_y(p3);
+	float num5 = (float)((double)num1 * (double)num4 - (double)num2 * (double)num3);
+	if ((double)num5 == 0.0)
+		return false;
+	float num6 = p3->f->get_x(p3) - p1->f->get_x(p1);
+	float num7 = p3->f->get_y(p3) - p1->f->get_y(p1);
+	float num8 = (float)((double)num6 * (double)num4 - (double)num7 * (double)num3) / num5;
+	if ((double)num8 < 0.0 || (double)num8 > 1.0)
+		return false;
+	float num9 = (float)((double)num6 * (double)num2 - (double)num7 * (double)num1) / num5;
+	if ((double)num9 < 0.0 || (double)num9 > 1.0)
+		return false;
+	Vector2 resultvalue = Vector2_new(p1->f->get_x(p1) + num8 * num1, p1->f->get_y(p1) + num8 * num2);
+	OOPTool.set_const_value(result, &resultvalue, sizeof(Vector2));
+	return true;
 }

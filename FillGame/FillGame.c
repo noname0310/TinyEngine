@@ -202,20 +202,13 @@ void mathftest() {
 			Console.write_line(L"atanf(%f):      %f", i, atanf(i));
 		}
 	}*/
-	for (float i = -1; i < 1; i += 0.1f)
+	/*for (float i = -1; i < 1; i += 0.1f)
 	{
 		if (Mathf.atan2(i, 1) != atan2f(i, 1)) {
 			Console.write_line(L"Mathf.atan2(%f): %f", i, Mathf.atan2(i, 1));
 			Console.write_line(L"atan2f(%f):      %f", i, atan2f(i, 1));
 		}
-	}
-	for (float i = -1; i < 1; i += 0.1f)
-	{
-		if (Mathf.atan2(i, 0) != atan2f(i, 0)) {
-			Console.write_line(L"Mathf.atan2(%f): %f", i, Mathf.atan2(i, 0));
-			Console.write_line(L"atan2f(%f):      %f", i, atan2f(i, 0));
-		}
-	}
+	}*/
 	/*for (int i = -10; i < 10; i++)
 	{
 		if (Mathf.sqrt(i) != sqrtf(i)) {
@@ -230,6 +223,12 @@ void mathftest() {
 			Console.write_line(L"ldexpf(%d):       %f", i, ldexpf(i, 10));
 		}
 	}*/
+	/*for (int i = -10; i < 10; i += 100)
+	{
+		Console.write_line(L"Mathf.closest_power_of_two(%d): %d", i, Mathf.closest_power_of_two(i));
+	}*/
+	/*Console.write_line(L"Mathf.abs(-190.232f  %f): %f", -190.232f, Mathf.abs(-190.232f));
+	Console.write_line(L"Mathf.abs(190.353f   %f): %f", 190.353f, Mathf.abs(190.353f));
 	Console.write_line(L"Mathf.abs_i32(-190): %d", Mathf.abs_i32(-190));
 	Console.write_line(L"Mathf.abs_i32(190): %d", Mathf.abs_i32(190));
 	Vector2 a = Vector2_new(1.123f, 2);
@@ -237,13 +236,69 @@ void mathftest() {
 	Vector2 c = Vector2_new(5, 6);
 	Vector2 d = Vector2_new(7.123123f, 8);
 	Vector2 result = Vector2_new(2, 2);
-	Mathf.line_intersection(&a, &b, &c, &d, &result);
-	Console.write_line(L"%f %f", result.f->get_x(&result), result.f->get_y(&result));
+	get_static_Vector2_table()->line_intersection(&a, &b, &c, &d, &result);
+	Console.write_line(L"%f %f", result.f->get_x(&result), result.f->get_y(&result));*/
+	/*for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.gamma_to_linear_space(%f): %f", i, Mathf.gamma_to_linear_space(i));
+	}
+	for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.linear_to_gamma_space(%f): %f", i, Mathf.linear_to_gamma_space(i));
+	}*/
+	/*for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.pow(2, %f): %f", i, Mathf.pow(2, i));
+		Console.write_line(L"pow(2, %f):       %f", i, pow(2, i));
+	}*/
+	/*for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.exp(%f): %f", i, Mathf.exp(i));
+		Console.write_line(L"exp(%f):       %f", i, exp(i));
+	}*/
+	/*for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.log_e(%f): %f", i, Mathf.log_e(i));
+		Console.write_line(L"logf(%f):        %f", i, logf(i));
+	}
+	for (float i = -1; i < 1; i += 0.1f)
+	{
+		Console.write_line(L"Mathf.log_10(%f): %f", i, Mathf.log_10(i));
+		Console.write_line(L"log10f(%f):       %f", i, log10f(i));
+	}*/
+	/*for (float i = -1; i < 1; i += 0.001f)
+	{
+		Console.write_line(L"Mathf.log(10, %f): %f", i, Mathf.log(10, i));
+	}*/
+	/*Console.write_line(L"%f", 0.214);
+	Console.write_line(L"%f", Mathf.half_to_float(Mathf.float_to_half(0.214)));
+	Console.write_line(L"%f", Mathf.ceil(4.214f));
+	Console.write_line(L"%f", Mathf.floor(4.214f));
+	Console.write_line(L"%f", Mathf.round(4.214f));*/
+	/*Console.write_line(L"%d", Mathf.floor_to_int(10.0f));
+	Console.write_line(L"%d", Mathf.floor_to_int(10.2f));
+	Console.write_line(L"%d", Mathf.floor_to_int(10.7f));
+	Console.write_line(L"%d", Mathf.floor_to_int(-10.0f));
+	Console.write_line(L"%d", Mathf.floor_to_int(-10.2f));
+	Console.write_line(L"%d", Mathf.floor_to_int(-10.7f));*/
+	/*Console.write_line(L"%d", Mathf.round_to_int(10.0f));
+	Console.write_line(L"%d", Mathf.round_to_int(10.2f));
+	Console.write_line(L"%d", Mathf.round_to_int(10.7f));
+	Console.write_line(L"%d", Mathf.round_to_int(-10.0f));
+	Console.write_line(L"%d", Mathf.round_to_int(-10.2f));
+	Console.write_line(L"%d", Mathf.round_to_int(-10.7f));*/
+
+    Console.write_line(L"%d", Mathf.ceil_to_int(10.0f));
+	Console.write_line(L"%d", Mathf.ceil_to_int(10.2f));
+	Console.write_line(L"%d", Mathf.ceil_to_int(10.7f));
+	Console.write_line(L"%d", Mathf.ceil_to_int(-10.0f));
+	Console.write_line(L"%d", Mathf.ceil_to_int(-10.2f));
+	Console.write_line(L"%d", Mathf.ceil_to_int(-10.7f));
 }
 
 int wmain(int argc, wchar_t* argv[]) {
-	//Console.write_line(L"=============================ConsoleSetupTest");
-	//consolesetuptest();
+	Console.write_line(L"=============================ConsoleSetupTest");
+	consolesetuptest();
 	Console.write_line(L"=============================FontTest");
 	fonttest();
 	//Console.write_line(L"=============================IOtest");
@@ -260,8 +315,8 @@ int wmain(int argc, wchar_t* argv[]) {
 	vector2boxingtest();
 	Console.write_line(L"=============================objecttest");
 	objecttest();
-	Console.write_line(L"=============================mathftest");
-	mathftest();
+	//Console.write_line(L"=============================mathftest");
+	//mathftest();
 	Console.write_line(L"=============================pause");
 	Console.pause();
 	return 0;

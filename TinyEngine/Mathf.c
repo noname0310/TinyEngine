@@ -54,16 +54,17 @@ static bool is_power_of_two (int value);
 static int next_power_of_two (int value);
 static float delta_angle (float current, float target);
 static float perlin_noise (float x, float y);
-static bool line_intersection (const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
-static bool line_segment_intersection (const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 static unsigned short float_to_half (float value);
 static float half_to_float (unsigned short value);
 
 static float frexpf(float, int*);
 static float ldexpf(float, int);
+static float polevlf(float xx, float* coef, int N);
+static int noise2(int x, int y);
+static float lin_inter(float x, float y, float s);
+static float smooth_inter(float x, float y, float s);
 
 //https://github.com/jeremybarnes/cephes/blob/master/single/sinf.c
-
 const static float MAXNUMF = 3.4028234663852885981170418348451692544e38f;
 const static float FOPI = 1.27323954473516f;
 const static float PIF = 3.14159265358979323846264338328f;
@@ -78,6 +79,47 @@ const static float T24M1 = 16777215.f;
 
 const static float NAN = (float)(((float)(1e+300 * 1e+300)) * 0.0F);
 
+const static float P0 = 0.2499999995E+0f;
+const static float P1 = 0.4160288626E-2f;
+const static float Q0 = 0.5000000000E+0f;
+const static float Q1 = 0.4998717877E-1f;
+
+const static float C1 = 0.693359375f;
+const static float C2 = -2.1219444005469058277e-4f;
+
+const static float BIGX = 88.72283911f;
+const static float EXPEPS = 1.0E-7f;
+const static float K1 = 1.4426950409f;
+
+const static float LOGFA0 = - 0.5527074855E+0f;
+const static float LOGFB0 = -0.6632718214E+1f;
+
+const static float LOGFC1 = 0.693359375f;
+const static float LOGFC2 = -2.121944400546905827679E-4f;
+
+const static float SQRTH = 0.70710678118654752440f;
+const static float L102A = 3.0078125E-1f;
+const static float L102B = 2.48745663981195213739E-4f;
+const static float L10EA = 4.3359375E-1f;
+const static float L10EB = 7.00731903251827651129E-4f;
+
+const static float MAXL10 = 38.230809449325611792f;
+
+const static int SEED = 0;
+
+const static int hash[] = { 208,34,231,213,32,248,233,56,161,78,24,140,71,48,140,254,245,255,247,247,40,
+					 185,248,251,245,28,124,204,204,76,36,1,107,28,234,163,202,224,245,128,167,204,
+					 9,92,217,54,239,174,173,102,193,189,190,121,100,108,167,44,43,77,180,204,8,81,
+					 70,223,11,38,24,254,210,210,177,32,81,195,243,125,8,169,112,32,97,53,195,13,
+					 203,9,47,104,125,117,114,124,165,203,181,235,193,206,70,180,174,0,167,181,41,
+					 164,30,116,127,198,245,146,87,224,149,206,57,4,192,210,65,210,129,240,178,105,
+					 228,108,245,148,140,40,35,195,38,58,65,207,215,253,65,85,208,76,62,3,237,55,89,
+					 232,50,217,64,244,157,199,121,252,90,17,212,203,149,152,140,187,234,177,73,174,
+					 193,100,192,143,97,53,145,135,19,103,13,90,135,151,199,91,239,247,33,39,145,
+					 101,120,99,3,186,86,99,41,237,203,111,79,220,135,158,42,30,154,120,67,87,167,
+					 135,176,183,191,253,115,184,21,233,58,129,233,142,39,128,211,118,137,139,255,
+					 114,20,218,113,154,27,127,246,250,1,8,198,250,209,92,222,173,21,88,102,219 };
+
 const static float sincof[] = {
 -1.9515295891E-4f,
  8.3321608736E-3f,
@@ -88,6 +130,38 @@ const static float coscof[] = {
  2.443315711809948E-005f,
 -1.388731625493765E-003f,
  4.166664568298827E-002f
+};
+
+const static float P[] = {
+	 7.0376836292E-2f,
+	-1.1514610310E-1f,
+	 1.1676998740E-1f,
+	-1.2420140846E-1f,
+	 1.4249322787E-1f,
+	-1.6668057665E-1f,
+	 2.0000714765E-1f,
+	-2.4999993993E-1f,
+	 3.3333331174E-1f
+};
+
+static unsigned short bmask[] = {
+	0xffff,
+	0xfffe,
+	0xfffc,
+	0xfff8,
+	0xfff0,
+	0xffe0,
+	0xffc0,
+	0xff80,
+	0xff00,
+	0xfe00,
+	0xfc00,
+	0xf800,
+	0xf000,
+	0xe000,
+	0xc000,
+	0x8000,
+	0x0000,
 };
 
 const _Mathf Mathf = {
@@ -150,8 +224,6 @@ const _Mathf Mathf = {
 	.next_power_of_two = next_power_of_two,
 	.delta_angle = delta_angle,
 	.perlin_noise = perlin_noise,
-	.line_intersection = line_intersection,
-	.line_segment_intersection = line_segment_intersection,
 	.float_to_half = float_to_half,
 	.half_to_float = half_to_float
 };
@@ -326,7 +398,7 @@ static float tan(float f) {
 #pragma warning(disable:4244)
 static float asin(float f) {
 	if (f < -1 || 1 < f)
-		assert(!"f must be between -1 and 1.");
+		return NAN;
 
 	float a, x, z;
 	int sign, flag;
@@ -382,9 +454,8 @@ done:
 
 #pragma warning(disable:4244)
 static float acos(float f) {
-	if (f < -1 || 1 < f) {
-		assert(!"f must be between -1 and 1.");
-	}
+	if (f < -1 || 1 < f)
+		return NAN;
 	if (f < -1.0)
 		goto domerr;
 
@@ -545,8 +616,7 @@ static float ldexpf(float x, int pw2) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float sqrt(float f)
-{
+static float sqrt(float f) {
 	if (f < 0)
 		return NAN;
 
@@ -607,7 +677,13 @@ sqdon:
 #pragma warning(default:4244)
 
 static float abs_value(float f) {
-
+	union {
+		float f;
+		int i;
+	} u;
+	u.f = f;
+	u.i &= 0x7FFFFFFFULL;
+	return u.f;
 }
 
 static int abs_i32(int f) {
@@ -688,47 +764,234 @@ static int max_i32_args(int count, ...) {
 }
 
 static float pow(float f, float p) {
-
+	if (p == 0.0) return 1.0;
+	if (p == 1.0) return f;
+	if (f <= 0.0) return 0.0;
+	return exp(log_e(f) * p);
 }
 
+#pragma warning(disable:4244)
+#pragma warning(disable:26451)
 static float exp(float power) {
+	int n;
+	float xn, g, r, z, y;
+	bool sign;
 
+	if (power >= 0.0) {
+		y = power;  sign = 0;
+	}
+	else {
+		y = -power; sign = 1;
+	}
+
+	if (y < EXPEPS) return 1.0;
+
+	if (y > BIGX) {
+		if (sign) {
+			errno = ERANGE;
+			return Mathf.Infinity;
+		}
+		else {
+			return 0.0;
+		}
+	}
+
+	z = y * K1;
+	n = z;
+
+	if (n < 0) --n;
+	if (z - n >= 0.5) ++n;
+	xn = n;
+	g = ((y - xn * C1)) - xn * C2;
+	z = g * g;
+	r = ((P1 * z) + P0) * g;
+	r = 0.5 + (r / ((Q1 * z) + Q0 - r));
+
+	n++;
+	z = ldexpf(r, n);
+	if (sign)
+		return 1.0 / z;
+	else
+		return z;
 }
+#pragma warning(default:26451)
+#pragma warning(default:4244)
 
 static float log(float f, float p) {
+	if (f < 0 || f == NAN)
+		return NAN;
+	if (f == 0)
+		return Mathf.NegativeInfinity;
+	if (f == Mathf.Infinity)
+		return Mathf.Infinity;
 
+	return log_10(f) / log_10(p);
 }
 
+#pragma warning(disable:4244)
 static float log_e(float f) {
+	if (f < 0 || f == NAN)
+		return NAN;
+	if (f == 0)
+		return Mathf.NegativeInfinity;
+	if (f == Mathf.Infinity)
+		return Mathf.Infinity;
 
+	float rz;
+	float g, z, w, znum, zden, xn;
+	int n;
+
+	if (f <= 0.0) {
+		errno = EDOM;
+		return 0.0;
+	}
+	g = frexpf(f, &n);
+	znum = g - 0.5;
+	if (g > SQRTH) {
+		znum -= 0.5;
+		zden = (g * 0.5) + 0.5;
+	}
+	else {
+		n--;
+		zden = znum * 0.5 + 0.5;
+	}
+	z = znum / zden;
+	w = z * z;
+
+	rz = z + z * (w * LOGFA0 / (w + LOGFB0));
+	xn = n;
+	return ((xn * LOGFC2 + rz) + xn * LOGFC1);
+}
+#pragma warning(default:4244)
+
+static float polevlf(float xx, float* coef, int N) {
+	float ans, x;
+	float* p;
+	int i;
+
+	x = xx;
+	p = coef;
+	ans = *p++;
+
+	i = N;
+	do ans = ans * x + *p++;
+	while (--i);
+
+	return(ans);
 }
 
+#pragma warning(disable:4244)
 static float log_10(float f) {
+	if (f < 0 || f == NAN)
+		return NAN;
+	if (f == 0)
+		return Mathf.NegativeInfinity;
+	if (f == Mathf.Infinity)
+		return Mathf.Infinity;
 
+	float x, y, z;
+	int e;
+
+	x = f;
+
+	if (x <= 0.0)
+		return -MAXL10;
+
+	x = frexpf(x, &e);
+
+	if (x < SQRTH)
+	{
+		e -= 1;
+		x = 2.0 * x - 1.0;
+	}
+	else
+	{
+		x = x - 1.0;
+	}
+
+	z = x * x;
+	y = x * (z * polevlf(x, (float*)P, 8));
+	y = y - 0.5 * z;
+
+	z = (x + y) * L10EB;
+	z += y * L10EA;
+	z += x * L10EA;
+	x = e;
+	z += x * L102B;
+	z += x * L102A;
+
+	return z;
 }
+#pragma warning(default:4244)
 
 static float ceil(float f) {
+	float y;
 
+	y = floor((float)f);
+	if (y < f)
+		y += 1.0;
+	return y;
 }
 
 static float floor(float f) {
+	unsigned short* p;
+	union {
+		float y;
+		unsigned short i[2];
+	} u;
+	int e;
 
+	u.y = f;
+	p = &u.i[1];
+	e = ((*p >> 7) & 0xff) - 0x7f;
+	p -= 1;
+
+	if (e < 0) {
+		if (u.y < 0)
+			return(-1.0);
+		else
+			return(0.0);
+	}
+
+	e = (24 - 1) - e;
+
+	while (e >= 16) {
+		*p++ = 0;
+		e -= 16;
+	}
+
+	if (e > 0)
+		*p &= bmask[e];
+
+	if ((f < 0) && (u.y != f))
+		u.y -= 1.0;
+
+	return u.y;
 }
 
 static float round(float f) {
-
+	return floor(f) + 0.5f;
 }
 
 static int ceil_to_int(float f) {
-
+	int inum = (int)f;
+	if (f < 0 || f == (float)inum) {
+		return inum;
+	}
+	return inum + 1;
 }
 
 static int floor_to_int(float f) {
-
+	if (f >= 0)
+		return (int)f;
+	else {
+		int y = (int)f;
+		return ((float)y == f) ? y : y - 1;
+	}
 }
 
 static int round_to_int(float f) {
-
+	return (int)(f < 0 ? (f - 0.5) : (f + 0.5));
 }
 
 static float sign(float f) {
@@ -854,23 +1117,34 @@ static float inverse_lerp(float a, float b, float value) {
 }
 
 static int closest_power_of_two(int value) {
-
+	if (is_power_of_two(value))
+		return value;
+	int high = next_power_of_two(value);
+	int low = high >> 1;
+	return ((high - value) < (value - low)) ? high : low;
 }
 
 static float gamma_to_linear_space(float value) {
-
+	return value * (value * (value * 0.305306011f + 0.682171111f) + 0.012522878f);
 }
 
 static float linear_to_gamma_space(float value) {
-
+	value = max_value(value, 0);
+	return max_value(1.055f * pow(value, 0.416666667f) - 0.055f, 0.f);
 }
 
 static bool is_power_of_two(int value) {
-
+	return !(value == 0) && !(value & (value - 1));
 }
 
 static int next_power_of_two(int value) {
-
+	value--;
+	value |= value >> 1;
+	value |= value >> 2;
+	value |= value >> 4;
+	value |= value >> 8;
+	value |= value >> 16;
+	return value + 1;
 }
 
 static float delta_angle(float current, float target) {
@@ -880,51 +1154,127 @@ static float delta_angle(float current, float target) {
 	return num;
 }
 
+//https://gist.github.com/nowl/828013
+static int noise2(int x, int y) {
+	int tmp = hash[(y + SEED) % 256];
+	return hash[(tmp + x) % 256];
+}
+
+static float lin_inter(float x, float y, float s) {
+	return x + s * (y - x);
+}
+
+static float smooth_inter(float x, float y, float s) {
+	return lin_inter(x, y, s * s * (3 - 2 * s));
+}
+
+#pragma warning(disable:4244)
 static float perlin_noise(float x, float y) {
-
+	int x_int = x;
+	int y_int = y;
+	float x_frac = x - x_int;
+	float y_frac = y - y_int;
+	int s = noise2(x_int, y_int);
+	int t = noise2(x_int + 1, y_int);
+	int u = noise2(x_int, y_int + 1);
+	int v = noise2(x_int + 1, y_int + 1);
+	float low = smooth_inter(s, t, x_frac);
+	float high = smooth_inter(u, v, x_frac);
+	return smooth_inter(low, high, y_frac);
 }
-
-static bool line_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
-	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
-	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
-	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);
-	float num4 = p4->f->get_y(p4) - p3->f->get_y(p3);
-	float num5 = (float)((double)num1 * (double)num4 - (double)num2 * (double)num3);
-	if ((double)num5 == 0.0)
-		return false;
-	float num6 = p3->f->get_x(p3) - p1->f->get_x(p1);
-	float num7 = p3->f->get_y(p3) - p1->f->get_y(p1);
-	float num8 = (float)((double)num6 * (double)num4 - (double)num7 * (double)num3) / num5;
-	Vector2 resultvalue = Vector2_new(p1->f->get_x(p1) + num8 * num1, p1->f->get_y(p1) + num8 * num2);
-	OOPTool.set_const_value(result, &resultvalue, sizeof(Vector2));
-	return true;
-}
-
-static bool line_segment_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
-	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
-	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
-	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);
-	float num4 = p4->f->get_y(p4) - p3->f->get_y(p3);
-	float num5 = (float)((double)num1 * (double)num4 - (double)num2 * (double)num3);
-	if ((double)num5 == 0.0)
-		return false;
-	float num6 = p3->f->get_x(p3) - p1->f->get_x(p1);
-	float num7 = p3->f->get_y(p3) - p1->f->get_y(p1);
-	float num8 = (float)((double)num6 * (double)num4 - (double)num7 * (double)num3) / num5;
-	if ((double)num8 < 0.0 || (double)num8 > 1.0)
-		return false;
-	float num9 = (float)((double)num6 * (double)num2 - (double)num7 * (double)num1) / num5;
-	if ((double)num9 < 0.0 || (double)num9 > 1.0)
-		return false;
-	Vector2 resultvalue = Vector2_new(p1->f->get_x(p1) + num8 * num1, p1->f->get_y(p1) + num8 * num2);
-	OOPTool.set_const_value(result, &resultvalue, sizeof(Vector2));
-	return true;
-}
+#pragma warning(default:4244)
 
 static unsigned short float_to_half(float value) {
+	union {
+		float f;
+		unsigned int i;
+	} uvalue = { value };
 
+	unsigned short h;
+
+	unsigned int i = uvalue.i;
+
+	register int s = (i >> 16) & 0x00008000;
+	register int e = ((i >> 23) & 0x000000ff) - (127 - 15);
+	register int f = i & 0x007fffff;
+
+	if (e <= 0) {
+		if (e < -10) {
+			if (s)
+				h = 0x8000;
+			else
+				h = 0;
+		}
+
+		f = (f | 0x00800000) >> (1 - e);
+		h = s | (f >> 13);
+	}
+	else if (e == 0xff - (127 - 15)) {
+		if (f == 0)
+			h = s | 0x7c00;
+		else {
+			f >>= 13;
+			h = s | 0x7c00 | f | (f == 0);
+		}
+	}
+	else {
+		if (e > 30)
+			h = s | 0x7c00;
+
+		h = s | (e << 10) | (f >> 13);
+	}
+	return h;
 }
 
 static float half_to_float(unsigned short value) {
+	union {
+		float f;
+		unsigned int i;
+	} uvalue;
 
+	int s = (value >> 15) & 0x00000001;
+	int e = (value >> 10) & 0x0000001f;
+	int f = value & 0x000003ff;
+
+	if (e == 0) {
+		if (f == 0)
+			uvalue.i = s << 31;
+		else {
+			while (!(f & 0x00000400)) {
+				f <<= 1;
+				e -= 1;
+			}
+			e += 1;
+			f &= ~0x00000400;
+		}
+	}
+	else if (e == 31) {
+		if (f == 0)
+			uvalue.i = (s << 31) | 0x7f800000;
+		else
+			uvalue.i = (s << 31) | 0x7f800000 | (f << 13);
+	}
+
+	e = e + (127 - 15);
+	f = f << 13;
+
+	uvalue.i = ((s << 31) | (e << 23) | f);
+
+	return uvalue.f;
 }
+
+//static Color correlated_color_temperature_to_rgb(float kelvin)
+//{
+//	float r, g, b;
+//	float kelvin2 = kelvin * kelvin;
+//
+//	r = kelvin < 6.570f ? 1.0f : clamp((1.35651f + 0.216422f * kelvin + 0.000633715f * kelvin2) / (-3.24223f + 0.918711f * kelvin), 0.0f, 1.0f);
+//
+//	g = kelvin < 6.570f ?
+//		clamp((-399.809f + 414.271f * kelvin + 111.543f * kelvin2) / (2779.24f + 164.143f * kelvin + 84.7356f * kelvin2), 0.0f, 1.0f) :
+//		clamp((1370.38f + 734.616f * kelvin + 0.689955f * kelvin2) / (-4625.69f + 1699.87f * kelvin), 0.0f, 1.0f);
+//
+//	b = kelvin > 6.570f ? 1.0f : clamp((348.963f - 523.53f * kelvin + 183.62f * kelvin2) / (2848.82f - 214.52f * kelvin + 78.8614f * kelvin2), 0.0f, 1.0f);
+//
+//	return Color_new(r, g, b, 1.0f);
+//}

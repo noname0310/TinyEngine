@@ -34,7 +34,7 @@ struct impl_Vector2 {
 	void (*const normalize)(Vector2* self);
 	void (*const set)(Vector2* self, float x, float y);
 	const wchar_t* (*const to_string)(const Vector2* self);
-	Vector2(* const add)(const Vector2* self, const Vector2* other);
+	Vector2 (*const add)(const Vector2* self, const Vector2* other);
 	Vector2 (*const sub)(const Vector2* self, const Vector2* other);
 	Vector2 (*const mul)(const Vector2* self, float d);
 	Vector2 (*const div)(const Vector2* self, float d);
@@ -74,6 +74,8 @@ struct static_Vector2 {
 	Vector2 (*const min)(const Vector2* lhs, const Vector2* rhs);
 	Vector2 (*const max)(const Vector2* lhs, const Vector2* rhs);
 	Vector2 (*const smooth_damp)(const Vector2* current, const Vector2* target, Vector2* currentVelocity, float smooth_time, float max_speed, float delta_time);
+	bool (*const line_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
+	bool (*const line_segment_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 };
 
 TINYENGINE_API Vector2 Vector2_new(float x, float y);

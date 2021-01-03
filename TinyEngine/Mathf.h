@@ -3,7 +3,6 @@
 #include <stdbool.h>
 #include <assert.h>
 #include "TinyEngine.h"
-#include "Vector2.h"
 
 struct _Mathf;
 typedef struct _Mathf _Mathf;
@@ -68,8 +67,6 @@ struct _Mathf {
 	int (*const next_power_of_two)(int value);
 	float (*const delta_angle)(float current, float target);
 	float (*const perlin_noise)(float x, float y);
-	bool (*const line_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
-	bool (*const line_segment_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 	unsigned short (*const float_to_half)(float value);
 	float (*const half_to_float)(unsigned short value);
 };
