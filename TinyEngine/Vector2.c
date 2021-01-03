@@ -93,7 +93,7 @@ const static_Vector2* get_static_Vector2_table() {
 		OOPTool.set_const_value(&static_Vector2_table.one, &one, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.up, &up, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.down, &down, sizeof(Vector2));
-		OOPTool.set_const_value(&static_Vector2_table.left, &right, sizeof(Vector2));
+		OOPTool.set_const_value(&static_Vector2_table.left, &left, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.right, &right, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.negativeInfinity, &negativeInfinity, sizeof(Vector2));
 		OOPTool.set_const_value(&static_Vector2_table.positiveInfinity, &positiveInfinity, sizeof(Vector2));
@@ -138,18 +138,31 @@ static void set_y(Vector2* self, float value) {
 
 static float magnitude(const Vector2* self) {
 	assert(self != NULL);
+	return Mathf.sqrt((float)((double)self->p.x * (double)self->p.x + (double)self->p.y * (double)self->p.y));
 }
 
 static float sqr_magnitude(const Vector2* self) {
 	assert(self != NULL);
+	return (float)((double)self->p.x * (double)self->p.x + (double)self->p.y * (double)self->p.y);
 }
 
 static Vector2 normalized(const Vector2* self) {
 	assert(self != NULL);
+	Vector2 vector2 = Vector2_new(self->p.x, self->p.y);
+	normalize(&vector2);
+	return vector2;
 }
 
 static void normalize(Vector2* self) {
 	assert(self != NULL);
+
+	float magnitude = magnitude(self);
+	if ((double)magnitude > 9.99999974737875E-06) {
+		Vector2 dived = div_value(self, magnitude);
+		OOPTool.set_const_value(self, &dived, sizeof(Vector2));
+	}
+	else
+		OOPTool.set_const_value(self, &(get_static_Vector2_table()->zero), sizeof(Vector2));
 }
 
 static void set(Vector2* self, float x, float y) {
@@ -160,41 +173,56 @@ static void set(Vector2* self, float x, float y) {
 
 static const wchar_t* to_string(const Vector2* self) {
 	assert(self != NULL);
+	wchar_t str[128];
+	swprintf_s(str, 128, L"%f, %f", self->p.x, self->p.y);
+	box_byref(const wchar_t*, str, sizeof(str))
+	return str_boxed;
 }
 
 static Vector2 add(const Vector2* self, const Vector2* other) {
 	assert(self != NULL);
+	return Vector2_new(self->p.x + other->p.x, self->p.y + other->p.y);
 }
 
 static Vector2 sub(const Vector2* self, const Vector2* other) {
 	assert(self != NULL);
+	return Vector2_new(self->p.x - other->p.x, self->p.y - other->p.y);
 }
 
 static Vector2 mul(const Vector2* self, float d) {
 	assert(self != NULL);
+	return Vector2_new(self->p.x * d, self->p.y * d);
 }
 
 static Vector2 div_value(const Vector2* self, float d) {
 	assert(self != NULL);
+	return Vector2_new(self->p.x / d, self->p.y / d);
 }
 
 static bool equals(const Vector2* self, const Vector2* other) {
 	assert(self != NULL);
+	Vector2 subed = sub(self, other);
+	return (double)sqr_magnitude(&subed) < 9.99999943962493E-11;
 }
 
 static bool not_equals(const Vector2* self, const Vector2* other) {
-	assert(self != NULL);
+	assert(self != NULL); 
+	Vector2 subed = sub(self, other);
+	return (double)sqr_magnitude(&subed) >= 9.99999943962493E-11;
 }
 
 
 static Vector2 lerp(const Vector2* a, const Vector2* b, float t) {
 	assert(a != NULL);
 	assert(b != NULL);
+	t = Mathf.clamp_01(t);
+	return Vector2_new(a->p.x + (b->p.x - a->p.x) * t, a->p.y + (b->p.y - a->p.y) * t);
 }
 
 static Vector2 lerp_unclamped(const Vector2* a, const Vector2* b, float t) {
 	assert(a != NULL);
 	assert(b != NULL);
+	return Vector2_new(a->p.x + (b->p.x - a->p.x) * t, a->p.y + (b->p.y - a->p.y) * t);
 }
 
 static Vector2 move_towards(const Vector2* current, const Vector2* target, float max_distance_delta) {
@@ -243,6 +271,11 @@ static Vector2 smooth_damp(const Vector2* current, const Vector2* target, Vector
 }
 
 static bool line_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
+	assert(p1 != NULL);
+	assert(p2 != NULL);
+	assert(p3 != NULL);
+	assert(p4 != NULL);
+	assert(result != NULL);
 	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
 	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
 	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);
@@ -259,6 +292,11 @@ static bool line_intersection(const Vector2* p1, const Vector2* p2, const Vector
 }
 
 static bool line_segment_intersection(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result) {
+	assert(p1 != NULL);
+	assert(p2 != NULL);
+	assert(p3 != NULL);
+	assert(p4 != NULL);
+	assert(result != NULL);
 	float num1 = p2->f->get_x(p2) - p1->f->get_x(p1);
 	float num2 = p2->f->get_y(p2) - p1->f->get_y(p1);
 	float num3 = p4->f->get_x(p4) - p3->f->get_x(p3);

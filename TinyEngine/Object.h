@@ -4,8 +4,8 @@
 #include <assert.h>
 #include <wchar.h>
 #include "TinyEngine.h"
-#include "Box.h"
 #include "Type.h"
+#include "OOPTool.h"
 
 struct private_Object;
 typedef struct private_Object private_Object;

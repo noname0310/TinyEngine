@@ -2,6 +2,7 @@
 
 #include <assert.h>
 #include <stdbool.h>
+#include <stdio.h>
 #include "TinyEngine.h"
 #include "OOPTool.h"
 #include "Mathf.h"

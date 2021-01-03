@@ -157,7 +157,6 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="Box.h" />
     <ClInclude Include="Console.h" />
     <ClInclude Include="DrawObject.h" />
     <ClInclude Include="framework.h" />

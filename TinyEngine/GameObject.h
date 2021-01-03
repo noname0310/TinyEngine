@@ -3,7 +3,6 @@
 #include <string.h>
 #include <assert.h>
 #include "TinyEngine.h"
-#include "Box.h"
 #include "Type.h"
 #include "Object.h"
 #include "OOPTool.h"

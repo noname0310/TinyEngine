@@ -87,9 +87,6 @@
     <ClInclude Include="Object.h">
       <Filter>Header Files\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Box.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="VectorLegacy.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>

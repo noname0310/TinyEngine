@@ -1,7 +1,7 @@
 ﻿#pragma comment(lib, "TinyEngine.lib")
 #include "../TinyEngine/Vector2.h"
 #include "../TinyEngine/Console.h"
-#include "../TinyEngine/Box.h"
+#include "../TinyEngine/OOPTool.h"
 #include "../TinyEngine/Object.h"
 #include "../TinyEngine/Interface.h"
 #include "../TinyEngine/ObjectListSample.h"
@@ -96,7 +96,11 @@ void listtest2() {
 }
 
 void vector2test() {
-	//Vector2 vec2 = Vector2_new(1, 10);
+	Vector2 vec2 = Vector2_new(1, 10);
+	const wchar_t* vecstr = vec2.f->to_string(&vec2);
+	Console.write_line(vecstr);
+	free(vecstr);
+
 	Console.write_line(L"%f", 
 		get_static_Vector2_table()->left.f->get_x(
 			&(get_static_Vector2_table()->left)
