@@ -23,4 +23,4 @@ struct _OOPTool {
 	void (*const set_const_value)(const void* target, const void* value, size_t size);
 };
 
-extern TINYENGINE_API const _OOPTool OOPTool;
+extern API const _OOPTool OOPTool;

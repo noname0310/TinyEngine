@@ -39,6 +39,6 @@ struct GameObject {
 	GameObject_Members
 };
 
-TINYENGINE_API GameObject GameObject_new(void* iter, const wchar_t name[], int instance_id);
-TINYENGINE_API const impl_GameObject* get_impl_GameObject_table();
+API GameObject GameObject_new(void* iter, const wchar_t name[], int instance_id);
+API const impl_GameObject* get_impl_GameObject_table();
 declexp_get_type_method(GameObject);

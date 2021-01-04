@@ -71,4 +71,4 @@ struct _Mathf {
 	float (*const half_to_float)(unsigned short value);
 };
 
-extern TINYENGINE_API const _Mathf Mathf;
+extern API const _Mathf Mathf;

@@ -27,4 +27,4 @@ struct Transform {
 	//set parent
 };
 
-TINYENGINE_API Transform Transform_new(int x, int y);
+API Transform Transform_new(int x, int y);

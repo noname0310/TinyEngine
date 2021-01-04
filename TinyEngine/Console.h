@@ -8,8 +8,8 @@
 #include <assert.h>
 #include <stdarg.h>
 #include <locale.h>
-#include "Option.h"
 #include "TinyEngine.h"
+#include "Option.h"
 
 struct _Console; 
 typedef struct _Console _Console;
@@ -50,7 +50,7 @@ struct _Console {
 	void (*const pause)();
 };
 
-extern TINYENGINE_API const _Console Console;
+extern API const _Console Console;
 
 //Enum ConsoleColor
 enum ConsoleColor {

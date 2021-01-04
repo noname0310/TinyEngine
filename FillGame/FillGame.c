@@ -8,7 +8,6 @@
 #include "../TinyEngine/List.h"
 #include "../TinyEngine/GameObject.h"
 #include "../TinyEngine/Mathf.h"
-#include <math.h>
 
 void printval(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -333,7 +332,7 @@ int wmain(int argc, wchar_t* argv[]) {
 	objecttest();
 	//Console.write_line(L"=============================mathftest");
 	//mathftest();
-	Console.write_line(L"=============================pause");
-	Console.pause();
+	//Console.write_line(L"=============================Pause");
+	//Console.pause();
 	return 0;
 }

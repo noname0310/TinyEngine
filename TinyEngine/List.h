@@ -35,30 +35,30 @@ struct private_List_##declname { \
 }; \
  \
 struct impl_List_##declname { \
-    void (*const dispose)(List_##declname* self, void (*disposefn)(const T)); \
-    void (*const clear)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const dispose)(List_##declname* self, void (*disposefn)(const T self)); \
+    void (*const clear)(List_##declname* self, void (*disposefn)(const T self)); \
     int (*const get_length)(const List_##declname* self); \
     bool (*const is_empty)(const List_##declname* self); \
  \
     T (*const get_front)(const List_##declname* self); \
     Node_##declname* (*const push_front)(List_##declname* self, T value); \
-    void (*const pop_front)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const pop_front)(List_##declname* self, void (*disposefn)(const T self)); \
     T (*const get_back)(const List_##declname* self); \
     Node_##declname* (*const push_back)(List_##declname* self, T value); \
-    void (*const pop_back)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const pop_back)(List_##declname* self, void (*disposefn)(const T self)); \
  \
     Node_##declname* (*const insert)(List_##declname* self, const Node_##declname* pos, const T value); \
-    void (*const remove)(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T)); \
+    void (*const remove)(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T self)); \
     T (*const find)(const List_##declname* self, const T value); \
-    T (*const find_by)(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
+    T (*const find_by)(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
     bool (*const contains)(const List_##declname* self, const T value); \
-    bool (*const contains_by)(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
-    void (*const for_each)(const List_##declname* self, void (*fn)(const T)); \
+    bool (*const contains_by)(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
+    void (*const for_each)(const List_##declname* self, void (*fn)(const T item)); \
 }; \
  \
 struct List_##declname { \
-    private_List_##declname p; \
     const impl_List_##declname* const f; \
+    private_List_##declname p; \
 }; \
  \
 struct private_Node_##declname { \
@@ -73,12 +73,12 @@ struct impl_Node_##declname { \
 }; \
  \
 struct Node_##declname { \
-    private_Node_##declname p; \
     const impl_Node_##declname* const f; \
+    private_Node_##declname p; \
 }; \
  \
-TINYENGINE_API List_##declname List_##declname##_new(void); \
-TINYENGINE_API Node_##declname Node_##declname##_new(const Node_##declname* prev, const T value, const Node_##declname* next);
+API List_##declname List_##declname##_new(void); \
+API Node_##declname Node_##declname##_new(const Node_##declname* prev, const T value, const Node_##declname* next);
 
 
 #define decl_List(T, declname) \
@@ -108,30 +108,30 @@ struct private_List_##declname { \
 }; \
  \
 struct impl_List_##declname { \
-    void (*const dispose)(List_##declname* self, void (*disposefn)(const T)); \
-    void (*const clear)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const dispose)(List_##declname* self, void (*disposefn)(const T self)); \
+    void (*const clear)(List_##declname* self, void (*disposefn)(const T self)); \
     int (*const get_length)(const List_##declname* self); \
     bool (*const is_empty)(const List_##declname* self); \
  \
     T (*const get_front)(const List_##declname* self); \
     Node_##declname* (*const push_front)(List_##declname* self, T value); \
-    void (*const pop_front)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const pop_front)(List_##declname* self, void (*disposefn)(const T self)); \
     T (*const get_back)(const List_##declname* self); \
     Node_##declname* (*const push_back)(List_##declname* self, T value); \
-    void (*const pop_back)(List_##declname* self, void (*disposefn)(const T)); \
+    void (*const pop_back)(List_##declname* self, void (*disposefn)(const T self)); \
  \
     Node_##declname* (*const insert)(List_##declname* self, const Node_##declname* pos, const T value); \
-    void (*const remove)(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T)); \
+    void (*const remove)(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T self)); \
     T (*const find)(const List_##declname* self, const T value); \
-    T (*const find_by)(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
+    T (*const find_by)(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
     bool (*const contains)(const List_##declname* self, const T value); \
-    bool (*const contains_by)(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
-    void (*const for_each)(const List_##declname* self, void (*fn)(const T)); \
+    bool (*const contains_by)(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
+    void (*const for_each)(const List_##declname* self, void (*fn)(const T item)); \
 }; \
  \
 struct List_##declname { \
-    private_List_##declname p; \
     const impl_List_##declname* const f; \
+    private_List_##declname p; \
 }; \
  \
 struct private_Node_##declname { \
@@ -146,8 +146,8 @@ struct impl_Node_##declname { \
 }; \
  \
 struct Node_##declname { \
-    private_Node_##declname p; \
     const impl_Node_##declname* const f; \
+    private_Node_##declname p; \
 }; \
  \
 List_##declname List_##declname##_new(void); \
@@ -158,25 +158,25 @@ Node_##declname Node_##declname##_new(const Node_##declname* prev, const T value
  \
 /*list decl*/ \
  \
-static void List_##declname##_dispose(List_##declname* self, void (*disposefn)(const T)); \
-static void List_##declname##_clear(List_##declname* self, void (*disposefn)(const T)); \
+static void List_##declname##_dispose(List_##declname* self, void (*disposefn)(const T self)); \
+static void List_##declname##_clear(List_##declname* self, void (*disposefn)(const T self)); \
 static int List_##declname##_get_length(const List_##declname* self); \
 static bool List_##declname##_is_empty(const List_##declname* self); \
  \
 static T List_##declname##_get_front(const List_##declname* self); \
 static Node_##declname* List_##declname##_push_front(List_##declname* self, T value); \
-static void List_##declname##_pop_front(List_##declname* self, void (*disposefn)(const T)); \
+static void List_##declname##_pop_front(List_##declname* self, void (*disposefn)(const T self)); \
 static T List_##declname##_get_back(const List_##declname* self); \
 static Node_##declname* List_##declname##_push_back(List_##declname* self, T value); \
-static void List_##declname##_pop_back(List_##declname* self, void (*disposefn)(const T)); \
+static void List_##declname##_pop_back(List_##declname* self, void (*disposefn)(const T self)); \
  \
 static Node_##declname* List_##declname##_insert(List_##declname* self, const Node_##declname* pos, const T value); \
-static void List_##declname##_remove(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T)); \
+static void List_##declname##_remove(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T self)); \
 static T List_##declname##_find(const List_##declname* self, const T value); \
-static T List_##declname##_find_by(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
+static T List_##declname##_find_by(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
 static bool List_##declname##_contains(const List_##declname* self, const T value); \
-static bool List_##declname##_contains_by(const List_##declname* self, const T value, bool (*comparer)(const T, const T)); \
-static void List_##declname##_for_each(const List_##declname* self, void (*fn)(const T)); \
+static bool List_##declname##_contains_by(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)); \
+static void List_##declname##_for_each(const List_##declname* self, void (*fn)(const T item)); \
  \
  \
 /*node decl*/ \
@@ -214,8 +214,8 @@ List_##declname List_##declname##_new(void) { \
 	}; \
  \
 	List_##declname instance = { \
-		.p = p_instance, \
-		.f = &impl_List_##declname##_table \
+		.f = &impl_List_##declname##_table, \
+		.p = p_instance \
 	}; \
  \
 	return instance; \
@@ -234,8 +234,8 @@ Node_##declname Node_##declname##_new(const Node_##declname* prev, const T value
 	}; \
  \
 	Node_##declname instance = { \
-		.p = p_instance, \
-		.f = &impl_Node_##declname##_table \
+		.f = &impl_Node_##declname##_table, \
+		.p = p_instance \
 	}; \
  \
 	return instance; \
@@ -243,11 +243,11 @@ Node_##declname Node_##declname##_new(const Node_##declname* prev, const T value
  \
 /*list def*/ \
  \
-static void List_##declname##_dispose(List_##declname* self, void (*disposefn)(const T)) { \
+static void List_##declname##_dispose(List_##declname* self, void (*disposefn)(const T self)) { \
 	List_##declname##_clear(self, disposefn); \
 } \
  \
-static void List_##declname##_clear(List_##declname* self, void (*disposefn)(const T)) { \
+static void List_##declname##_clear(List_##declname* self, void (*disposefn)(const T self)) { \
 	assert(self != NULL); \
 	while (self->p.first != NULL) \
 		List_##declname##_pop_front(self, disposefn); \
@@ -284,7 +284,7 @@ static Node_##declname* List_##declname##_push_front(List_##declname* self, T va
 	return instance_boxed; \
 } \
  \
-static void List_##declname##_pop_front(List_##declname* self, void (*disposefn)(const T)) { \
+static void List_##declname##_pop_front(List_##declname* self, void (*disposefn)(const T self)) { \
 	assert(self != NULL); \
 	Node_##declname* temp = self->p.first; \
 	if (self->p.first->p.next != NULL) { \
@@ -321,7 +321,7 @@ static Node_##declname* List_##declname##_push_back(List_##declname* self, T val
 	return instance_boxed; \
 } \
  \
-static void List_##declname##_pop_back(List_##declname* self, void (*disposefn)(const T)) { \
+static void List_##declname##_pop_back(List_##declname* self, void (*disposefn)(const T self)) { \
 	assert(self != NULL); \
 	Node_##declname* temp = self->p.last; \
 	if (self->p.last->p.prev != NULL) { \
@@ -352,7 +352,7 @@ static Node_##declname* List_##declname##_insert(List_##declname* self, const No
 	return instance_boxed; \
 } \
  \
-static void List_##declname##_remove(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T)) { \
+static void List_##declname##_remove(List_##declname* self, Node_##declname* pos, void (*disposefn)(const T self)) { \
 	assert(self != NULL); \
 	assert(pos != NULL); \
 	Node_##declname* prev = pos->p.prev; \
@@ -387,7 +387,7 @@ static T List_##declname##_find(const List_##declname* self, const T value) { \
 	return NULL; \
 } \
  \
-static T List_##declname##_find_by(const List_##declname* self, const T value, bool (*comparer)(const T, const T)) { \
+static T List_##declname##_find_by(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)) { \
 	assert(self != NULL); \
 	assert(value != NULL); \
 	const Node_##declname* index = self->p.first; \
@@ -413,7 +413,7 @@ static bool List_##declname##_contains(const List_##declname* self, const T valu
 	return false; \
 } \
  \
-static bool List_##declname##_contains_by(const List_##declname* self, const T value, bool (*comparer)(const T, const T)) { \
+static bool List_##declname##_contains_by(const List_##declname* self, const T value, bool (*comparer)(const T lhs, const T rhs)) { \
 	assert(self != NULL); \
 	assert(value != NULL); \
 	const Node_##declname* index = self->p.first; \
@@ -426,7 +426,7 @@ static bool List_##declname##_contains_by(const List_##declname* self, const T v
 	return false; \
 } \
  \
-static void List_##declname##_for_each(const List_##declname* self, void (*fn)(const T)) { \
+static void List_##declname##_for_each(const List_##declname* self, void (*fn)(const T item)) { \
 	assert(self != NULL); \
 	assert(fn != NULL); \
 	Node_##declname* index = self->p.first; \

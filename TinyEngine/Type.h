@@ -4,7 +4,7 @@
 typedef int Type;
 
 #define declexp_get_type_method(type) \
-TINYENGINE_API Type get_type_##type();
+API Type get_type_##type();
 
 #define decl_get_type_method(type) \
 Type get_type_##type();

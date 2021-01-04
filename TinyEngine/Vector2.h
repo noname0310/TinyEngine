@@ -44,8 +44,8 @@ struct impl_Vector2 {
 };
 
 struct Vector2 {
-	private_Vector2 p;
 	const impl_Vector2* const f;
+	private_Vector2 p;
 };
 
 struct static_Vector2 {
@@ -79,6 +79,6 @@ struct static_Vector2 {
 	bool (*const line_segment_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 };
 
-TINYENGINE_API Vector2 Vector2_new(float x, float y);
-TINYENGINE_API const impl_Vector2* get_impl_Vector2_table();
-TINYENGINE_API const static_Vector2* get_static_Vector2_table();
+API Vector2 Vector2_new(float x, float y);
+API const impl_Vector2* get_impl_Vector2_table();
+API const static_Vector2* get_static_Vector2_table();

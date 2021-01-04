@@ -54,9 +54,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Vector2.h">
-      <Filter>Header Files\Object</Filter>
-    </ClInclude>
     <ClInclude Include="Console.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
@@ -108,13 +105,19 @@
     <ClInclude Include="OOPTool.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
+    <ClInclude Include="FrameBuffer.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector2.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Point.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.c">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Vector2.c">
-      <Filter>Source Files\Object</Filter>
     </ClCompile>
     <ClCompile Include="Console.c">
       <Filter>Source Files\Helper</Filter>
@@ -151,6 +154,15 @@
     </ClCompile>
     <ClCompile Include="OOPTool.c">
       <Filter>Source Files\Helper</Filter>
+    </ClCompile>
+    <ClCompile Include="FrameBuffer.c">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Vector2.c">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Point.c">
+      <Filter>Source Files\Render</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

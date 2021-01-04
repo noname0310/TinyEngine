@@ -159,6 +159,7 @@
   <ItemGroup>
     <ClInclude Include="Console.h" />
     <ClInclude Include="DrawObject.h" />
+    <ClInclude Include="FrameBuffer.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
@@ -170,6 +171,7 @@
     <ClInclude Include="ObjectListSample.h" />
     <ClInclude Include="OOPTool.h" />
     <ClInclude Include="Option.h" />
+    <ClInclude Include="Point.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Transform.h" />
     <ClInclude Include="Type.h" />
@@ -182,6 +184,7 @@
   <ItemGroup>
     <ClCompile Include="Console.c" />
     <ClCompile Include="DrawObject.c" />
+    <ClCompile Include="FrameBuffer.c" />
     <ClCompile Include="GameManager.c" />
     <ClCompile Include="GameObject.c" />
     <ClCompile Include="Interface.c" />
@@ -197,6 +200,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="Point.c" />
     <ClCompile Include="Renderer.c" />
     <ClCompile Include="Vector2.c" />
   </ItemGroup>

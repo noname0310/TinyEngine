@@ -9,9 +9,9 @@ typedef struct { \
     T value; \
 } Option_##declname; \
 \
-/*TINYENGINE_API Option_##declname Option_##declname##_new(Option opt, T val);*/ \
-TINYENGINE_API Option_##declname Option_##declname##_some(T val); \
-TINYENGINE_API Option_##declname Option_##declname##_none();
+/*API Option_##declname Option_##declname##_new(Option opt, T val);*/ \
+API Option_##declname Option_##declname##_some(T val); \
+API Option_##declname Option_##declname##_none();
 
 #define decl_Option(T, declname) \
 \

@@ -32,30 +32,30 @@ struct private_List_Object {
 };
 
 struct impl_List_Object {
-    void (*const dispose)(List_Object* self, void (*disposefn)(const Object*));
-    void (*const clear)(List_Object* self, void (*disposefn)(const Object*));
+    void (*const dispose)(List_Object* self, void (*disposefn)(const Object* self));
+    void (*const clear)(List_Object* self, void (*disposefn)(const Object* self));
     int (*const get_length)(const List_Object* self);
     bool (*const is_empty)(const List_Object* self);
 
     Object* (*const get_front)(const List_Object* self);
     Node_Object* (*const push_front)(List_Object* self, Object* value);
-    void (*const pop_front)(List_Object* self, void (*disposefn)(const Object*));
+    void (*const pop_front)(List_Object* self, void (*disposefn)(const Object* self));
     Object* (*const get_back)(const List_Object* self);
     Node_Object* (*const push_back)(List_Object* self, Object* value);
-    void (*const pop_back)(List_Object* self, void (*disposefn)(const Object*));
+    void (*const pop_back)(List_Object* self, void (*disposefn)(const Object* self));
 
     Node_Object* (*const insert)(List_Object* self, Node_Object* pos, Object* value);
-    void (*const remove)(List_Object* self, Node_Object* pos, void (*disposefn)(const Object*));
+    void (*const remove)(List_Object* self, Node_Object* pos, void (*disposefn)(const Object* self));
     Object* (*const find)(const List_Object* self, const Object* value);
-    Object* (*const find_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
+    Object* (*const find_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object* lhs, const Object* rhs));
     bool (*const contains)(const List_Object* self, const Object* value);
-    bool (*const contains_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object*, const Object*));
-    void (*const for_each)(const List_Object* self, void (*fn)(const Object*));
+    bool (*const contains_by)(const List_Object* self, const Object* value, bool (*comparer)(const Object* lhs, const Object* rhs));
+    void (*const for_each)(const List_Object* self, void (*fn)(const Object* item));
 };
 
 struct List_Object {
-    private_List_Object p;
     const impl_List_Object* const f;
+    private_List_Object p;
 };
 
 struct private_Node_Object {
@@ -70,9 +70,9 @@ struct impl_Node_Object {
 };
 
 struct Node_Object {
-    private_Node_Object p;
     const impl_Node_Object* const f;
+    private_Node_Object p;
 };
 
-TINYENGINE_API List_Object List_Object_new(void);
-TINYENGINE_API Node_Object Node_Object_new(Node_Object* prev, Object* value, Node_Object* next);
+API List_Object List_Object_new(void);
+API Node_Object Node_Object_new(Node_Object* prev, Object* value, Node_Object* next);

@@ -112,8 +112,8 @@ Vector2 Vector2_new(float x, float y) {
 	};
 
 	Vector2 instance = {
-		.p = p_instance,
-		.f = get_impl_Vector2_table()
+		.f = get_impl_Vector2_table(),
+		.p = p_instance
 	};
 
 	return instance;
