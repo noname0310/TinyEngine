@@ -8,6 +8,9 @@
 #include "../TinyEngine/List.h"
 #include "../TinyEngine/GameObject.h"
 #include "../TinyEngine/Mathf.h"
+#include "../TinyEngine/FrameBuffer.h"
+#include <stdlib.h>
+#include <time.h>
 
 void printval(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -311,6 +314,39 @@ void mathftest() {
 	Console.write_line(L"%d", Mathf.ceil_to_int(-10.7f));
 }
 
+void bufferforeachitem(Point index, wchar_t* item) {
+	if (rand() % 100 == 0)
+		*item = L'*';
+}
+
+void bufferforeachitem1(Point index, wchar_t* item) {
+	*item = L' ';
+}
+
+void bufferforeachitem2(Point index, wchar_t* item) {
+	if (rand() % 100 == 0)
+		*item = L'b';
+}
+
+int framebuffertest() {
+	Console.set_cursor_vis(CursorStat_hide);
+	FrameBuffer framebuffer = FrameBuffer_new(160, 45);
+	for (size_t i = 0; i < 100000; i++)
+	{
+		framebuffer.f->for_each(&framebuffer, bufferforeachitem);
+		framebuffer.f->print(&framebuffer);
+		Sleep(1000);
+		framebuffer.f->for_each(&framebuffer, bufferforeachitem1);
+		framebuffer.f->print(&framebuffer);
+		/*framebuffer.f->for_each(&framebuffer, bufferforeachitem2);
+		framebuffer.f->print(&framebuffer);
+		Sleep(1000);
+		framebuffer.f->for_each(&framebuffer, bufferforeachitem1);
+		framebuffer.f->print(&framebuffer);*/
+	}
+	framebuffer.f->dispose(&framebuffer);
+}
+
 int wmain(int argc, wchar_t* argv[]) {
 	Console.write_line(L"=============================ConsoleSetupTest");
 	consolesetuptest();
@@ -330,6 +366,8 @@ int wmain(int argc, wchar_t* argv[]) {
 	vector2boxingtest();
 	Console.write_line(L"=============================objecttest");
 	objecttest();
+	Console.write_line(L"=============================framebuffertest");
+	framebuffertest();
 	//Console.write_line(L"=============================mathftest");
 	//mathftest();
 	//Console.write_line(L"=============================Pause");
