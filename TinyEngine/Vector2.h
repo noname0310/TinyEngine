@@ -74,7 +74,7 @@ struct static_Vector2 {
 	float (*const sqr_magnitude)(const Vector2* a);
 	Vector2 (*const min)(const Vector2* lhs, const Vector2* rhs);
 	Vector2 (*const max)(const Vector2* lhs, const Vector2* rhs);
-	Vector2 (*const smooth_damp)(const Vector2* current, const Vector2* target, Vector2* currentVelocity, float smooth_time, float max_speed, float delta_time);
+	Vector2 (*const smooth_damp)(const Vector2* current, const Vector2* target, Vector2* current_velocity, float smooth_time, float max_speed, float delta_time);
 	bool (*const line_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 	bool (*const line_segment_intersection)(const Vector2* p1, const Vector2* p2, const Vector2* p3, const Vector2* p4, Vector2* result);
 };

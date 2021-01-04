@@ -101,10 +101,22 @@ void vector2test() {
 	Console.write_line(vecstr);
 	free(vecstr);
 
-	Console.write_line(L"%f", 
-		get_static_Vector2_table()->left.f->get_x(
-			&(get_static_Vector2_table()->left)
-		));
+	const static_Vector2* static_Vector2 = get_static_Vector2_table();
+
+	Console.write_line(L"%f", static_Vector2->left.f->get_x(&(static_Vector2->left)));
+
+	const Vector2 current = Vector2_new(123.123f, 345.345f);
+	const Vector2 target = Vector2_new(234.23f, 322.2f);
+	Vector2 current_velocity = Vector2_new(0, 0);
+	float smooth_time = 1.222f;
+	float max_speed = 2.32211232f;
+	float delta_time = 0.0022f;
+	Vector2 smooth_damp = static_Vector2->smooth_damp(&current, &target, &current_velocity, smooth_time, max_speed, delta_time);
+	const wchar_t* smooth_dampstr = smooth_damp.f->to_string(&smooth_damp);
+	const wchar_t* current_velocitystr = current_velocity.f->to_string(&current_velocity);
+	Console.write_line(L"static_Vector2->smooth_damp: [%s] [%s]", smooth_dampstr, current_velocitystr);
+	free(current_velocitystr);
+	free(smooth_dampstr);
 }
 
 void vector2boxingtest() {

@@ -1,6 +1,9 @@
 #include "pch.h"
 #include "Mathf.h"
 
+#undef min
+#undef max
+
 static float sin (float f);
 static float cos (float f);
 static float tan (float f);
@@ -11,11 +14,11 @@ static float atan2 (float y, float x);
 static float sqrt (float f);
 static float abs_value (float f);
 static int abs_i32 (int f);
-static float min_value(float a, float b);
+static float min(float a, float b);
 static float min_args(int count, ...);
 static int min_i32(int a, int b);
 static int min_i32_args(int count, ...);
-static float max_value(float a, float b);
+static float max(float a, float b);
 static float max_args(int count, ...);
 static int max_i32(int a, int b);
 static int max_i32_args(int count, ...);
@@ -181,11 +184,11 @@ const _Mathf Mathf = {
 	.sqrt = sqrt,
 	.abs = abs_value,
 	.abs_i32 = abs_i32,
-	.min = min_value,
+	.min = min,
 	.min_args = min_args,
 	.min_i32 = min_i32,
 	.min_i32_args = min_i32_args,
-	.max = max_value,
+	.max = max,
 	.max_args = max_args,
 	.max_i32 = max_i32,
 	.max_i32_args = max_i32_args,
@@ -691,8 +694,8 @@ static int abs_i32(int f) {
 	return (f ^ s) - s;
 }
 
-static float min_value(float a, float b) {
-    return min(a, b);
+static float min(float a, float b) {
+    return a < b ? a : b;
 }
 
 static float min_args(int count, ...) {
@@ -710,7 +713,7 @@ static float min_args(int count, ...) {
 }
 
 static int min_i32(int a, int b) {
-    return min(a, b);
+	return a < b ? a : b;
 }
 
 static int min_i32_args(int count, ...) {
@@ -727,8 +730,8 @@ static int min_i32_args(int count, ...) {
     return min;
 }
 
-static float max_value(float a, float b) {
-    return max(a, b);
+static float max(float a, float b) {
+	return a > b ? a : b;
 }
 
 static float max_args(int count, ...) {
@@ -746,7 +749,7 @@ static float max_args(int count, ...) {
 }
 
 static int max_i32(int a, int b) {
-    return max(a, b);
+    return a > b ? a : b;
 }
 
 static int max_i32_args(int count, ...) {
@@ -1072,11 +1075,11 @@ static float gamma(float value, float absmax, float gamma) {
 }
 
 static bool approximately(float a, float b) {
-	return (double)abs_value(b - a) < (double)max_value(1E-06f * max_value(abs_value(a), abs_value(b)), Mathf.Epsilon * 8);
+	return (double)abs_value(b - a) < (double)max(1E-06f * max(abs_value(a), abs_value(b)), Mathf.Epsilon * 8);
 }
 
 static float smooth_damp(float current, float target, float* current_velocity, float smooth_time, float max_speed, float delta_time) {
-	smooth_time = max_value(0.0001f, smooth_time);
+	smooth_time = max(0.0001f, smooth_time);
 	float num1 = 2 / smooth_time;
 	float num2 = num1 * delta_time;
 	float num3 = (float)(1.0 / (1.0 + (double)num2 + 0.479999989271164 * (double)num2 * (double)num2 + 0.234999999403954 * (double)num2 * (double)num2 * (double)num2));
@@ -1129,8 +1132,8 @@ static float gamma_to_linear_space(float value) {
 }
 
 static float linear_to_gamma_space(float value) {
-	value = max_value(value, 0);
-	return max_value(1.055f * pow(value, 0.416666667f) - 0.055f, 0.f);
+	value = max(value, 0);
+	return max(1.055f * pow(value, 0.416666667f) - 0.055f, 0.f);
 }
 
 static bool is_power_of_two(int value) {
