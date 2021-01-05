@@ -339,7 +339,7 @@ void buffer_foreach_item2(Point index, wchar_t* item) {
 static int seed = 0;
 
 void buffer_foreach_item3(Point index, wchar_t* item) {
-	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x * 4, index.y * 4, 0.02, 2, seed) * 9) % 10];
+	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y, 0.03, 10, seed) * 9) % 10];
 }
 
 void frame_buffer_test() {
