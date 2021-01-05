@@ -225,8 +225,8 @@ static void font_normalize() {
 	fontInfo.FontFamily = FF_DONTCARE;
 	fontInfo.FontWeight = FW_NORMAL;
 	const wchar_t myFont[] = L"GulimChe";
-	fontInfo.dwFontSize.X = 2;
-	fontInfo.dwFontSize.Y = 2;
+	fontInfo.dwFontSize.X = 20/5;
+	fontInfo.dwFontSize.Y = 20/5;
 	memcpy(fontInfo.FaceName, myFont, sizeof(myFont));
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, &fontInfo);
 }

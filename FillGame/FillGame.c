@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int width = 800;
-const int height = 450;
+const int width = 80 * 5;
+const int height = 45 * 5;
 
 void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -336,8 +336,10 @@ void buffer_foreach_item2(Point index, wchar_t* item) {
 		*item = L' ';
 }
 
+static int seed = 0;
+
 void buffer_foreach_item3(Point index, wchar_t* item) {
-	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y, 0.03, 2) * 9) % 10];
+	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x * 4, index.y * 4, 0.02, 2, seed) * 9) % 10];
 }
 
 void frame_buffer_test() {
@@ -356,15 +358,16 @@ void frame_buffer_test() {
 void graphics_test() {
 	Console.set_cursor_vis(CursorStat_hide);
 	Graphics graphics = Graphics_new(width, height);
-	/*for (size_t i = 0; i < 5000; i++)
+	for (size_t i = 0; i < 5000; i++)
 	{
-		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
+		/*graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
 		graphics.f->print((FrameBuffer*)&graphics);
 		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item);
+		graphics.f->print((FrameBuffer*)&graphics);*/
+		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
 		graphics.f->print((FrameBuffer*)&graphics);
-	}*/
-	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
-	graphics.f->print((FrameBuffer*)&graphics);
+		seed += 1;
+	}
 	graphics.f->dispose((FrameBuffer*)&graphics);
 }
 

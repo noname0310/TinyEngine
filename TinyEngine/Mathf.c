@@ -56,15 +56,15 @@ static float linear_to_gamma_space (float value);
 static bool is_power_of_two (int value);
 static int next_power_of_two (int value);
 static float delta_angle (float current, float target);
-static float noise (float x, float y);
-static float perlin_noise(float x, float y, float freq, int depth);
+static float noise (float x, float y, int seed);
+static float perlin_noise(float x, float y, float freq, int depth, int seed);
 static unsigned short float_to_half (float value);
 static float half_to_float (unsigned short value);
 
 static float frexpf(float, int*);
 static float ldexpf(float, int);
 static float polevlf(float xx, float* coef, int N);
-static int noise2(int x, int y);
+static int noise2(int x, int y, int seed);
 static float lin_inter(float x, float y, float s);
 static float smooth_inter(float x, float y, float s);
 
@@ -108,8 +108,6 @@ const static float L10EA = 4.3359375E-1f;
 const static float L10EB = 7.00731903251827651129E-4f;
 
 const static float MAXL10 = 38.230809449325611792f;
-
-const static int SEED = 0;
 
 const static int hash[] = { 208,34,231,213,32,248,233,56,161,78,24,140,71,48,140,254,245,255,247,247,40,
 					 185,248,251,245,28,124,204,204,76,36,1,107,28,234,163,202,224,245,128,167,204,
@@ -1160,8 +1158,8 @@ static float delta_angle(float current, float target) {
 }
 
 //https://gist.github.com/nowl/828013
-static int noise2(int x, int y) {
-	int tmp = hash[(y + SEED) % 256];
+static int noise2(int x, int y, int seed) {
+	int tmp = hash[(y + seed) % 256];
 	return hash[(tmp + x) % 256];
 }
 
@@ -1174,22 +1172,22 @@ static float smooth_inter(float x, float y, float s) {
 }
 
 #pragma warning(disable:4244)
-static float noise(float x, float y) {
+static float noise(float x, float y, int seed) {
 	int x_int = x;
 	int y_int = y;
 	float x_frac = x - x_int;
 	float y_frac = y - y_int;
-	int s = noise2(x_int, y_int);
-	int t = noise2(x_int + 1, y_int);
-	int u = noise2(x_int, y_int + 1);
-	int v = noise2(x_int + 1, y_int + 1);
+	int s = noise2(x_int, y_int, seed);
+	int t = noise2(x_int + 1, y_int, seed);
+	int u = noise2(x_int, y_int + 1, seed);
+	int v = noise2(x_int + 1, y_int + 1, seed);
 	float low = smooth_inter(s, t, x_frac);
 	float high = smooth_inter(u, v, x_frac);
 	return smooth_inter(low, high, y_frac);
 }
 #pragma warning(default:4244)
 
-static float perlin_noise(float x, float y, float freq, int depth)
+static float perlin_noise(float x, float y, float freq, int depth, int seed)
 {
 	float xa = x * freq;
 	float ya = y * freq;
@@ -1201,7 +1199,7 @@ static float perlin_noise(float x, float y, float freq, int depth)
 	for (i = 0; i < depth; i++)
 	{
 		div += 256 * amp;
-		fin += noise(xa, ya) * amp;
+		fin += noise(xa, ya, seed) * amp;
 		amp /= 2;
 		xa *= 2;
 		ya *= 2;
