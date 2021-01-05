@@ -36,8 +36,8 @@ struct Object {
 	const impl_Object* const f;
 
 #define Object_Members \
-	void* iter; \
-	private_Object private_Object;
+	private_Object private_Object; \
+	void* iter;
 
 	Object_Members
 };

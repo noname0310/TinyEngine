@@ -11,13 +11,7 @@ const impl_GameObject* get_impl_GameObject_table() {
 	};
 	
 	if (*(void**)&impl_GameObject_table == NULL) {
-		memcpy_s(
-			&impl_GameObject_table,
-			sizeof(impl_Object),
-			get_impl_Object_table(),
-			sizeof(impl_Object)
-		);
-
+		OOPTool.set_const_value(&impl_GameObject_table, get_impl_Object_table(), sizeof(impl_Object));
 		OOPTool.set_const(&impl_GameObject_table.get_type, get_type_GameObject);
 	}
 
@@ -36,12 +30,7 @@ GameObject GameObject_new(void* iter, const wchar_t name[], int instance_id) {
 		//.p1 = p_instance,
 	};
 
-	memcpy_s(
-		(size_t*)(&instance) + 1,
-		sizeof(Object) - sizeof(size_t),
-		(size_t*)(&parent_instance) + 1,
-		sizeof(Object) - sizeof(size_t)
-	);
+	OOPTool.set_const_value((size_t*)(&instance) + 1, (size_t*)(&parent_instance) + 1, sizeof(Object) - sizeof(size_t));
 
 	return instance;
 }

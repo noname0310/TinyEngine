@@ -56,7 +56,8 @@ static float linear_to_gamma_space (float value);
 static bool is_power_of_two (int value);
 static int next_power_of_two (int value);
 static float delta_angle (float current, float target);
-static float perlin_noise (float x, float y);
+static float noise (float x, float y);
+static float perlin_noise(float x, float y, float freq, int depth);
 static unsigned short float_to_half (float value);
 static float half_to_float (unsigned short value);
 
@@ -226,6 +227,7 @@ const _Mathf Mathf = {
 	.is_power_of_two = is_power_of_two,
 	.next_power_of_two = next_power_of_two,
 	.delta_angle = delta_angle,
+	.noise = noise,
 	.perlin_noise = perlin_noise,
 	.float_to_half = float_to_half,
 	.half_to_float = half_to_float
@@ -1172,7 +1174,7 @@ static float smooth_inter(float x, float y, float s) {
 }
 
 #pragma warning(disable:4244)
-static float perlin_noise(float x, float y) {
+static float noise(float x, float y) {
 	int x_int = x;
 	int y_int = y;
 	float x_frac = x - x_int;
@@ -1186,6 +1188,27 @@ static float perlin_noise(float x, float y) {
 	return smooth_inter(low, high, y_frac);
 }
 #pragma warning(default:4244)
+
+static float perlin_noise(float x, float y, float freq, int depth)
+{
+	float xa = x * freq;
+	float ya = y * freq;
+	float amp = 1.0;
+	float fin = 0;
+	float div = 0.0;
+
+	int i;
+	for (i = 0; i < depth; i++)
+	{
+		div += 256 * amp;
+		fin += noise(xa, ya) * amp;
+		amp /= 2;
+		xa *= 2;
+		ya *= 2;
+	}
+
+	return fin / div;
+}
 
 static unsigned short float_to_half(float value) {
 	union {

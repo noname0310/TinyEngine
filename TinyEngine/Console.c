@@ -7,8 +7,10 @@ def_Option(Keys, Keys)
 
 static void write_line(const wchar_t str[], ...);
 static void write(const wchar_t str[], ...);
+static void write_single(const wchar_t ch);
 static void write_line_c(const wchar_t str[], ConsoleColor color, ...);
 static void write_c(const wchar_t str[], ConsoleColor color, ...);
+static void write_single_c(const wchar_t ch, ConsoleColor color);
 
 static bool has_input(void);
 static Option_Keys read_key(void);
@@ -29,8 +31,10 @@ static void pause(void);
 const _Console Console = {
 	.write_line = write_line,
 	.write = write,
+	.write_single = write_single,
 	.write_line_c = write_line_c,
 	.write_c = write_c,
+	.write_single_c = write_single_c,
 
 	.has_input = has_input,
 	.read_key = read_key,
@@ -66,6 +70,10 @@ static void write(const wchar_t str[], ...) {
 	va_end(args);
 }
 
+static void write_single(const wchar_t ch) {
+	putwchar(ch);
+}
+
 static void write_line_c(const wchar_t str[], ConsoleColor color, ...) {
 	assert(str != NULL);
 	set_color(color);
@@ -84,6 +92,12 @@ static void write_c(const wchar_t str[], ConsoleColor color, ...) {
 	va_start(args, str);
 	vwprintf(str, args);
 	va_end(args);
+	set_color(ConsoleColor_gray);
+}
+
+static void write_single_c(const wchar_t ch, ConsoleColor color) {
+	set_color(color);
+	putwchar(ch);
 	set_color(ConsoleColor_gray);
 }
 
@@ -211,8 +225,8 @@ static void font_normalize() {
 	fontInfo.FontFamily = FF_DONTCARE;
 	fontInfo.FontWeight = FW_NORMAL;
 	const wchar_t myFont[] = L"GulimChe";
-	fontInfo.dwFontSize.X = 10;
-	fontInfo.dwFontSize.Y = 20;
+	fontInfo.dwFontSize.X = 2;
+	fontInfo.dwFontSize.Y = 2;
 	memcpy(fontInfo.FaceName, myFont, sizeof(myFont));
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, &fontInfo);
 }

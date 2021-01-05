@@ -7,8 +7,8 @@
 #include "Object.h"
 #include "OOPTool.h"
 
-struct private_GameObject;
-typedef struct private_GameObject private_GameObject;
+//struct private_GameObject;
+//typedef struct private_GameObject private_GameObject;
 
 struct impl_GameObject;
 typedef struct impl_GameObject impl_GameObject;

@@ -32,8 +32,10 @@ typedef enum CodePage CodePage;
 struct _Console {
 	void (*const write_line)(const wchar_t str[], ...);
 	void (*const write)(const wchar_t str[], ...);
+	void (*const write_single)(const wchar_t ch);
 	void (*const write_line_c)(const wchar_t str[], ConsoleColor color, ...);
 	void (*const write_c)(const wchar_t str[], ConsoleColor color, ...);
+	void (*const write_single_c)(const wchar_t ch, ConsoleColor color);
 	bool (*const has_input)();
 	Option_Keys (*const read_key)();
 	const wchar_t* (*const read_line)();

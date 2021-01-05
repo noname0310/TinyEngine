@@ -31,8 +31,8 @@ Object Object_new(void* iter, const wchar_t name[], int instance_id) {
 
 	Object instance = {
 		.f = get_impl_Object_table(),
-		.iter = iter,
-		.private_Object = p_instance
+		.private_Object = p_instance,
+		.iter = iter
 	};
 
 	return instance;

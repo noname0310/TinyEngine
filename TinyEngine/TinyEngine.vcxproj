@@ -163,6 +163,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="GameManager.h" />
     <ClInclude Include="GameObject.h" />
+    <ClInclude Include="Graphics.h" />
     <ClInclude Include="Interface.h" />
     <ClInclude Include="List.h" />
     <ClInclude Include="Loop.h" />
@@ -187,6 +188,7 @@
     <ClCompile Include="FrameBuffer.c" />
     <ClCompile Include="GameManager.c" />
     <ClCompile Include="GameObject.c" />
+    <ClCompile Include="Graphics.c" />
     <ClCompile Include="Interface.c" />
     <ClCompile Include="Mathf.c" />
     <ClCompile Include="Object.c" />

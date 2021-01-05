@@ -9,8 +9,12 @@
 #include "../TinyEngine/GameObject.h"
 #include "../TinyEngine/Mathf.h"
 #include "../TinyEngine/FrameBuffer.h"
+#include "../TinyEngine/Graphics.h"
 #include <stdlib.h>
 #include <time.h>
+
+const int width = 800;
+const int height = 450;
 
 void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -101,7 +105,7 @@ void vector2_test() {
 	Vector2 vec2 = Vector2_new(1, 10);
 	const wchar_t* vecstr = vec2.f->to_string(&vec2);
 	Console.write_line(vecstr);
-	free(vecstr);
+	free((void*)vecstr);
 
 	const static_Vector2* static_Vector2 = get_static_Vector2_table();
 
@@ -117,8 +121,8 @@ void vector2_test() {
 	const wchar_t* smooth_dampstr = smooth_damp.f->to_string(&smooth_damp);
 	const wchar_t* current_velocitystr = current_velocity.f->to_string(&current_velocity);
 	Console.write_line(L"static_Vector2->smooth_damp: [%s] [%s]", smooth_dampstr, current_velocitystr);
-	free(current_velocitystr);
-	free(smooth_dampstr);
+	free((void*)current_velocitystr);
+	free((void*)smooth_dampstr);
 }
 
 void vector2_boxing_test() {
@@ -163,7 +167,7 @@ void go_test() {
 
 void console_setup_test() {
 	Console.default_init();
-	Console.set_size(160, 45);
+	Console.set_size(width, height);
 }
 
 void font_test() {
@@ -317,6 +321,8 @@ void mathf_test() {
 void buffer_foreach_item(Point index, wchar_t* item) {
 	if (rand() % 100 == 0)
 		*item = L'*';
+	else
+		*item = L' ';
 }
 
 void buffer_foreach_item1(Point index, wchar_t* item) {
@@ -324,29 +330,49 @@ void buffer_foreach_item1(Point index, wchar_t* item) {
 }
 
 void buffer_foreach_item2(Point index, wchar_t* item) {
-	if (!(index.y % 5 && index.x % 10))
+	if (!(index.y % 20 && index.x % 20))
 		*item = L'*';
+	else
+		*item = L' ';
 }
 
-int frame_buffer_test() {
+void buffer_foreach_item3(Point index, wchar_t* item) {
+	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y, 0.03, 2) * 9) % 10];
+}
+
+void frame_buffer_test() {
 	Console.set_cursor_vis(CursorStat_hide);
-	FrameBuffer framebuffer = FrameBuffer_new(160, 45);
-	for (size_t i = 0; i < 100000; i++)
+	FrameBuffer framebuffer = FrameBuffer_new(width, height);
+	for (size_t i = 0; i < 5000; i++)
 	{
 		framebuffer.f->for_each(&framebuffer, buffer_foreach_item2);
 		framebuffer.f->print(&framebuffer);
-		Sleep(1000);
-		framebuffer.f->for_each(&framebuffer, buffer_foreach_item1);
+		framebuffer.f->for_each(&framebuffer, buffer_foreach_item);
 		framebuffer.f->print(&framebuffer);
 	}
 	framebuffer.f->dispose(&framebuffer);
 }
 
+void graphics_test() {
+	Console.set_cursor_vis(CursorStat_hide);
+	Graphics graphics = Graphics_new(width, height);
+	/*for (size_t i = 0; i < 5000; i++)
+	{
+		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
+		graphics.f->print((FrameBuffer*)&graphics);
+		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item);
+		graphics.f->print((FrameBuffer*)&graphics);
+	}*/
+	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
+	graphics.f->print((FrameBuffer*)&graphics);
+	graphics.f->dispose((FrameBuffer*)&graphics);
+}
+
 int wmain(int argc, wchar_t* argv[]) {
-	Console.write_line(L"=============================ConsoleSetupTest");
-	console_setup_test();
 	Console.write_line(L"=============================FontTest");
 	font_test();
+	Console.write_line(L"=============================ConsoleSetupTest");
+	console_setup_test();
 	//Console.write_line(L"=============================IOtest");
 	//io_test();
 	Console.write_line(L"=============================gotest");
@@ -361,8 +387,10 @@ int wmain(int argc, wchar_t* argv[]) {
 	vector2_boxing_test();
 	Console.write_line(L"=============================objecttest");
 	object_test();
-	Console.write_line(L"=============================framebuffertest");
-	frame_buffer_test();
+	//Console.write_line(L"=============================framebuffertest");
+	//frame_buffer_test();
+	Console.write_line(L"=============================graphics_test");
+	graphics_test();
 	//Console.write_line(L"=============================mathf_test");
 	//mathf_test();
 	//Console.write_line(L"=============================Pause");

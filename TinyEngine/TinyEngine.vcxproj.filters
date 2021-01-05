@@ -54,9 +54,6 @@
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Console.h">
-      <Filter>Header Files\Helper</Filter>
-    </ClInclude>
     <ClInclude Include="Option.h">
       <Filter>Header Files\Helper</Filter>
     </ClInclude>
@@ -114,13 +111,16 @@
     <ClInclude Include="Point.h">
       <Filter>Header Files\Render</Filter>
     </ClInclude>
+    <ClInclude Include="Graphics.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Console.h">
+      <Filter>Header Files\Render</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.c">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Console.c">
-      <Filter>Source Files\Helper</Filter>
     </ClCompile>
     <ClCompile Include="GameManager.c">
       <Filter>Source Files\Manager</Filter>
@@ -162,6 +162,12 @@
       <Filter>Source Files\Render</Filter>
     </ClCompile>
     <ClCompile Include="Point.c">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Graphics.c">
+      <Filter>Source Files\Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Console.c">
       <Filter>Source Files\Render</Filter>
     </ClCompile>
   </ItemGroup>

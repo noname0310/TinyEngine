@@ -66,7 +66,8 @@ struct _Mathf {
 	bool (*const is_power_of_two)(int value);
 	int (*const next_power_of_two)(int value);
 	float (*const delta_angle)(float current, float target);
-	float (*const perlin_noise)(float x, float y);
+	float (*const noise)(float x, float y);
+	float (*const perlin_noise)(float x, float y, float freq, int depth);
 	unsigned short (*const float_to_half)(float value);
 	float (*const half_to_float)(unsigned short value);
 };
