@@ -4,6 +4,9 @@
 static void change_scale(FrameBuffer* self, int width, int height);
 static int get_height(const FrameBuffer* self);
 static int get_width(const FrameBuffer* self);
+static wchar_t* get_pixel(const FrameBuffer* self, int x, int y);
+static void set_pixel(const FrameBuffer* self, int x, int y, wchar_t ch);
+static void clear(const FrameBuffer* self);
 static void for_each(const FrameBuffer* self, void (*fn)(Point index, wchar_t* item));
 static void for_each_c(const FrameBuffer* self, void (*fn)(Point index, wchar_t item));
 static void print(FrameBuffer* self);
@@ -15,6 +18,9 @@ const impl_FrameBuffer* get_impl_FrameBuffer_table() {
 		.change_scale = change_scale,
 		.get_height = get_height,
 		.get_width = get_width,
+		.get_pixel = get_pixel,
+		.set_pixel = set_pixel,
+		.clear = clear,
 		.for_each = for_each,
 		.for_each_c = for_each_c,
 		.print = print,
@@ -57,6 +63,7 @@ FrameBuffer FrameBuffer_new(int width, int height) {
 }
 
 static void change_scale(FrameBuffer* self, int width, int height) {
+	assert(self != NULL);
 	if (width <= 0 || height <= 0)
 		assert(!"width and height cannot be lower than 1");
 
@@ -83,16 +90,46 @@ static void change_scale(FrameBuffer* self, int width, int height) {
 }
 
 static int get_height(const FrameBuffer* self) {
+	assert(self != NULL);
 	return self->private_FrameBuffer.height;
 }
 
 static int get_width(const FrameBuffer* self) {
+	assert(self != NULL);
 	return self->private_FrameBuffer.width;
 }
 
-static void for_each(const FrameBuffer* self, void (*fn)(Point index, wchar_t* item)) {
+static wchar_t* get_pixel(const FrameBuffer* self, int x, int y) {
+	assert(self != NULL);
+	if (x < 0 || self->private_FrameBuffer.width <= x || y < 0 || self->private_FrameBuffer.height <= y)
+		return NULL;
+	return &self->buffer[x + y * self->private_FrameBuffer.width];
+}
+
+static void set_pixel(const FrameBuffer* self, int x, int y, wchar_t ch) {
+	assert(self != NULL);
+	if (x < 0 || self->private_FrameBuffer.width <= x || y < 0 || self->private_FrameBuffer.height <= y)
+		return;
+	self->buffer[x + y * self->private_FrameBuffer.width] = ch;
+}
+
+static void clear(const FrameBuffer* self) {
+	assert(self != NULL);
 	int width = self->private_FrameBuffer.width;
 	int height = self->private_FrameBuffer.height;
+	size_t buffer_count = (size_t)width * (size_t)height;
+	wchar_t* buffer = self->buffer;
+
+	for (size_t i = 0; i < buffer_count; i++) {
+		buffer[i] = L' ';
+	}
+}
+
+static void for_each(const FrameBuffer* self, void (*fn)(Point index, wchar_t* item)) {
+	assert(self != NULL);
+	int width = self->private_FrameBuffer.width;
+	int height = self->private_FrameBuffer.height;
+
 	wchar_t* buffer = self->buffer;
 	
 	int index = 0;
@@ -105,6 +142,8 @@ static void for_each(const FrameBuffer* self, void (*fn)(Point index, wchar_t* i
 }
 
 static void for_each_c(const FrameBuffer* self, void (*fn)(Point index, wchar_t item)) {
+	assert(self != NULL);
+	assert(fn != NULL);
 	int width = self->private_FrameBuffer.width;
 	int height = self->private_FrameBuffer.height;
 	wchar_t* buffer = self->buffer;
@@ -119,6 +158,7 @@ static void for_each_c(const FrameBuffer* self, void (*fn)(Point index, wchar_t 
 }
 
 static void print(FrameBuffer* self) {
+	assert(self != NULL);
 	int width = self->private_FrameBuffer.width;
 	int height = self->private_FrameBuffer.height;
 	wchar_t* buffer = self->buffer;
@@ -139,6 +179,10 @@ static void print(FrameBuffer* self) {
 				Console.set_pos((short)j, (short)i);
 			lastj = j;
 			Console.write_single(buffer[index]);
+			
+			if (127 < prev_buffer[index] && prev_buffer[index + 1] <= 127)
+				Console.write_single(buffer[index]);
+
 			prev_buffer[index] = buffer[index];
 			index += 1;
 		}
@@ -146,9 +190,11 @@ static void print(FrameBuffer* self) {
 }
 
 static void refresh(const FrameBuffer* self) {
+	assert(self != NULL);
 	memset(self->private_FrameBuffer.prev_buffer, 0, (size_t)self->private_FrameBuffer.width * (size_t)self->private_FrameBuffer.height * sizeof(wchar_t));
 }
 
 static void dispose(FrameBuffer* self) {
+	assert(self != NULL);
 	free(self->buffer);
 }

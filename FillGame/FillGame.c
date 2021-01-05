@@ -325,10 +325,6 @@ void buffer_foreach_item(Point index, wchar_t* item) {
 		*item = L' ';
 }
 
-void buffer_foreach_item1(Point index, wchar_t* item) {
-	*item = L' ';
-}
-
 void buffer_foreach_item2(Point index, wchar_t* item) {
 	if (!(index.y % 20 && index.x % 20))
 		*item = L'*';
@@ -358,16 +354,98 @@ void frame_buffer_test() {
 void graphics_test() {
 	Console.set_cursor_vis(CursorStat_hide);
 	Graphics graphics = Graphics_new(width, height);
-	for (size_t i = 0; i < 5000; i++)
-	{
-		/*graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
+	//for (size_t i = 0; i < 5000; i++) {
+	//	/*graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
+	//	graphics.f->print((FrameBuffer*)&graphics);
+	//	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item);
+	//	graphics.f->print((FrameBuffer*)&graphics);*/
+	//	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
+	//	graphics.f->print((FrameBuffer*)&graphics);
+	//	y += 1;
+	//}
+	graphics.f->draw_single(
+		&graphics, L'%', 
+		Point_new(
+			graphics.f->get_width((FrameBuffer*)&graphics) / 2,
+			graphics.f->get_height((FrameBuffer*)&graphics) / 2
+		),
+		10
+	);
+	graphics.f->print((FrameBuffer*)&graphics);
+
+	graphics.f->clear((const FrameBuffer*)&graphics);
+	graphics.f->print((FrameBuffer*)&graphics);
+
+	for (int i = 1; i < 5000000; i++) {
+		graphics.f->clear((const FrameBuffer*)&graphics);
+		graphics.f->draw_circle(
+			&graphics, L'@',
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2
+			),
+			40 + ((int)(Mathf.cos(i * Mathf.PI / 180) * 10) + 11) / 6
+		);
+		graphics.f->draw_circle(
+			&graphics, L'%',
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2
+			),
+			20 + ((int)(Mathf.cos(i * Mathf.PI / 180) * 10) + 11) / 6
+		);
+		graphics.f->draw_string(
+			&graphics,
+			L" OO     OOO   O  O   O",
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2 - 1
+			)
+		);
+		graphics.f->draw_string(
+			&graphics,
+			L"O  O   O      O  O   O",
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2
+			)
+		);
+		graphics.f->draw_string(
+			&graphics,
+			L"O  O    OO    O  O   O",
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 1
+			)
+		);
+		graphics.f->draw_string(
+			&graphics,
+			L"O  O      O   O  O    ",
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 2
+			)
+		);
+		graphics.f->draw_string(
+			&graphics,
+			L" OO    OOO     OO O  O",
+			Point_new(
+				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
+				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 3
+			)
+		);
 		graphics.f->print((FrameBuffer*)&graphics);
-		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item);
-		graphics.f->print((FrameBuffer*)&graphics);*/
-		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
-		graphics.f->print((FrameBuffer*)&graphics);
-		y += 1;
 	}
+
+	graphics.f->clear((const FrameBuffer*)&graphics);
+	graphics.f->draw_line(
+		&graphics, L'%',
+		Point_new(10, 55),
+		Point_new(10, 1),
+		1
+	);
+	graphics.f->print((FrameBuffer*)&graphics);
+
 	graphics.f->dispose((FrameBuffer*)&graphics);
 }
 
@@ -376,6 +454,7 @@ int wmain(int argc, wchar_t* argv[]) {
 	console_setup_test();
 	Console.write_line(L"=============================FontTest");
 	font_test();
+	console_setup_test();
 	//Console.write_line(L"=============================IOtest");
 	//io_test();
 	Console.write_line(L"=============================gotest");
