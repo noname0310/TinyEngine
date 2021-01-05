@@ -12,16 +12,16 @@
 #include <stdlib.h>
 #include <time.h>
 
-void printval(const Object* self) {
+void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
 }
 
-void disposeObject(Object* item) {
+void dispose_object(Object* item) {
 	item->f->destroy(item);
 	free(item);
 }
 
-void listtest() {
+void list_test() {
 	List_Object test = List_Object_new();
 	Object O1 = Object_new(NULL, L"O1", 1);
 	Object O2 = Object_new(NULL, L"O2", 2);
@@ -54,7 +54,7 @@ void listtest() {
 	test.f->insert(&test, iter, O4_boxed);
 	test.f->pop_front(&test, NULL);
 	test.f->pop_back(&test, NULL);
-	test.f->for_each(&test, printval);
+	test.f->for_each(&test, print_val);
 
 	O1_boxed->f->destroy(O1_boxed);
 	free(O1_boxed);
@@ -76,28 +76,28 @@ void listtest() {
 	free(O9_boxed);
 	O10_boxed->f->destroy(O10_boxed);
 	free(O10_boxed);
-	//test.f->dispose(&test, disposeObject);
+	//test.f->dispose(&test, dispose_object);
 }
 
 decl_List(int, i32)
 def_List(int, i32)
 
-void printi32val(const int self) {
+void print_i32_val(const int self) {
 	Console.write_line(L"%d", self);
 }
 
-void listtest2() {
+void list_test_2() {
 	List_i32 Foo = List_i32_new();
 	Foo.f->push_back(&Foo, 1);
 	Foo.f->push_back(&Foo, 2);
 	Foo.f->push_back(&Foo, 3);
 	Foo.f->push_back(&Foo, 4);
 	Foo.f->push_front(&Foo, 4);
-	Foo.f->for_each(&Foo, printi32val);
+	Foo.f->for_each(&Foo, print_i32_val);
 	Foo.f->dispose(&Foo, NULL);
 }
 
-void vector2test() {
+void vector2_test() {
 	Vector2 vec2 = Vector2_new(1, 10);
 	const wchar_t* vecstr = vec2.f->to_string(&vec2);
 	Console.write_line(vecstr);
@@ -121,7 +121,7 @@ void vector2test() {
 	free(smooth_dampstr);
 }
 
-void vector2boxingtest() {
+void vector2_boxing_test() {
 	Vector2 vector2 = Vector2_new(1, 2);
 	int a = 10;
 	Console.write_line(L"%f", vector2.f->get_x(&vector2));
@@ -132,7 +132,7 @@ void vector2boxingtest() {
 	Console.write_line(L"%f", vector2_boxed->f->get_y(vector2_boxed));
 }
 
-void objecttest() {
+void object_test() {
 	Object obj = Object_new(NULL, L"sans sprite", 1000000000);
 	Console.write_line(L"%s", obj.private_Object.name);
 	box(Object, obj)
@@ -141,7 +141,7 @@ void objecttest() {
 	Console.write_line(L"%d", obj_boxed->f->get_type());
 }
 
-void iotest() {
+void io_test() {
 	const wchar_t* a = Console.read_line();
 	Console.write_line(a);
 	free((wchar_t*)a);
@@ -152,7 +152,7 @@ void iotest() {
 	Console.write_line_c(L"한글출력", ConsoleColor_white);
 }
 
-void gotest() {
+void go_test() {
 	GameObject go = GameObject_new(NULL, L"샌즈", 3);
 	//Object o = *(Object*)&go;
 
@@ -161,18 +161,18 @@ void gotest() {
 	go.f->destroy((Object*)&go);
 }
 
-void consolesetuptest() {
+void console_setup_test() {
 	Console.default_init();
 	Console.set_size(160, 45);
 }
 
-void fonttest() {
+void font_test() {
 	Console.write_line(L"a");
 	Console.font_normalize();
 	Console.write_line(L"a");
 }
 
-void mathftest() {
+void mathf_test() {
 	/*Console.write_line(L"Mathf.PI: %f", Mathf.PI);
 	Console.write_line(L"Mathf.Infinity: %f", Mathf.Infinity);
 	Console.write_line(L"Mathf.NegativeInfinity: %f", Mathf.NegativeInfinity);
@@ -314,29 +314,29 @@ void mathftest() {
 	Console.write_line(L"%d", Mathf.ceil_to_int(-10.7f));
 }
 
-void bufferforeachitem(Point index, wchar_t* item) {
+void buffer_foreach_item(Point index, wchar_t* item) {
 	if (rand() % 100 == 0)
 		*item = L'*';
 }
 
-void bufferforeachitem1(Point index, wchar_t* item) {
+void buffer_foreach_item1(Point index, wchar_t* item) {
 	*item = L' ';
 }
 
-void bufferforeachitem2(Point index, wchar_t* item) {
+void buffer_foreach_item2(Point index, wchar_t* item) {
 	if (!(index.y % 5 && index.x % 10))
 		*item = L'*';
 }
 
-int framebuffertest() {
+int frame_buffer_test() {
 	Console.set_cursor_vis(CursorStat_hide);
 	FrameBuffer framebuffer = FrameBuffer_new(160, 45);
 	for (size_t i = 0; i < 100000; i++)
 	{
-		framebuffer.f->for_each(&framebuffer, bufferforeachitem2);
+		framebuffer.f->for_each(&framebuffer, buffer_foreach_item2);
 		framebuffer.f->print(&framebuffer);
 		Sleep(1000);
-		framebuffer.f->for_each(&framebuffer, bufferforeachitem1);
+		framebuffer.f->for_each(&framebuffer, buffer_foreach_item1);
 		framebuffer.f->print(&framebuffer);
 	}
 	framebuffer.f->dispose(&framebuffer);
@@ -344,27 +344,27 @@ int framebuffertest() {
 
 int wmain(int argc, wchar_t* argv[]) {
 	Console.write_line(L"=============================ConsoleSetupTest");
-	consolesetuptest();
+	console_setup_test();
 	Console.write_line(L"=============================FontTest");
-	fonttest();
+	font_test();
 	//Console.write_line(L"=============================IOtest");
-	//iotest();
+	//io_test();
 	Console.write_line(L"=============================gotest");
-	gotest();
+	go_test();
 	Console.write_line(L"=============================listtest");
-	listtest();
+	list_test();
 	Console.write_line(L"=============================listtest2");
-	listtest2();
+	list_test_2();
 	Console.write_line(L"=============================vector2test");
-	vector2test();
+	vector2_test();
 	Console.write_line(L"=============================vector2boxingtest");
-	vector2boxingtest();
+	vector2_boxing_test();
 	Console.write_line(L"=============================objecttest");
-	objecttest();
+	object_test();
 	Console.write_line(L"=============================framebuffertest");
-	framebuffertest();
-	//Console.write_line(L"=============================mathftest");
-	//mathftest();
+	frame_buffer_test();
+	//Console.write_line(L"=============================mathf_test");
+	//mathf_test();
 	//Console.write_line(L"=============================Pause");
 	//Console.pause();
 	return 0;
