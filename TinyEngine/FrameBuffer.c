@@ -48,7 +48,6 @@ FrameBuffer FrameBuffer_new(int width, int height) {
 
 	wchar_t* buffer = (wchar_t*)malloc(buffer_size);
 	assert(buffer != NULL || !"malloc failed");
-	memset(buffer, ' ', buffer_size);
 	assert(4 <= buffer_size);
 	for (size_t i = 0; i < buffer_count; i++)
 		buffer[i] = L' ';
