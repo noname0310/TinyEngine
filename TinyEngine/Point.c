@@ -34,8 +34,8 @@ Point Point_new(int x, int y) {
 static void offset(Point* self, Point* point) {
 	assert(self != NULL);
 	assert(point != NULL);
-	self->x + point->x;
-	self->y + point->y;
+	self->x += point->x;
+	self->y += point->y;
 }
 
 static const wchar_t* to_string(const Point* self){

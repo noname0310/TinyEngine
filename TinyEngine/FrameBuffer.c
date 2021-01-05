@@ -76,7 +76,7 @@ static void change_scale(FrameBuffer* self, int width, int height) {
 
 		wchar_t* buffer = self->buffer;
 		assert(4 <= sq_size);
-		for (size_t i = 0; i < sq; i++)
+		for (int i = 0; i < sq; i++)
 			buffer[i] = L' ';
 
 		wchar_t* new_prev_buffer = realloc(self->private_FrameBuffer.prev_buffer, sq * sizeof(wchar_t));
@@ -133,8 +133,8 @@ static void for_each(const FrameBuffer* self, void (*fn)(Point index, wchar_t* i
 	wchar_t* buffer = self->buffer;
 	
 	int index = 0;
-	for (size_t i = 0; i < height; i++) {
-		for (size_t j = 0; j < width; j++) {
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
 			fn(Point_new((int)j, (int)i), &buffer[index]);
 			index += 1;
 		}
@@ -149,8 +149,8 @@ static void for_each_c(const FrameBuffer* self, void (*fn)(Point index, wchar_t 
 	wchar_t* buffer = self->buffer;
 
 	int index = 0;
-	for (size_t i = 0; i < height; i++) {
-		for (size_t j = 0; j < width; j++) {
+	for (int i = 0; i < height; i++) {
+		for (int j = 0; j < width; j++) {
 			fn(Point_new((int)j, (int)i), buffer[index]);
 			index += 1;
 		}
@@ -166,10 +166,10 @@ static void print(FrameBuffer* self) {
 
 	int index = 0;
 
-	for (size_t i = 0; i < height; i++) {
-		size_t lastj = 0;
+	for (int i = 0; i < height; i++) {
+		int lastj = 0;
 
-		for (size_t j = 0; j < width; j++) {
+		for (int j = 0; j < width; j++) {
 			if (buffer[index] == prev_buffer[index]) {
 				index += 1;
 				continue;
