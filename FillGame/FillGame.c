@@ -335,7 +335,7 @@ void buffer_foreach_item2(Point index, wchar_t* item) {
 static float y = 0;
 
 void buffer_foreach_item3(Point index, wchar_t* item) {
-	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y + y, 0.03, 10, 0) * 9) % 10];
+	*item = L"    !*#$@"[(int)(Mathf.perlin_noise((float)index.x, index.y + y, 0.03f, 10, 0) * 9) % 10];
 }
 
 void frame_buffer_test() {
@@ -376,7 +376,7 @@ void graphics_test() {
 	graphics.f->clear((const FrameBuffer*)&graphics);
 	graphics.f->print((FrameBuffer*)&graphics);
 
-	for (int i = 1; i < 5000000; i++) {
+	for (int i = 1; i < 500; i++) {
 		graphics.f->clear((const FrameBuffer*)&graphics);
 		graphics.f->draw_circle(
 			&graphics, L'@',
@@ -394,55 +394,14 @@ void graphics_test() {
 			),
 			20 + ((int)(Mathf.cos(i * Mathf.PI / 180) * 10) + 11) / 6
 		);
-		graphics.f->draw_string(
-			&graphics,
-			L" OO     OOO   O  O   O",
-			Point_new(
-				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
-				graphics.f->get_height((FrameBuffer*)&graphics) / 2 - 1
-			)
-		);
-		graphics.f->draw_string(
-			&graphics,
-			L"O  O   O      O  O   O",
-			Point_new(
-				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
-				graphics.f->get_height((FrameBuffer*)&graphics) / 2
-			)
-		);
-		graphics.f->draw_string(
-			&graphics,
-			L"O  O    OO    O  O   O",
-			Point_new(
-				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
-				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 1
-			)
-		);
-		graphics.f->draw_string(
-			&graphics,
-			L"O  O      O   O  O    ",
-			Point_new(
-				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
-				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 2
-			)
-		);
-		graphics.f->draw_string(
-			&graphics,
-			L" OO    OOO     OO O  O",
-			Point_new(
-				graphics.f->get_width((FrameBuffer*)&graphics) / 2 - 11,
-				graphics.f->get_height((FrameBuffer*)&graphics) / 2 + 3
-			)
-		);
 		graphics.f->print((FrameBuffer*)&graphics);
 	}
 
 	graphics.f->clear((const FrameBuffer*)&graphics);
 	graphics.f->draw_line(
 		&graphics, L'%',
-		Point_new(10, 55),
-		Point_new(10, 1),
-		1
+		Point_new(10, 10),
+		Point_new(20, 40)
 	);
 	graphics.f->print((FrameBuffer*)&graphics);
 

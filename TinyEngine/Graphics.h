@@ -15,11 +15,8 @@ struct impl_Graphics {
 	impl_FrameBuffer_Members
 		
 	void (*const draw_single)(const Graphics* self, wchar_t ch, Point a, int thickness);
-	void (*const draw_dot_anti_alias)(const Graphics* self, Point a, int thickness);
 	void (*const draw_circle)(const Graphics* self, wchar_t ch, Point a, int radius);
-	void (*const draw_circle_anti_alias)(const Graphics* self, wchar_t ch, Point a, int radius);
-	void (*const draw_line)(const Graphics* self, wchar_t ch, Point a, Point b, int thickness);
-	void (*const draw_line_anti_alias)(const Graphics* self, Point a, Point b, int thickness);
+	void (*const draw_line)(const Graphics* self, wchar_t ch, Point a, Point b);
 	void (*const draw_string)(const Graphics* self, const wchar_t str[], Point position);
 	void (*const draw_framebuffer)(const Graphics* self, const FrameBuffer* frame_buffer, Point position);
 };
