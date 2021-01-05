@@ -324,8 +324,8 @@ void bufferforeachitem1(Point index, wchar_t* item) {
 }
 
 void bufferforeachitem2(Point index, wchar_t* item) {
-	if (rand() % 100 == 0)
-		*item = L'b';
+	if (!(index.y % 5 && index.x % 10))
+		*item = L'*';
 }
 
 int framebuffertest() {
@@ -333,16 +333,11 @@ int framebuffertest() {
 	FrameBuffer framebuffer = FrameBuffer_new(160, 45);
 	for (size_t i = 0; i < 100000; i++)
 	{
-		framebuffer.f->for_each(&framebuffer, bufferforeachitem);
+		framebuffer.f->for_each(&framebuffer, bufferforeachitem2);
 		framebuffer.f->print(&framebuffer);
 		Sleep(1000);
 		framebuffer.f->for_each(&framebuffer, bufferforeachitem1);
 		framebuffer.f->print(&framebuffer);
-		/*framebuffer.f->for_each(&framebuffer, bufferforeachitem2);
-		framebuffer.f->print(&framebuffer);
-		Sleep(1000);
-		framebuffer.f->for_each(&framebuffer, bufferforeachitem1);
-		framebuffer.f->print(&framebuffer);*/
 	}
 	framebuffer.f->dispose(&framebuffer);
 }
