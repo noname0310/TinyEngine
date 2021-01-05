@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int width = 80 * 5;
-const int height = 45 * 5;
+const int width = 80;
+const int height = 45;
 
 void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -336,10 +336,10 @@ void buffer_foreach_item2(Point index, wchar_t* item) {
 		*item = L' ';
 }
 
-static int seed = 0;
+static float y = 0;
 
 void buffer_foreach_item3(Point index, wchar_t* item) {
-	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y, 0.03, 10, seed) * 9) % 10];
+	*item = L"    !*#$@"[(int)(Mathf.perlin_noise(index.x, index.y + y, 0.03, 10, 0) * 9) % 10];
 }
 
 void frame_buffer_test() {
@@ -366,16 +366,16 @@ void graphics_test() {
 		graphics.f->print((FrameBuffer*)&graphics);*/
 		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
 		graphics.f->print((FrameBuffer*)&graphics);
-		seed += 1;
+		y += 1;
 	}
 	graphics.f->dispose((FrameBuffer*)&graphics);
 }
 
 int wmain(int argc, wchar_t* argv[]) {
-	Console.write_line(L"=============================FontTest");
-	font_test();
 	Console.write_line(L"=============================ConsoleSetupTest");
 	console_setup_test();
+	Console.write_line(L"=============================FontTest");
+	font_test();
 	//Console.write_line(L"=============================IOtest");
 	//io_test();
 	Console.write_line(L"=============================gotest");
@@ -396,7 +396,7 @@ int wmain(int argc, wchar_t* argv[]) {
 	graphics_test();
 	//Console.write_line(L"=============================mathf_test");
 	//mathf_test();
-	//Console.write_line(L"=============================Pause");
-	//Console.pause();
+	Console.write_line(L"=============================Pause");
+	Console.pause();
 	return 0;
 }

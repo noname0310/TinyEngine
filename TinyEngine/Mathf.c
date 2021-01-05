@@ -4,14 +4,14 @@
 #undef min
 #undef max
 
-static float sin (float f);
-static float cos (float f);
-static float tan (float f);
-static float asin (float f);
-static float acos (float f);
-static float atan (float f);
-static float atan2 (float y, float x);
-static float sqrt (float f);
+static float sin_value (float f);
+static float cos_value (float f);
+static float tan_value (float f);
+static float asin_value (float f);
+static float acos_value (float f);
+static float atan_value (float f);
+static float atan2_value (float y, float x);
+static float sqrt_value (float f);
 static float abs_value (float f);
 static int abs_i32 (int f);
 static float min(float a, float b);
@@ -22,13 +22,13 @@ static float max(float a, float b);
 static float max_args(int count, ...);
 static int max_i32(int a, int b);
 static int max_i32_args(int count, ...);
-static float pow (float f, float p);
-static float exp (float power);
-static float log (float f, float p);
+static float pow_value (float f, float p);
+static float exp_value (float power);
+static float log_value (float f, float p);
 static float log_e (float f);
 static float log_10 (float f);
-static float ceil (float f);
-static float floor (float f);
+static float ceil_value (float f);
+static float floor_value (float f);
 static float round (float f);
 static int ceil_to_int (float f);
 static int floor_to_int (float f);
@@ -173,14 +173,14 @@ const _Mathf Mathf = {
 	.NegativeInfinity = -((float)(1e+300 * 1e+300)),
 	.Deg2Rad = 0.01745329f,
 	.Rad2Deg = 57.29578f,
-	.sin = sin,
-	.cos = cos,
-	.tan = tan,
-	.asin = asin,
-	.acos = acos,
-	.atan = atan,
-	.atan2 = atan2,
-	.sqrt = sqrt,
+	.sin = sin_value,
+	.cos = cos_value,
+	.tan = tan_value,
+	.asin = asin_value,
+	.acos = acos_value,
+	.atan = atan_value,
+	.atan2 = atan2_value,
+	.sqrt = sqrt_value,
 	.abs = abs_value,
 	.abs_i32 = abs_i32,
 	.min = min,
@@ -191,13 +191,13 @@ const _Mathf Mathf = {
 	.max_args = max_args,
 	.max_i32 = max_i32,
 	.max_i32_args = max_i32_args,
-	.pow = pow,
-	.exp = exp,
-	.log = log,
+	.pow = pow_value,
+	.exp = exp_value,
+	.log = log_value,
 	.log_e = log_e,
 	.log_10 = log_10,
-	.ceil = ceil,
-	.floor = floor,
+	.ceil = ceil_value,
+	.floor = floor_value,
 	.round = round,
 	.ceil_to_int = ceil_to_int,
 	.floor_to_int = floor_to_int,
@@ -232,7 +232,7 @@ const _Mathf Mathf = {
 };
 
 #pragma warning(disable:4244)
-static float sin(float f) {
+static float sin_value(float f) {
 	const float* p;
 	float x, y, z;
 	register unsigned long j;
@@ -291,7 +291,7 @@ static float sin(float f) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float cos(float f) {
+static float cos_value(float f) {
 	float x, y, z;
 	int j, sign;
 
@@ -346,7 +346,7 @@ static float cos(float f) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float tan(float f) {
+static float tan_value(float f) {
 	float x, y, z, zz;
 	long j;
 	int sign;
@@ -399,7 +399,7 @@ static float tan(float f) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float asin(float f) {
+static float asin_value(float f) {
 	if (f < -1 || 1 < f)
 		return NAN;
 
@@ -427,7 +427,7 @@ static float asin(float f) {
 
 	if (a > 0.5) {
 		z = 0.5 * (1.0 - a);
-		x = sqrt(z);
+		x = sqrt_value(z);
 		flag = 1;
 	}
 	else {
@@ -456,14 +456,14 @@ done:
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float acos(float f) {
+static float acos_value(float f) {
 	if (f < -1 || 1 < f)
 		return NAN;
 	if (f < -1.0)
 		goto domerr;
 
 	if (f < -0.5)
-		return PIF - 2.0 * asin(sqrt(0.5 * (1.0 + f)));
+		return PIF - 2.0 * asin_value(sqrt_value(0.5 * (1.0 + f)));
 
 	if (f > 1.0) {
 	domerr:
@@ -471,14 +471,14 @@ static float acos(float f) {
 	}
 
 	if (f > 0.5)
-		return 2.0 * asin(sqrt(0.5 * (1.0 - f)));
+		return 2.0 * asin_value(sqrt_value(0.5 * (1.0 - f)));
 
-	return PIO2F - asin(f);
+	return PIO2F - asin_value(f);
 }
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float atan(float f) {
+static float atan_value(float f) {
 	float x, y, z;
 	int sign;
 
@@ -521,7 +521,7 @@ static float atan(float f) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float atan2(float y, float x) {
+static float atan2_value(float y, float x) {
 	float z, w;
 	int code;
 
@@ -560,7 +560,7 @@ static float atan2(float y, float x) {
 		case 3: w = PIF; break;*/
 	}
 
-	z = atan(y / x);
+	z = atan_value(y / x);
 
 	return w + z;
 }
@@ -619,7 +619,7 @@ static float ldexpf(float x, int pw2) {
 #pragma warning(default:4244)
 
 #pragma warning(disable:4244)
-static float sqrt(float f) {
+static float sqrt_value(float f) {
 	if (f < 0)
 		return NAN;
 
@@ -766,16 +766,16 @@ static int max_i32_args(int count, ...) {
     return max;
 }
 
-static float pow(float f, float p) {
+static float pow_value(float f, float p) {
 	if (p == 0.0) return 1.0;
 	if (p == 1.0) return f;
 	if (f <= 0.0) return 0.0;
-	return exp(log_e(f) * p);
+	return exp_value(log_e(f) * p);
 }
 
 #pragma warning(disable:4244)
 #pragma warning(disable:26451)
-static float exp(float power) {
+static float exp_value(float power) {
 	int n;
 	float xn, g, r, z, y;
 	bool sign;
@@ -820,7 +820,7 @@ static float exp(float power) {
 #pragma warning(default:26451)
 #pragma warning(default:4244)
 
-static float log(float f, float p) {
+static float log_value(float f, float p) {
 	if (f < 0 || f == NAN)
 		return NAN;
 	if (f == 0)
@@ -927,16 +927,16 @@ static float log_10(float f) {
 }
 #pragma warning(default:4244)
 
-static float ceil(float f) {
+static float ceil_value(float f) {
 	float y;
 
-	y = floor((float)f);
+	y = floor_value((float)f);
 	if (y < f)
 		y += 1.0;
 	return y;
 }
 
-static float floor(float f) {
+static float floor_value(float f) {
 	unsigned short* p;
 	union {
 		float y;
@@ -973,7 +973,7 @@ static float floor(float f) {
 }
 
 static float round(float f) {
-	return floor(f) + 0.5f;
+	return floor_value(f) + 0.5f;
 }
 
 static int ceil_to_int(float f) {
@@ -1068,7 +1068,7 @@ static float gamma(float value, float absmax, float gamma) {
 			return -num1;
 		return num1;
 	}
-	float num2 = pow(num1 / absmax, gamma) * absmax;
+	float num2 = pow_value(num1 / absmax, gamma) * absmax;
 	if (flag)
 		return -num2;
 	return num2;
@@ -1105,7 +1105,7 @@ static float smooth_damp_angle(float current, float target, float* current_veloc
 }
 
 static float repeat(float t, float length) {
-	return t - floor(t / length) * length;
+	return t - floor_value(t / length) * length;
 }
 
 static float ping_pong(float t, float length) {
@@ -1133,7 +1133,7 @@ static float gamma_to_linear_space(float value) {
 
 static float linear_to_gamma_space(float value) {
 	value = max(value, 0);
-	return max(1.055f * pow(value, 0.416666667f) - 0.055f, 0.f);
+	return max(1.055f * pow_value(value, 0.416666667f) - 0.055f, 0.f);
 }
 
 static bool is_power_of_two(int value) {
