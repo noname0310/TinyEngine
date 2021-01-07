@@ -129,8 +129,14 @@ static void draw_line(const Graphics* self, wchar_t ch, Point a, Point b) {
 		self->f->set_pixel((FrameBuffer*)self, a.x, a.y, ch);
 		if (a.x == b.x && a.y == b.y) break;
 		e2 = 2 * err;
-		if (e2 >= dy) { err += dy; a.x += sx; } /* e_xy+e_x > 0 */
-		if (e2 <= dx) { err += dx; a.y += sy; } /* e_xy+e_y < 0 */
+		if (e2 >= dy) { 
+			err += dy;
+			a.x += sx; 
+		}
+		if (e2 <= dx) { 
+			err += dx;
+			a.y += sy; 
+		}
 	}
 }
 
