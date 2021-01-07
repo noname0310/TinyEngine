@@ -24,7 +24,7 @@ static void set_title(const wchar_t title[]);
 static void set_codepage(CodePage codepage);
 static void set_locale2utf8(void);
 static void default_init(void);
-static void font_normalize(void);
+static void font_normalize(int size);
 static void clear(void);
 static void pause(void);
 
@@ -218,15 +218,15 @@ static void default_init() {
 	set_locale2utf8();
 }
 
-static void font_normalize() {
+static void font_normalize(int size) {
 	CONSOLE_FONT_INFOEX fontInfo;
 	fontInfo.cbSize = sizeof(fontInfo);
 	fontInfo.nFont = 0;
 	fontInfo.FontFamily = FF_DONTCARE;
 	fontInfo.FontWeight = FW_NORMAL;
 	const wchar_t myFont[] = L"GulimChe";
-	fontInfo.dwFontSize.X = 20;
-	fontInfo.dwFontSize.Y = 20;
+	fontInfo.dwFontSize.X = size;
+	fontInfo.dwFontSize.Y = size;
 	memcpy(fontInfo.FaceName, myFont, sizeof(myFont));
 	SetCurrentConsoleFontEx(GetStdHandle(STD_OUTPUT_HANDLE), false, &fontInfo);
 }

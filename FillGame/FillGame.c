@@ -172,7 +172,7 @@ void console_setup_test() {
 
 void font_test() {
 	Console.write_line(L"a");
-	Console.font_normalize();
+	Console.font_normalize(20);
 	Console.write_line(L"a");
 }
 

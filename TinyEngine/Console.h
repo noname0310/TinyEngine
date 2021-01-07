@@ -47,7 +47,7 @@ struct _Console {
 	void (*const set_codepage)(CodePage codepage);
 	void (*const set_locale2utf8)();
 	void (*const default_init)();
-	void (*const font_normalize)();
+	void (*const font_normalize)(int size);
 	void (*const clear)();
 	void (*const pause)();
 };
