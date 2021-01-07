@@ -7,10 +7,10 @@ def_Option(Keys, Keys)
 
 static void write_line(const wchar_t str[], ...);
 static void write(const wchar_t str[], ...);
-static void write_single(const wchar_t ch);
+static void write_single(wchar_t ch);
 static void write_line_c(const wchar_t str[], ConsoleColor color, ...);
 static void write_c(const wchar_t str[], ConsoleColor color, ...);
-static void write_single_c(const wchar_t ch, ConsoleColor color);
+static void write_single_c(wchar_t ch, ConsoleColor color);
 
 static bool has_input(void);
 static Option_Keys read_key(void);
@@ -70,7 +70,7 @@ static void write(const wchar_t str[], ...) {
 	va_end(args);
 }
 
-static void write_single(const wchar_t ch) {
+static void write_single(wchar_t ch) {
 	putwchar(ch);
 }
 
@@ -95,7 +95,7 @@ static void write_c(const wchar_t str[], ConsoleColor color, ...) {
 	set_color(ConsoleColor_gray);
 }
 
-static void write_single_c(const wchar_t ch, ConsoleColor color) {
+static void write_single_c(wchar_t ch, ConsoleColor color) {
 	set_color(color);
 	putwchar(ch);
 	set_color(ConsoleColor_gray);
