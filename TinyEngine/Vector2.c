@@ -287,7 +287,7 @@ static Vector2 smooth_damp(const Vector2* current, const Vector2* target, Vector
 	Vector2 vector2_4_sub = sub(&vector2_4, &vector2_1);
 	Vector2 vector2_1_sub = sub(&vector2_1, current);
 	if ((double)dot(&vector2_1_sub, &vector2_4_sub) > 0.0) {
-		vector2_4 = &vector2_1;
+		vector2_4 = vector2_1;
 		Vector2 current_velocity_div = div_value(&vector2_4_sub, delta_time);
 		*current_velocity = current_velocity_div;
 	}
