@@ -109,7 +109,7 @@ void vector2_test() {
 
 	const static_Vector2* static_Vector2 = get_static_Vector2_table();
 
-	Console.write_line(L"%f", static_Vector2->left.f->get_x(&(static_Vector2->left)));
+	Console.write_line(L"%f", static_Vector2->left.x);
 
 	const Vector2 current = Vector2_new(123.123f, 345.345f);
 	const Vector2 target = Vector2_new(234.23f, 322.2f);
@@ -128,12 +128,12 @@ void vector2_test() {
 void vector2_boxing_test() {
 	Vector2 vector2 = Vector2_new(1, 2);
 	int a = 10;
-	Console.write_line(L"%f", vector2.f->get_x(&vector2));
-	Console.write_line(L"%f", vector2.f->get_y(&vector2));
+	Console.write_line(L"%f", vector2.x);
+	Console.write_line(L"%f", vector2.y);
 
 	box(Vector2, vector2)
-	Console.write_line(L"%f", vector2_boxed->f->get_x(vector2_boxed));
-	Console.write_line(L"%f", vector2_boxed->f->get_y(vector2_boxed));
+	Console.write_line(L"%f", vector2_boxed->x);
+	Console.write_line(L"%f", vector2_boxed->y);
 }
 
 void object_test() {

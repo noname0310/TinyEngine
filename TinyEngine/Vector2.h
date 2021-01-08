@@ -7,8 +7,8 @@
 #include "OOPTool.h"
 #include "Mathf.h"
 
-struct private_Vector2;
-typedef struct private_Vector2 private_Vector2;
+//struct private_Vector2;
+//typedef struct private_Vector2 private_Vector2;
 
 struct impl_Vector2;
 typedef struct impl_Vector2 impl_Vector2;
@@ -19,16 +19,15 @@ typedef struct Vector2 Vector2;
 struct static_Vector2;
 typedef struct static_Vector2 static_Vector2;
 
-struct private_Vector2 {
-	float x;
-	float y;
-};
+//struct private_Vector2 {
+//	
+//};
 
 struct impl_Vector2 {
-	float (*const get_x)(const Vector2* self);
+	/*float (*const get_x)(const Vector2* self);
 	void (*const set_x)(Vector2* self, float value);
 	float (*const get_y)(const Vector2* self);
-	void (*const set_y)(Vector2* self, float value);
+	void (*const set_y)(Vector2* self, float value);*/
 	float (*const magnitude)(const Vector2* self);
 	float (*const sqr_magnitude)(const Vector2* self);
 	Vector2 (*const normalized)(const Vector2* self);
@@ -44,8 +43,10 @@ struct impl_Vector2 {
 };
 
 struct Vector2 {
-	const impl_Vector2* const f;
-	private_Vector2 p;
+	const impl_Vector2* f;
+	//private_Vector2 p;
+	float x;
+	float y;
 };
 
 struct static_Vector2 {

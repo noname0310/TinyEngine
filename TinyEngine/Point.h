@@ -22,7 +22,7 @@ struct impl_Point {
 };
 
 struct Point {
-	const impl_Point* const f;
+	const impl_Point* f;
 	int x;
 	int y;
 };
