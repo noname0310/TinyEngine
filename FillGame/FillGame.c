@@ -13,8 +13,10 @@
 #include <stdlib.h>
 #include <time.h>
 
-const int width = 80;
-const int height = 45;
+#define res 3
+#define width (80 * res)
+#define height (45 * res)
+const int fontsize = 20 / (width / 80);
 
 void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
@@ -172,7 +174,7 @@ void console_setup_test() {
 
 void font_test() {
 	Console.write_line(L"a");
-	Console.font_normalize(20);
+	Console.font_normalize(fontsize);
 	Console.write_line(L"a");
 }
 
@@ -354,15 +356,12 @@ void frame_buffer_test() {
 void graphics_test() {
 	Console.set_cursor_vis(CursorStat_hide);
 	Graphics graphics = Graphics_new(width, height);
-	//for (size_t i = 0; i < 5000; i++) {
-	//	/*graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item2);
-	//	graphics.f->print((FrameBuffer*)&graphics);
-	//	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item);
-	//	graphics.f->print((FrameBuffer*)&graphics);*/
-	//	graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
-	//	graphics.f->print((FrameBuffer*)&graphics);
-	//	y += 1;
-	//}
+	for (size_t i = 0; i < 3; i++) {
+		graphics.f->for_each((const FrameBuffer*)&graphics, buffer_foreach_item3);
+		graphics.f->print((FrameBuffer*)&graphics);
+		y += 1;
+	}
+	graphics.f->clear((const FrameBuffer*)&graphics);
 	graphics.f->draw_single(
 		&graphics, L'%', 
 		Point_new(
@@ -372,7 +371,6 @@ void graphics_test() {
 		10
 	);
 	graphics.f->print((FrameBuffer*)&graphics);
-
 	graphics.f->clear((const FrameBuffer*)&graphics);
 	graphics.f->print((FrameBuffer*)&graphics);
 
