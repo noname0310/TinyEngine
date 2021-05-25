@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
+#include "OOPTool.h"
 #include "TinyEngine.h"
 #include "Object.h"
 

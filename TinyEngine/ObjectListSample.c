@@ -224,7 +224,7 @@ static Object* List_Object_unsafe_find(const List_Object* self, const Object val
 	const Node_Object* index = self->p.first;
 	while (index != NULL) {
 		if (memcmp(&(index->p.value), &value, sizeof(Object)) == 0)
-			return &(index->p.value);
+			return (Object*)&(index->p.value);
 		index = index->p.next;
 	}
 	return NULL;
@@ -235,7 +235,7 @@ static Object* List_Object_find_by(const List_Object* self, const Object value, 
 	const Node_Object* index = self->p.first;
 	while (index != NULL) {
 		if (comparer(index->p.value, value))
-			return &(index->p.value);
+			return (Object*)&(index->p.value);
 		index = index->p.next;
 	}
 	return NULL;

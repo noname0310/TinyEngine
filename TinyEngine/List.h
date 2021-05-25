@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include <assert.h>
+#include "OOPTool.h"
 #include "TinyEngine.h"
 
 //TODO: re write static_table, struct macro, premitive_macro
@@ -380,7 +381,7 @@ static T* List_##declname##_unsafe_find(const List_##declname* self, const T val
 	const Node_##declname* index = self->p.first; \
 	while (index != NULL) { \
 		if (memcmp(&(index->p.value), &value, sizeof(T)) == 0) \
-			return &(index->p.value); \
+			return (T*)&(index->p.value); \
 		index = index->p.next; \
 	} \
 	return NULL; \
@@ -391,7 +392,7 @@ static T* List_##declname##_find_by(const List_##declname* self, const T value, 
 	const Node_##declname* index = self->p.first; \
 	while (index != NULL) { \
 		if (comparer(index->p.value, value)) \
-			return &(index->p.value); \
+			return (T*)&(index->p.value); \
 		index = index->p.next; \
 	} \
 	return NULL; \

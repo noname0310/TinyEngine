@@ -55,7 +55,7 @@ void list_test_2() {
 	Foo.f->push_back(&Foo, 3);
 	Foo.f->push_back(&Foo, 4);
 	Foo.f->push_front(&Foo, 4);
-	Foo.f->for_each(&Foo, print_i32_val);
+	Foo.f->c_for_each(&Foo, print_i32_val);
 	Foo.f->dispose(&Foo, NULL);
 }
 
