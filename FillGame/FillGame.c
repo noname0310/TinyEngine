@@ -22,9 +22,8 @@ void print_val(const Object* self) {
 	Console.write_line(L"%d", self->f->get_instance_id(self));
 }
 
-void dispose_object(Object* item) {
-	item->f->destroy(item);
-	free(item);
+void dispose_object(Object item) {
+	item.f->destroy(&item);
 }
 
 void list_test() {
@@ -33,56 +32,13 @@ void list_test() {
 	Object O2 = Object_new(NULL, L"O2", 2);
 	Object O3 = Object_new(NULL, L"O3", 3);
 	Object O4 = Object_new(NULL, L"O4", 4);
-	Object O5 = Object_new(NULL, L"O5", 5);
-	Object O6 = Object_new(NULL, L"O6", 6);
-	Object O7 = Object_new(NULL, L"O7", 7);
-	Object O8 = Object_new(NULL, L"O8", 8);
-	Object O9 = Object_new(NULL, L"O9", 9);
-	Object O10 = Object_new(NULL, L"O10", 10);
 
-	box(Object, O1)
-	box(Object, O2)
-	box(Object, O3)
-	box(Object, O4)
-	box(Object, O5)
-	box(Object, O6)
-	box(Object, O7)
-	box(Object, O8)
-	box(Object, O9)
-	box(Object, O10)
-
-	test.f->push_back(&test, O1_boxed);
-	test.f->push_back(&test, O1_boxed);
-	Node_Object* iter = test.f->push_back(&test, O1_boxed);
-	test.f->push_back(&test, O1_boxed);
-	test.f->push_back(&test, O1_boxed);
-	test.f->push_front(&test, O3_boxed);
-	test.f->insert(&test, iter, O4_boxed);
-	test.f->pop_front(&test, NULL);
-	test.f->pop_back(&test, NULL);
+	test.f->push_back(&test, O1);
+	Node_Object* iter = test.f->push_back(&test, O2);
+	test.f->push_front(&test, O3);
+	test.f->insert(&test, iter, O4);
 	test.f->for_each(&test, print_val);
-
-	O1_boxed->f->destroy(O1_boxed);
-	free(O1_boxed);
-	O2_boxed->f->destroy(O2_boxed);
-	free(O2_boxed);
-	O3_boxed->f->destroy(O3_boxed);
-	free(O3_boxed);
-	O4_boxed->f->destroy(O4_boxed);
-	free(O4_boxed);
-	O5_boxed->f->destroy(O5_boxed);
-	free(O5_boxed);
-	O6_boxed->f->destroy(O6_boxed);
-	free(O6_boxed);
-	O7_boxed->f->destroy(O7_boxed);
-	free(O7_boxed);
-	O8_boxed->f->destroy(O8_boxed);
-	free(O8_boxed);
-	O9_boxed->f->destroy(O9_boxed);
-	free(O9_boxed);
-	O10_boxed->f->destroy(O10_boxed);
-	free(O10_boxed);
-	//test.f->dispose(&test, dispose_object);
+	test.f->dispose(&test, dispose_object);
 }
 
 decl_List(int, i32)
