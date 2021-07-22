@@ -185,6 +185,10 @@ static void List_Object_pop_back(List_Object* self, void (*disposefn)(const Obje
 
 
 static Node_Object* List_Object_insert(List_Object* self, Node_Object* pos, Object value) {
+	//todo: need to fix
+	if (self->p.first == pos)
+		return List_Object_push_front(self, value);
+	//
 	assert(self != NULL);
 	assert(pos != NULL);
 	Node_Object instance = Node_Object_new(pos->p.prev, value, pos);
